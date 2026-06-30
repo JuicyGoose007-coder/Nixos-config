@@ -55,6 +55,7 @@
     curl
     git
     lazygit
+    eza
     python3
 
     # Formatters for conform-nvim
