@@ -1,0 +1,215 @@
+# ============================================================================
+# ZINIT INITIALIZATION
+# ============================================================================
+
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+
+if [ ! -d "$ZINIT_HOME" ]; then
+   mkdir -p "$(dirname $ZINIT_HOME)"
+   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+fi
+
+source "${ZINIT_HOME}/zinit.zsh"
+unalias zi 2>/dev/null || true 
+
+# ============================================================================
+# EDITOR
+# ============================================================================
+
+export EDITOR="nvim"
+export VISUAL="nvim"
+export COLORTERM="truecolor"
+
+
+# ============================================================================
+# PLUGINS & TOOLS (via Zinit)
+# ============================================================================
+
+zinit ice depth=1 wait"!" lucid atload'zvm_init'
+zinit light jeffreytse/zsh-vi-mode
+
+zinit ice wait lucid
+zinit light zdharma-continuum/fast-syntax-highlighting
+
+zinit ice wait lucid atload'_zsh_autosuggest_start'
+zinit light zsh-users/zsh-autosuggestions
+
+zinit ice wait lucid blockf atpull'zinit creinstall -q .'
+zinit light zsh-users/zsh-completions
+
+zinit ice wait lucid
+zinit light Aloxaf/fzf-tab
+
+
+# ============================================================================
+# COMPLETION & AUTOCOMPLETE
+# ============================================================================
+
+autoload -Uz compinit
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+    compinit
+else
+    compinit -C
+fi
+zinit cdreplay -q
+
+zstyle ':completion::complete:*' use-cache 1
+zstyle ':completion::complete:*' cache-path ~/.zsh/cache
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' menu select
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+
+
+
+# ============================================================================
+# KEYBINDINGS & SHORTCUTS
+# ============================================================================
+
+# Re-apply custom keybindings after zsh-vi-mode initialises
+function zvm_after_init {
+  export VIM_INSERT="I"
+
+  _accept_suggestion() { zle autosuggest-accept }
+  zle -N _accept_suggestion
+
+  bindkey -M viins '^I' expand-or-complete
+  bindkey -M viins '^R' history-incremental-search-backward
+  bindkey -M viins '^S' history-incremental-search-forward
+  bindkey -M viins '^[[1;5C' forward-word
+  bindkey -M viins '^[[1;5D' backward-word
+  bindkey -M viins '^A' beginning-of-line
+  bindkey -M viins '^E' _accept_suggestion
+  bindkey -M viins '^[e' end-of-line
+  bindkey -M viins '^X^K' kill-line
+  bindkey -M viins '^X^L' clear-screen
+  bindkey -M viins '^U' kill-whole-line
+  bindkey -M viins '^W' backward-kill-word
+  bindkey -M viins '^[[3~' delete-char
+  bindkey -M viins '^[[H' beginning-of-line
+  bindkey -M viins '^[[F' end-of-line
+}
+
+# ============================================================================
+# ALIASES
+# ============================================================================
+
+# Sudo
+alias sudo='sudo '
+
+if command -v eza >/dev/null 2>&1; then
+    alias ls='eza --color=always'
+    alias ll='eza -la --color=always'
+    alias la='eza -a --color=always'
+    alias lt='eza --tree --color=always'
+else
+    alias ls='ls --color=auto'
+    alias ll='ls -la --color=auto'
+    alias la='ls -a --color=auto'
+fi
+
+# System
+alias grep='grep --color=auto'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias h='history'
+alias j='jobs'
+alias c='clear'
+
+# Programs
+alias y='yazi'
+alias nv='nvim'
+alias rb='reboot'
+alias rt='riptide'
+alias wm='wiremix'
+
+alias g='git'
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+alias gl='git log --oneline'
+alias gd='git diff'
+
+# Lazygit
+alias lg='lazygit'
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# ============================================================================
+# FUNCTIONS
+# ============================================================================
+
+mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+
+extract() {
+    if [[ -f $1 ]]; then
+        case $1 in
+            *.tar.bz2) tar xjf $1 ;;
+            *.tar.gz)  tar xzf $1 ;;
+            *.bz2)     bunzip2 $1 ;;
+            *.rar)     unrar x $1 ;;
+            *.gz)      gunzip $1 ;;
+            *.tar)     tar xf $1 ;;
+            *.tbz2)    tar xjf $1 ;;
+            *.tgz)     tar xzf $1 ;;
+            *.zip)     unzip $1 ;;
+            *.Z)       uncompress $1 ;;
+            *.7z)      7z x $1 ;;
+            *)         echo "Don't know how to extract '$1'" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+# ============================================================================
+# ADDITIONAL OPTIONS
+# ============================================================================
+
+setopt AUTO_CD
+setopt CORRECT
+setopt COMPLETE_IN_WORD
+setopt ALWAYS_TO_END
+setopt EXTENDED_GLOB
+
+unsetopt BEEP
+
+# ============================================================================
+# PATH CONFIGURATION
+# ============================================================================
+
+[[ -d "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
+[[ -d "$HOME/bin" ]] && export PATH="$HOME/bin:$PATH"
+
+# ============================================================================
+# HOME-MANAGER SESSION VARS (fzf colors, etc.)
+# ============================================================================
+
+source "/etc/profiles/per-user/juicygoose007/etc/profile.d/hm-session-vars.sh"
+export FZF_DEFAULT_OPTS="--color=bg:#282828,bg+:#3c3836,fg:#bdae93,fg+:#ebdbb2,hl:#83a598,hl+:#83a598,info:#fabd2f,marker:#8ec07c,pointer:#fe8019,prompt:#fabd2f,spinner:#8ec07c,header:#83a598"
+
+# ============================================================================
+# FINAL SETUP
+# ============================================================================
+
+function zvm_after_select_vi_mode {
+  unset VIM_NORMAL VIM_INSERT VIM_VISUAL
+  case $ZVM_MODE in
+    $ZVM_MODE_NORMAL)      export VIM_NORMAL="N" ;;
+    $ZVM_MODE_VISUAL)      export VIM_VISUAL="V" ;;
+    $ZVM_MODE_VISUAL_LINE) export VIM_VISUAL="VL" ;;
+    *)                     export VIM_INSERT="I" ;;
+  esac
+}
+
+fastfetch
+
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+alias cd='z'

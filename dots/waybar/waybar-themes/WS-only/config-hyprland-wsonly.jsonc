@@ -1,0 +1,27 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 28,
+    "margin": "2 6 0 6",
+    "fixed-center": true,
+    "modules-center": ["hyprland/workspaces"],
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "Discord": "󰙯",
+            "Gaming": "",
+            "Main": "",
+            "1": "",
+            "3": "",
+            "4": "",
+            "5": "",
+            "6": "",
+            "7": "󰢹",
+            "8": "",
+            "9": ""
+        },
+        "on-click": "activate",
+        "tooltip": true,
+        "tooltip-format": "{name}"
+    }
+}

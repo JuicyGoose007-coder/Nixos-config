@@ -1,0 +1,93 @@
+@import '../colors/custom/tokyo-night.css';
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font Propo";
+    font-weight: bold;
+    font-size: 1.2rem;
+    min-height: 0;
+    border-radius: 50px;
+}
+
+window#waybar {
+  background: transparent;
+}
+
+tooltip {
+  background: @surface;
+  border: 1px solid rgba(100, 114, 125, 0.5);
+}
+tooltip label {
+  color: white;
+}
+
+.modules-center {
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+.modules-left {
+  margin-left: 15px;
+}
+
+.modules-right {
+  margin-right: 15px;
+}
+
+#custom-launcher,
+#clock,
+#workspaces,
+#custom-notification,
+#custom-media,
+#custom-pacman,
+#wireplumber {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  /* background: rgba(0, 0, 0, 0.3); */
+  /* border: 1px solid rgba(255, 255, 255, 0.08); */
+  color: @primary;
+  margin-right: 10px;
+  padding: 0 10px;
+}
+
+#workspaces button {
+  padding: 0px 6px;
+  margin: 0px 3px;
+  border-radius: 50px;
+  color: @on_surface_variant;
+  transition: all 0.3s ease-in-out;
+  background-color: @on_secondary;
+}
+
+#workspaces button.active {
+  background-color: @primary;
+  color: @surface;
+  min-width: 50px;
+  transition: all 0.3s ease-in-out;
+  font-size: 13px;
+  border-radius: 5px;
+}
+
+#workspaces button:hover {
+  background-color: @secondary;
+  color: @surface;
+  border-radius: 16px;
+  min-width: 50px;
+  background-size: 400% 400%;
+}
+
+#workspaces button.urgent {
+  background-color: @error;
+  color: @surface;
+  border-radius: 16px;
+  min-width: 50px;
+  background-size: 400% 400%;
+  transition: all 0.3s ease-in-out;
+}
+
+#custom-notification:hover {
+  background-color: @blue;
+  color: #000;
+}
+

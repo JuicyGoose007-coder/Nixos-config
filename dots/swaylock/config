@@ -1,0 +1,54 @@
+# Background — blurred screenshot
+screenshots
+effect-blur=14x5
+effect-vignette=0.5:0.5
+
+# Fallback solid bg if screenshot fails
+color=1a1b26
+
+# Stacked clock: hours on top, minutes below
+clock
+timestr=%-I
+datestr=%M
+
+# Indicator — always visible, large ring acts as input box
+indicator
+indicator-radius=120
+indicator-thickness=25
+indicator-idle-visible
+indicator-caps-lock
+indicator-caps-lock
+
+# Inner fill
+inside-color=1a1b26ff
+inside-clear-color=1a1b26ff
+inside-ver-color=1a1b26ff
+inside-wrong-color=f7768e66
+inside-caps-lock-color=e0af68ff
+
+# Ring states
+ring-color=292e42
+ring-clear-color=9ece6a
+ring-ver-color=7aa2f7
+ring-wrong-color=f7768e
+
+# Key / backspace highlights on the ring
+key-hl-color=bb9af7
+bs-hl-color=f7768e
+
+# Remove separator lines between ring regions
+line-color=00000000
+line-clear-color=00000000
+line-ver-color=00000000
+line-wrong-color=00000000
+separator-color=00000000
+
+# Text inside the ring
+text-color=c0caf5
+text-clear-color=9ece6a
+text-ver-color=7aa2f7
+text-wrong-color=f7768e
+
+# Font (clock + indicator text)
+font=JetBrainsMono NF ExtraBold
+font-size=72

@@ -1,0 +1,21 @@
+{
+  "include": [
+    "~/.config/waybar/modules/modules.jsonc",
+    "~/.config/waybar/modules/custom-modules.jsonc"
+  ],
+  "position": "bottom",
+  "layer": "top",
+  "margin-bottom": 13,
+  "modules-left": [
+    "custom/launcher",
+    "niri/workspaces"
+  ],
+  "modules-center": [
+    "custom/notification",
+    "custom/media"
+  ],
+  "modules-right": [
+    "clock",
+    "wireplumber"
+  ]
+}

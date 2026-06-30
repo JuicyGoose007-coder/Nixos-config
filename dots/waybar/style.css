@@ -1,0 +1,89 @@
+@import 'waybar-themes/colors/custom/gruvbox.css';
+
+* {
+  border: none;
+  border-radius: 0;
+  font-family: "JetBrainsMono Nerd Font Propo";
+  font-weight: bold;
+  font-size: 1.2rem;
+  min-height: 0;
+  border-radius: 50px;
+}
+
+window#waybar {
+  background: transparent;
+}
+
+tooltip {
+  background: @bg0;
+  border: 1px solid rgba(100, 114, 125, 0.5);
+}
+
+tooltip label {
+  color: white;
+}
+
+.modules-center {
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+.modules-left {
+  margin-left: 15px;
+}
+
+.modules-right {
+  margin-right: 15px;
+}
+
+#custom-launcher,
+#clock,
+#workspaces,
+#custom-notification,
+#custom-media,
+#custom-pacman,
+#wireplumber {
+  background: rgba(41, 46, 66, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: @blue;
+  margin-right: 10px;
+  padding: 0 10px;
+}
+
+#workspaces button {
+  padding: 0px 6px;
+  margin: 0px 3px;
+  border-radius: 50px;
+  color: @aqua;
+  transition: all 0.3s ease-in-out;
+  background-color: @bg2;
+}
+
+#workspaces button.active {
+  background-color: @purple;
+  color: @bg0;
+  min-width: 50px;
+  transition: all 0.3s ease-in-out;
+  font-size: 13px;
+  border-radius: 5px;
+}
+
+#workspaces button:hover {
+  background-color: @blue;
+  color: @bg0;
+  border-radius: 16px;
+  min-width: 50px;
+}
+
+#workspaces button.urgent {
+  background-color: @red;
+  color: @bg0;
+  border-radius: 16px;
+  min-width: 50px;
+  transition: all 0.3s ease-in-out;
+}
+
+#custom-notification:hover {
+  background-color: @blue;
+  color: #000;
+}

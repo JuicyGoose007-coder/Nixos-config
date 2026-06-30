@@ -1,0 +1,6 @@
+-- Mini (kept for ai, operators, pairs, surround — no good replacements)
+require("mini.ai").setup()
+require("mini.operators").setup()
+require("mini.pairs").setup()
+require("mini.surround").setup()
+require("mini.deps").setup()

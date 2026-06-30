@@ -1,0 +1,27 @@
+{ ... }:
+
+{
+  programs.yazi = {
+    enable           = true;
+    shellWrapperName = "yy";
+    settings = {
+      opener.edit = [{ run = ''nvim "$@"''; block = true; for = "unix"; }];
+      open.prepend_rules = [
+        { mime = "text/*";                            use = "edit"; }
+        { mime = "application/{json,toml,yaml,xml}"; use = "edit"; }
+        { url  = "*.toml";                           use = "edit"; }
+        { url  = "*.json";                           use = "edit"; }
+        { url  = "*.yaml";                           use = "edit"; }
+        { url  = "*.lua";                            use = "edit"; }
+      ];
+      mgr = {
+        show_hidden    = true;
+        sort_by        = "alphabetical";
+        sort_sensitive = true;
+        sort_reverse   = false;
+        sort_dir_first = true;
+      };
+      preview.wrap = "yes";
+    };
+  };
+}

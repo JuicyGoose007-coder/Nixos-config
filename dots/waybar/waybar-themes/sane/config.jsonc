@@ -1,0 +1,25 @@
+{
+  "include": [
+		"~/.config/waybar/modules/modules.jsonc",
+		"~/.config/waybar/modules/custom-modules.jsonc",
+	],
+
+    "layer": "top",
+    "margin-top": 13,
+
+    "modules-left": [
+        "custom/launcher",
+        "hyprland/workspaces"
+    ],
+
+    "modules-center": [
+        "custom/notification",
+        "custom/media"
+    ],
+
+    "modules-right": [
+        "clock",
+        "wireplumber",
+    ]
+}
+

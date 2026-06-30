@@ -1,0 +1,36 @@
+{
+  "clock": {
+    "timezone": "America/New_York",
+    "locale": "en_US.UTF-8",
+    "format": "{:%I:%M %p}",
+    "interval": 60
+  },
+  "niri/workspaces": {
+    "format": "{name}: {icon}",
+    "active-only": true,
+    "format-icons": {
+      "Main": "",
+      "Discord": "󰙯",
+      "Gaming": "󰸴",
+      "1": "",
+      "2": "",
+      "3": "",
+      "active": "",
+      "default": ""
+    },
+  },
+  "wireplumber": {
+    "format": "{icon} {volume}%",
+    "format-muted": "󰖁 muted",
+    "tooltip-format": "Volume: {volume}%",
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-click-right": "ghostty -e wiremix",
+    "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+    "format-icons": [
+      "󰕿",
+      "󰖀",
+      "󰕾"
+    ]
+  },
+}
