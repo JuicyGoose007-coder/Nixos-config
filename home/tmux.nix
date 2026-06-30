@@ -1,5 +1,5 @@
 { ... }:
 
 {
-  xdg.configFile."tmux".source = ../dots/tmux;
+  programs.tmux.enable = true;
 }
