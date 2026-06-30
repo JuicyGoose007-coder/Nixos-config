@@ -24,6 +24,7 @@
   programs.home-manager.enable = true;
   programs.claude-code.enable  = true;
 
+  stylix.enableReleaseChecks       = false;
   stylix.targets.waybar.enable    = true;
   stylix.targets.fzf.enable       = true;
   stylix.targets.starship.enable  = true;
