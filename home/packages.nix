@@ -54,6 +54,7 @@
     wget
     curl
     git
+    lazygit
     python3
 
     # Formatters for conform-nvim
