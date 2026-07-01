@@ -8,6 +8,7 @@
     tmux
     cargo
     gcc
+    obsidian
 
     # Wayland tools
     wl-clipboard
