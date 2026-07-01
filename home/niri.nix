@@ -236,6 +236,7 @@
     spawn-sh-at-startup "waybar"
     spawn-sh-at-startup "awww-daemon" // Wallpaper daemon
     spawn-sh-at-startup "xwayland-satellite :1"
+    spawn-sh-at-startup "hyprlock --daemonize"
     spawn-sh-at-startup "steam -no-browser"
     spawn-sh-at-startup "vesktop"
     spawn-at-startup "niri" "msg" "action" "focus-workspace" "Main"

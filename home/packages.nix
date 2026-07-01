@@ -17,9 +17,6 @@
     swappy
     awww
 
-    # Lock screen
-    hyprlock
-
     # Storage & files
     udiskie
     nautilus
