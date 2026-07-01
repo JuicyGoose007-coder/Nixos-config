@@ -12,7 +12,7 @@
       character = {
         success_symbol = "[➜](bold base0B)";
         error_symbol   = "[✗](bold base08) ";
-        vimcmd_symbol  = "[](bold base0B)";
+        vimcmd_symbol  = "[](bold base0B)";
       };
 
       cmd_duration = {
@@ -53,65 +53,65 @@
       git_branch = {
         style  = "base0E";
         format = "[$symbol$branch]($style) ";
-        symbol = " ";
+        symbol = " ";
       };
 
       git_status = {
         format     = "[(\($all_status$ahead_behind\))]($style) ";
         style      = "bold base0B";
         conflicted = "🏳";
-        up_to_date = " ";
-        untracked  = " ";
+        up_to_date = " ";
+        untracked  = " ";
         ahead      = "⇡\${count}";
         diverged   = "⇕⇡\${ahead_count}⇣\${behind_count}";
         behind     = "⇣\${count}";
-        stashed    = " ";
-        modified   = " ";
+        stashed    = " ";
+        modified   = " ";
         staged     = "[++\\($count\\)](bold base0A)";
         renamed    = "» ";
-        deleted    = " ";
+        deleted    = " ";
       };
 
       golang = {
-        symbol = " ";
+        symbol = " ";
         style  = "base0C";
         format = "via [$symbol($version )]($style)";
       };
 
       terraform = {
-        format = "via [ terraform $version]($style) [$workspace]($style) ";
+        format = "via [ terraform $version]($style) [$workspace]($style) ";
         style  = "base09";
       };
 
       docker_context = {
-        format = "via [ $context]($style) ";
+        format = "via [ $context]($style) ";
         style  = "bold base0C";
       };
 
       helm = {
-        format = "via [ $version]($style) ";
+        format = "via [ $version]($style) ";
         style  = "bold base0C";
       };
 
       python = {
-        symbol        = " ";
+        symbol        = " ";
         python_binary = "python3";
         style         = "base0A";
         format        = "via [$symbol$pyenv_prefix($version )(\($virtualenv\) )]($style)";
       };
 
       nodejs = {
-        format = "via [ $version]($style) ";
+        format = "via [ $version]($style) ";
         style  = "bold base0B";
       };
 
       ruby = {
-        format = "via [ $version]($style) ";
+        format = "via [ $version]($style) ";
         style  = "base08";
       };
 
       rust = {
-        symbol = " ";
+        symbol = " ";
         style  = "base09";
         format = "via [$symbol($version )]($style)";
       };
@@ -124,19 +124,19 @@
 
       c = {
         format = "[$symbol($version(-$name) )]($style)";
-        symbol = " ";
+        symbol = " ";
         style  = "base0C";
       };
 
       conda = {
         format = "[$symbol$environment]($style) ";
-        symbol = " ";
+        symbol = " ";
         style  = "base0B";
       };
 
       container = {
         format = "[$symbol\\[$name\\]]($style) ";
-        symbol = " ";
+        symbol = " ";
         style  = "base09";
       };
     };
