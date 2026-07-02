@@ -12,7 +12,7 @@
       character = {
         success_symbol = "[➜](bold base0B)";
         error_symbol   = "[✗](bold base08) ";
-        vimcmd_symbol  = "[](bold base0B)";
+        vimcmd_symbol  = "[](bold base0B)";
       };
 
       cmd_duration = {
@@ -44,36 +44,36 @@
         style             = "bold base08";
         truncation_length = 3;
         truncation_symbol = "…/";
-        home_symbol       = " ~";
+        home_symbol       = " ~";
         read_only_style   = "bold base0A";
-        read_only         = "  ";
+        read_only         = " ";
         format            = "[$path]($style)[$read_only]($read_only_style) ";
       };
 
       git_branch = {
         style  = "base0E";
         format = "[$symbol$branch]($style) ";
-        symbol = " ";
+        symbol = " ";
       };
 
       git_status = {
         format     = "[(\($all_status$ahead_behind\))]($style) ";
         style      = "bold base0B";
         conflicted = "🏳";
-        up_to_date = " ";
-        untracked  = " ";
+        up_to_date = " ";
+        untracked  = " ";
         ahead      = "⇡\${count}";
         diverged   = "⇕⇡\${ahead_count}⇣\${behind_count}";
         behind     = "⇣\${count}";
-        stashed    = " ";
-        modified   = " ";
+        stashed    = " ";
+        modified   = " ";
         staged     = "[++\\($count\\)](bold base0A)";
         renamed    = "» ";
-        deleted    = " ";
+        deleted    = " ";
       };
 
       golang = {
-        symbol = " ";
+        symbol = " ";
         style  = "base0C";
         format = "via [$symbol($version )]($style)";
       };
@@ -94,7 +94,7 @@
       };
 
       python = {
-        symbol        = " ";
+        symbol        = " ";
         python_binary = "python3";
         style         = "base0A";
         format        = "via [$symbol$pyenv_prefix($version )(\($virtualenv\) )]($style)";
@@ -111,7 +111,7 @@
       };
 
       rust = {
-        symbol = " ";
+        symbol = " ";
         style  = "base09";
         format = "via [$symbol($version )]($style)";
       };
@@ -124,19 +124,19 @@
 
       c = {
         format = "[$symbol($version(-$name) )]($style)";
-        symbol = " ";
+        symbol = " ";
         style  = "base0C";
       };
 
       conda = {
         format = "[$symbol$environment]($style) ";
-        symbol = " ";
+        symbol = "󰌠 ";
         style  = "base0B";
       };
 
       container = {
         format = "[$symbol\\[$name\\]]($style) ";
-        symbol = " ";
+        symbol = " ";
         style  = "base09";
       };
     };
