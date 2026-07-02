@@ -1,6 +1,6 @@
 # NixOS Config
 
-JuicyGoose007's NixOS flake — niri + home-manager + nixvim.
+JuicyGoose007's NixOS flake — niri + home-manager + stylix + nixvim.
 
 ## Fresh Install
 
