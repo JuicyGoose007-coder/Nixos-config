@@ -79,17 +79,17 @@
       };
 
       terraform = {
-        format = "via [ terraform $version]($style) [$workspace]($style) ";
+        format = "via [󱁢 terraform $version]($style) [$workspace]($style) ";
         style  = "base09";
       };
 
       docker_context = {
-        format = "via [ $context]($style) ";
+        format = "via [ $context]($style) ";
         style  = "bold base0C";
       };
 
       helm = {
-        format = "via [ $version]($style) ";
+        format = "via [⎈ $version]($style) ";
         style  = "bold base0C";
       };
 
@@ -101,12 +101,12 @@
       };
 
       nodejs = {
-        format = "via [ $version]($style) ";
+        format = "via [ $version]($style) ";
         style  = "bold base0B";
       };
 
       ruby = {
-        format = "via [ $version]($style) ";
+        format = "via [ $version]($style) ";
         style  = "base08";
       };
 
