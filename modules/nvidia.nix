@@ -19,6 +19,11 @@
 
   services.xserver.videoDrivers = [ "nvidia" ];
 
+  # Early KMS: load the NVIDIA modules in the initrd so the driver drives the
+  # console from the start. Avoids the mid-boot mode switch (black screen) and
+  # the console/getty briefly appearing on the secondary output (DP-1).
+  boot.initrd.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
+
   # Wayland + NVIDIA environment
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME        = "nvidia";
