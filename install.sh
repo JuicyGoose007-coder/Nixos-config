@@ -12,6 +12,7 @@ set -euo pipefail
 
 REPO_URL="https://github.com/JuicyGoose007-coder/Nixos-config.git"
 NIXOS_DIR="/etc/nixos"
+CLONE_TMP="/etc/nixos-new"
 HW_CONFIG="$NIXOS_DIR/hardware-configuration.nix"
 HW_BACKUP="/tmp/hardware-configuration.nix"
 
@@ -40,9 +41,11 @@ cp "$HW_CONFIG" "$HW_BACKUP"
 
 # ── Clone repo ───────────────────────────────────────────────────────────────
 
-echo "==> Cloning config to $NIXOS_DIR..."
+echo "==> Cloning config..."
+rm -rf "$CLONE_TMP"
+git clone "$REPO_URL" "$CLONE_TMP"
 rm -rf "$NIXOS_DIR"
-git clone "$REPO_URL" "$NIXOS_DIR"
+mv "$CLONE_TMP" "$NIXOS_DIR"
 
 # ── Restore hardware config ──────────────────────────────────────────────────
 
