@@ -9,6 +9,10 @@
     cargo
     gcc
     obsidian
+    via
+
+    #Extra browser
+    brave
 
     # Wayland tools
     wl-clipboard
@@ -20,6 +24,7 @@
 
     # Storage & files
     gnome-disk-utility
+    nautilus
     kdePackages.dolphin
     kdePackages.kio-fuse
 
