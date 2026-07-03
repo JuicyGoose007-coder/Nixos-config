@@ -63,6 +63,17 @@ sudo passwd juicygoose007
 
 ### 5. Reboot into niri.
 
+### 6. Commit the regenerated hardware config:
+`install.sh` restores this machine's freshly generated `hardware-configuration.nix`
+(new partition UUIDs, swap entry) but leaves it uncommitted. Commit it so the repo
+matches the machine:
+```sh
+cd /etc/nixos
+git add hardware-configuration.nix
+git commit -m "hardware-configuration: post-reinstall (new UUIDs + swap)"
+git push
+```
+
 ---
 
 The script saves your machine-specific `hardware-configuration.nix`, clones this repo to `/etc/nixos`, restores it, then runs `nixos-rebuild switch`. Home-manager deploys all dotfiles automatically.
