@@ -44,7 +44,7 @@
         style             = "bold base08";
         truncation_length = 3;
         truncation_symbol = "…/";
-        home_symbol       = " ~";
+        home_symbol       = " ~";
         read_only_style   = "bold base0A";
         read_only         = " ";
         format            = "[$path]($style)[$read_only]($read_only_style) ";
