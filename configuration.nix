@@ -186,6 +186,11 @@ in
 # Enable the udisks2 service for automounting
 services.udisks2.enable = true;
 
+  # ── Wooting keyboard ───────────────────────────────────────────────────────
+  # Installs wootility + the official udev rules (70-wooting.rules with uaccess
+  # tags for VIDs 03eb/31e3). uaccess grants the logged-in user hidraw access.
+  hardware.wooting.enable = true;
+
 
   # ── Services (optional / commented out) ────────────────────────────────────
   # programs.mtr.enable = true;
