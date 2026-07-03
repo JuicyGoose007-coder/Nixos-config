@@ -10,41 +10,9 @@ which is the same for both.
 
 ## Option A — Minimal ISO (command line)
 
-### 1. Partition, format, mount, then generate hardware config:
-
-**Identify your target disk first** — this wipes the whole drive:
-```sh
-lsblk -o NAME,SIZE,TYPE,FSTYPE,LABEL,MOUNTPOINT
-```
-Pick the disk you're installing onto and confirm it's not one of your other
-drives. Substitute it for `sdX` below. **Note:** NVMe disks put a `p` before the
-partition number (e.g. `/dev/nvme0n1p1`, not `/dev/nvme0n11`).
-
-Partition (GPT: 1 GB ESP + root + 8 GB swap):
-```sh
-sudo parted /dev/sdX -- mklabel gpt
-sudo parted /dev/sdX -- mkpart ESP fat32 1MiB 1025MiB
-sudo parted /dev/sdX -- set 1 esp on
-sudo parted /dev/sdX -- mkpart primary 1025MiB -8GiB
-sudo parted /dev/sdX -- mkpart primary linux-swap -8GiB 100%
-```
-
-Format and activate swap:
-```sh
-sudo mkfs.fat -F 32 -n boot /dev/sdX1
-sudo mkfs.ext4 -L nixos /dev/sdX2
-sudo mkswap  -L swap  /dev/sdX3
-sudo swapon /dev/sdX3          # MUST be active before generate-config so swap is captured
-```
-
-Mount:
-```sh
-sudo mount /dev/disk/by-label/nixos /mnt
-sudo mkdir -p /mnt/boot
-sudo mount /dev/disk/by-label/boot /mnt/boot
-```
-
-Generate hardware config (picks up the active swap automatically):
+### 1. Partition, format, and mount your disks, then generate hardware config:
+If you want swap, run `swapon` on your swap partition **before** generating the
+config so it gets picked up automatically.
 ```sh
 sudo nixos-generate-config --root /mnt
 ```
