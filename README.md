@@ -5,11 +5,19 @@ JuicyGoose007's NixOS flake — niri + home-manager + stylix + nixvim.
 ## Fresh Install
 
 ### 1. Partition, format, and mount your disks, then generate hardware config:
+If you want swap, run `swapon` on your swap partition **before** generating the
+config so it gets picked up automatically.
 ```sh
 nixos-generate-config --root /mnt
 ```
 
-### 2. Boot into the base NixOS system, then run:
+### 2. Install the base system and set a root password:
+```sh
+nixos-install
+reboot
+```
+
+### 3. Boot into the base NixOS system, then run:
 ```sh
 curl -fsSL https://raw.githubusercontent.com/JuicyGoose007-coder/Nixos-config/master/install.sh | sudo bash
 ```
@@ -20,7 +28,7 @@ git clone https://github.com/JuicyGoose007-coder/Nixos-config.git /tmp/nixos-con
 sudo bash /tmp/nixos-config/install.sh
 ```
 
-### 3. Reboot into niri.
+### 4. Reboot into niri.
 
 ---
 
