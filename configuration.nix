@@ -22,6 +22,13 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  # ── Filesytems ─────────────────────────────────────────────────────────────
+  fileSystems."/mnt/games" = {
+    device = "/dev/disk/by-uuid/0ca9f5bb-3aa4-4050-8e12-5b69d3296659";
+      fsType = "ext4";
+      options = [ "defaults" "nofail" ];
+  };
+
   # ── Networking ─────────────────────────────────────────────────────────────
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
