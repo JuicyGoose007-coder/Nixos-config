@@ -19,8 +19,9 @@
     awww
 
     # Storage & files
-    udiskie
-    nautilus
+    gnome-disk-utility
+    kdePackages.dolphin
+    kdePackages.kio-fuse
 
     # Status bar & launcher
     waybar
