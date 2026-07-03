@@ -4,6 +4,14 @@
 
 { config, pkgs, ... }:
 
+let
+  # Force the DP-1 connector "connected" (it is kernel-disabled via video=DP-1:d
+  # so the console/greeter render at DP-2's native 2560x1440). niri runs this at
+  # startup — after the greeter — so DP-1 only lights up for the desktop.
+  dp1On = pkgs.writeShellScriptBin "dp1-on" ''
+    echo on > /sys/class/drm/*-DP-1/status
+  '';
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -21,6 +29,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  # Try to force the console/greeter on DP-2 to native 2560x1440.
+  # video=DP-1:d disables DP-1 for the *kernel console* so it can't force the
+  # clone down to 1080p; niri re-enables DP-1 itself for the desktop.
+  boot.kernelParams = [ "video=DP-1:d" "video=DP-2:2560x1440@60" ];
 
   # ── Filesytems ─────────────────────────────────────────────────────────────
   fileSystems."/mnt/games" = {
@@ -77,8 +90,25 @@
     config.common.default = "*";
   };
 
-  # Enable GNOME desktop environment
-  # services.xserver.displayManager.gdm.enable = true;
+  # ── Display manager: greetd + tuigreet (native Wayland) ────────────────────
+  # Launches niri directly as a Wayland session — no X server, no double
+  # modeset. Replaces the old LightDM greeter inherited from the base config.
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --cmd niri-session";
+        user    = "greeter";
+      };
+    };
+  };
+
+  # Let niri (as juicygoose007) run dp1-on passwordless at startup, so DP-1 is
+  # re-enabled only once the desktop is up — keeping the greeter on DP-2 alone.
+  security.sudo.extraRules = [{
+    users    = [ "juicygoose007" ];
+    commands = [{ command = "/run/current-system/sw/bin/dp1-on"; options = [ "NOPASSWD" ]; }];
+  }];
 
   # ── Audio ──────────────────────────────────────────────────────────────────
   services.pulseaudio.enable = false;
@@ -99,11 +129,16 @@
   programs.zsh.promptInit = "";
   programs.starship.enable = false;
 
+  programs.gamescope.enable = true;
+
   programs.steam = {
     enable                       = true;
     dedicatedServer.openFirewall = false;
     gamescopeSession.enable      = false;
+    extraCompatPackages          = with pkgs; [ proton-ge-bin ];
   };
+
+  hardware.steam-hardware.enable = true;
 
   # ── System Packages ────────────────────────────────────────────────────────
   environment.systemPackages = with pkgs; [
@@ -125,6 +160,9 @@
     # Theming (GTK apps need these system-wide)
     adwaita-icon-theme
     gnome-themes-extra
+
+    # DP-1 re-enable helper (see dp1On above; called by niri via sudo)
+    dp1On
   ];
 
   # ── Polkit ─────────────────────────────────────────────────────────────────
