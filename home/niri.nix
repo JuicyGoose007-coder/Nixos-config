@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 {
   xdg.configFile."niri/config.kdl" = {
@@ -72,7 +72,7 @@
 
 
         // Please choose your own file manager
-        MOD+E                             hotkey-overlay-title="File Manager: Nautilus" { spawn-sh "nautilus"; }
+        MOD+E                             hotkey-overlay-title="File Manager: Dolphin" { spawn-sh "dolphin"; }
         MOD+Y                               hotkey-overlay-title="Open File Manager: Yazi"{ spawn "ghostty" "-e" "zsh" "-ic" "yazi"; }
 
         // ─── Audio Controls ───
@@ -234,6 +234,7 @@
     // https://github.com/YaLTeR/niri/wiki/Configuration:-Miscellaneous#spawn-sh-at-startup
 
     spawn-sh-at-startup "waybar"
+    spawn-sh-at-startup "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
     spawn-sh-at-startup "awww-daemon" // Wallpaper daemon
     spawn-sh-at-startup "xwayland-satellite :1"
     spawn-sh-at-startup "hyprlock --daemonize"
@@ -349,15 +350,13 @@
             match app-id=r#"^gnome-calculator$"#
             match app-id=r#"^galculator$"#
             match app-id=r#"^blueman-manager$"#
-            match app-id=r#"^org\.gnome\.Nautilus$"#
+            match app-id=r#"^org.kde.dolphin"
             match app-id=r#"^xdg-desktop-portal$"#
             open-floating true
         }
 
         window-rule {
             match app-id=r#"^org\.wezfurlong\.wezterm$"#
-            match app-id="Alacritty"
-            match app-id="zen"
             match app-id="ghostty"
             match app-id="com.mitchellh.ghostty"
             match app-id="kitty"
@@ -381,6 +380,11 @@
             open-floating true
         }
 
+        window-rule {
+            match app-id="org.kde.dolphin"
+            open-floating true
+        }
+
         //Added 10/27/25 to run steam games in fullscreen
         window-rule{
             match app-id="steam"
@@ -393,6 +397,7 @@
         window-rule{
             match app-id=r#"^steam$"#
             default-column-width { proportion 0.5; }
+            open-fullscreen true
             open-focused false
             open-on-workspace "Gaming"
         }
@@ -417,14 +422,6 @@
             default-column-width { proportion 0.5; }
             open-focused false
             open-on-workspace "Gaming"
-        }
-
-        window-rule{
-            match title="Discord"
-            open-focused false
-            open-on-workspace "Discord"
-            open-on-output "DP-1"
-            opacity 0.9
         }
 
         window-rule{
