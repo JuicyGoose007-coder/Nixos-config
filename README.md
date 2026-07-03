@@ -12,29 +12,29 @@ which is the same for both.
 
 ### 1. Partition, format, mount, then generate hardware config:
 
-**Confirm the target disk first** — this wipes the whole drive:
+**Identify your target disk first** — this wipes the whole drive:
 ```sh
 lsblk -o NAME,SIZE,TYPE,FSTYPE,LABEL,MOUNTPOINT
 ```
-On this machine the NixOS drive is `/dev/sda` (223.6 GB SATA SSD).
-**Do NOT touch** `sdb` (Windows/BitLocker), `nvme1n1` (Games), or `nvme0n1`.
-Everything below writes to `/dev/sda` only — adjust the device name if it differs.
+Pick the disk you're installing onto and confirm it's not one of your other
+drives. Substitute it for `sdX` below. **Note:** NVMe disks put a `p` before the
+partition number (e.g. `/dev/nvme0n1p1`, not `/dev/nvme0n11`).
 
 Partition (GPT: 1 GB ESP + root + 8 GB swap):
 ```sh
-sudo parted /dev/sda -- mklabel gpt
-sudo parted /dev/sda -- mkpart ESP fat32 1MiB 1025MiB
-sudo parted /dev/sda -- set 1 esp on
-sudo parted /dev/sda -- mkpart primary 1025MiB -8GiB
-sudo parted /dev/sda -- mkpart primary linux-swap -8GiB 100%
+sudo parted /dev/sdX -- mklabel gpt
+sudo parted /dev/sdX -- mkpart ESP fat32 1MiB 1025MiB
+sudo parted /dev/sdX -- set 1 esp on
+sudo parted /dev/sdX -- mkpart primary 1025MiB -8GiB
+sudo parted /dev/sdX -- mkpart primary linux-swap -8GiB 100%
 ```
 
 Format and activate swap:
 ```sh
-sudo mkfs.fat -F 32 -n boot /dev/sda1
-sudo mkfs.ext4 -L nixos /dev/sda2
-sudo mkswap  -L swap  /dev/sda3
-sudo swapon /dev/sda3          # MUST be active before generate-config so swap is captured
+sudo mkfs.fat -F 32 -n boot /dev/sdX1
+sudo mkfs.ext4 -L nixos /dev/sdX2
+sudo mkswap  -L swap  /dev/sdX3
+sudo swapon /dev/sdX3          # MUST be active before generate-config so swap is captured
 ```
 
 Mount:
@@ -59,9 +59,9 @@ reboot
 
 Run the installer and, in the wizard:
 
-- **Disk:** install to the **223.6 GB SATA SSD (`sda`)** only. With "Erase disk"
-  it wipes just the drive you select — **do NOT** pick `sdb` (Windows/BitLocker)
-  or `nvme1n1` (Games). If unsure, use **Manual partitioning** and only touch `sda`.
+- **Disk:** install to your target disk only. With "Erase disk" it wipes just
+  the drive you select — make sure you don't pick one of your other drives. If
+  unsure, use **Manual partitioning** and only touch the target disk.
 - **User:** set the username to exactly **`juicygoose007`** and give it a
   password. Because the config uses `mutableUsers = true`, this password carries
   over — so you can skip step 4 later.
