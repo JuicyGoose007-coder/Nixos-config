@@ -4,6 +4,12 @@ JuicyGoose007's NixOS flake — niri + home-manager + stylix + nixvim.
 
 ## Fresh Install
 
+Pick **one** install path — **Option A** (minimal ISO, command line) or
+**Option B** (graphical ISO, Calamares wizard) — then continue from **step 3**,
+which is the same for both.
+
+## Option A — Minimal ISO (command line)
+
 ### 1. Partition, format, mount, then generate hardware config:
 
 **Confirm the target disk first** — this wipes the whole drive:
@@ -49,6 +55,25 @@ nixos-install
 reboot
 ```
 
+## Option B — Graphical ISO (Calamares wizard)
+
+Run the installer and, in the wizard:
+
+- **Disk:** install to the **223.6 GB SATA SSD (`sda`)** only. With "Erase disk"
+  it wipes just the drive you select — **do NOT** pick `sdb` (Windows/BitLocker)
+  or `nvme1n1` (Games). If unsure, use **Manual partitioning** and only touch `sda`.
+- **User:** set the username to exactly **`juicygoose007`** and give it a
+  password. Because the config uses `mutableUsers = true`, this password carries
+  over — so you can skip step 4 later.
+- **Swap:** choose **"Swap (no Hibernate)"** (auto-sizes, often ≈ RAM), or use
+  Manual partitioning for an exact 8 GB `linux-swap` partition.
+
+Everything else the wizard sets (desktop, hostname, its `configuration.nix`) is
+**discarded** by `install.sh` — only `hardware-configuration.nix` is kept. When
+it finishes, **reboot into the base system** and continue below.
+
+## Both paths continue here
+
 ### 3. Boot into the base NixOS system, then run:
 ```sh
 curl -fsSL https://raw.githubusercontent.com/JuicyGoose007-coder/Nixos-config/master/install.sh | sudo bash
@@ -60,9 +85,10 @@ git clone https://github.com/JuicyGoose007-coder/Nixos-config.git /tmp/nixos-con
 sudo bash /tmp/nixos-config/install.sh
 ```
 
-### 4. Set your user password (required — the login greeter needs it):
-The `juicygoose007` account has no password until you set one. Do this before
-rebooting, or you'll be stuck at the greeter.
+### 4. Set your user password (Option A only — the login greeter needs it):
+On the minimal-ISO path the `juicygoose007` account has no password until you
+set one. Do this before rebooting, or you'll be stuck at the greeter. (Option B
+already set it in the wizard — skip this.)
 ```sh
 sudo passwd juicygoose007
 ```
