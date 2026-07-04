@@ -68,7 +68,7 @@ in
   users.users."juicygoose007" = {
     isNormalUser = true;
     description  = "Jake Turner";
-    extraGroups  = [ "networkmanager" "wheel" ];
+    extraGroups  = [ "networkmanager" "wheel" "input" ];
     packages     = with pkgs; [];
     shell        = pkgs.zsh;
     home         = "/home/juicygoose007"; 
