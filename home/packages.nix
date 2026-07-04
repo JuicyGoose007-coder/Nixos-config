@@ -11,6 +11,10 @@
     obsidian
     via
 
+    # Other distro packages
+    distrobox
+    docker
+
     #Extra browser
     brave
 
@@ -61,6 +65,7 @@
     lazygit
     eza
     python3
+    bat
 
     # Formatters for conform-nvim
     stylua
