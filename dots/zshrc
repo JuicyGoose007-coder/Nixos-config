@@ -116,6 +116,7 @@ alias ....='cd ../../..'
 alias h='history'
 alias j='jobs'
 alias c='clear'
+alias cat='bat'
 
 # Programs
 alias y='yazi'
