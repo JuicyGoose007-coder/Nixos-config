@@ -6,15 +6,21 @@
     "interval": 60
   },
   "niri/workspaces": {
-    "format": "{name}: {icon}",
+    "format": "{icon}",
     "active-only": true,
     "format-icons": {
-      "Main": "",
+      "Main": "",
       "Discord": "󰙯",
       "Gaming": "󰸴",
       "1": "",
       "2": "",
       "3": "",
+      "4": "",
+      "5": "",
+      "6": "",
+      "7": "",
+      "8": "",
+      "9": "",
       "active": "",
       "default": ""
     },

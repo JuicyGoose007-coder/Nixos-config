@@ -4,7 +4,7 @@
     "~/.config/waybar/modules/custom-modules.jsonc"
   ],
   "position": "bottom",
-  "layer": "top",
+  "layer": "overlay",
   "margin-bottom": 13,
   "modules-left": [
     "custom/launcher",

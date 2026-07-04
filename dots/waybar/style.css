@@ -57,6 +57,9 @@ tooltip label {
   color: @aqua;
   transition: all 0.3s ease-in-out;
   background-color: @bg2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #workspaces button.active {
