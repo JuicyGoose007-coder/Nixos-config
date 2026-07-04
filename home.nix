@@ -15,6 +15,7 @@
     ./home/fastfetch.nix
     ./home/wlogout.nix
     ./home/rofi.nix
+    ./home/git.nix
   ];
 
   home.username      = "juicygoose007";
