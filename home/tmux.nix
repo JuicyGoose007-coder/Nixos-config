@@ -115,7 +115,6 @@
           set -g pane-border-indicators arrows
       }
 
-      source-file ~/.config/tmux/matugen-colors.conf
     '';
   };
 }
