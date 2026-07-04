@@ -4,11 +4,9 @@
   xdg.configFile."niri/config.kdl" = {
     force = true;
     text = ''
-    // Niri configuration for CachyOS
-    // For documentation and full reference, see: https://github.com/YaLTeR/niri/wiki
+    // Niri configuration for NixOS
 
     // ────────────── Input Configuration ──────────────
-    // https://github.com/YaLTeR/niri/wiki/Configuration:-Input
 
     input {
         keyboard {
@@ -31,7 +29,6 @@
     // ────────────── Output Configuration ──────────────
     // You can run `niri msg outputs` to get the correct name for your displays.
     // You will have to remove "/-" and edit it before it takes effect.
-    // https://github.com/YaLTeR/niri/wiki/Configuration:-Outputs
 
     // Outputs from existing configuration
 
@@ -58,7 +55,6 @@
     }
 
     // ────────────── Keybindings ──────────────
-    // https://github.com/YaLTeR/niri/wiki/Configuration:-Key-Bindings
 
     binds {
 
@@ -69,7 +65,11 @@
         MOD+O                               hotkey-overlay-title="Open Browser: brave" { spawn-sh "brave"; }
         MOD+ALT+L                           hotkey-overlay-title="Lock Screen: hyprlock" { spawn-sh "hyprlock"; }
         MOD+T                               hotkey-overlay-title="Toggle Opacity" { toggle-window-rule-opacity; }
+        MOD+ALT+P                           hotkey-overlay-title="Open Power Menu" { spawn-sh "$HOME/.config/rofi/scripts/powermenu_t2"; }
 
+        // ─── Waybar ───
+        MOD+ALT+R                           hotkey-overlay-title="Launch Waybar" { spawn-sh "/etc/nixos/scripts/waybar.sh"; }
+        
 
         // Please choose your own file manager
         MOD+E                             hotkey-overlay-title="File Manager: Dolphin" { spawn-sh "dolphin"; }
@@ -89,7 +89,7 @@
 
         // === Window Management ===
         Mod+Q repeat=false { close-window; }
-        Mod+Shift+Q repeat=false  { spawn "/mnt/storage/scripts/killgamescope.sh"; }
+        Mod+Shift+Q repeat=false  { spawn-sh "pkill -SIGKILL -f pressure-vessel; pkill -SIGKILL reaper; pkill gamescope"; }
         Mod+Shift+F { maximize-column; }
         Mod+F { fullscreen-window; }
         Mod+Shift+T { toggle-window-floating; }
@@ -176,12 +176,12 @@
         Mod+G { focus-workspace "Gaming"; }
         Mod+M { focus-workspace "Main"; }
         Mod+I { focus-workspace "Discord"; }
-        Mod+N { focus-workspace 4; }
+        Mod+N { focus-workspace 3; }
+        Mod+4 { focus-workspace 4; }
         Mod+5 { focus-workspace 5; }
         Mod+6 { focus-workspace 6; }
         Mod+7 { focus-workspace 7; }
         Mod+8 { focus-workspace 8; }
-        Mod+9 { focus-workspace 9; }
 
         // === Move to Named Workspaces ===
         Mod+Shift+G { move-column-to-workspace "Gaming"; }
@@ -231,7 +231,6 @@
     }
 
     // ────────────── Startup Applications ──────────────
-    // https://github.com/YaLTeR/niri/wiki/Configuration:-Miscellaneous#spawn-sh-at-startup
 
     spawn-sh-at-startup "waybar"
     spawn-sh-at-startup "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
@@ -251,11 +250,10 @@
         screenshot-path "~/Pictures/screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
     // ────────────── Layout Settings ──────────────
-    // https://github.com/YaLTeR/niri/wiki/Configuration:-Layout
 
         layout {
             gaps 10 // Gap between windows
-            always-center-single-column 
+            always-center-single-column
             center-focused-column "never" // Don't auto-center focused column
 
             preset-column-widths {
@@ -281,7 +279,7 @@
         }
 
     // ────────────── Animation Settings ──────────────
-    // https://github.com/YaLTeR/niri/wiki/Configuration:-Animations
+
         animations {
             workspace-switch {
                 spring damping-ratio=1.0 stiffness=1000 epsilon=0.0001
@@ -316,7 +314,6 @@
         }
 
     // ────────────── Window Rules ──────────────
-    // https://github.com/YaLTeR/niri/wiki/Configuration:-Window-Rules
 
         window-rule {
             match app-id=r#"firefox$"# title="^Picture-in-Picture$"
@@ -390,21 +387,29 @@
             open-floating true
         }
 
-        //Added 10/27/25 to run steam games in fullscreen
         window-rule{
-            match app-id="steam"
-            exclude title="^Steam$"
+            match app-id=r#"^steam_app_"#
             open-fullscreen true
-            open-on-workspace "Gaming"
             open-focused true
+            open-on-workspace "Gaming"
+        }
+
+        window-rule{
+            match title="Steam"
+            match app-id="steam"
+            default-column-width { proportion 0.5; }
+            open-maximized true
+            open-focused false
+            open-on-workspace "Gaming"
         }
 
         window-rule{
             match app-id=r#"^steam$"#
             default-column-width { proportion 0.5; }
-            open-maximized true
             open-focused false
             open-on-workspace "Gaming"
+            open-fullscreen false
+            open-maximized true
         }
 
         window-rule{
@@ -480,7 +485,6 @@
         }
 
     // ────────────── Environment Variables ──────────────
-    // https://github.com/YaLTeR/niri/wiki/Configuration:-Miscellaneous#environment
 
         environment {
             DISPLAY ":1"
