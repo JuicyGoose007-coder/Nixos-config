@@ -119,7 +119,7 @@ alias c='clear'
 alias cat='bat'
 
 # Update
-alias update='nix flake update /etc/nixos/'
+alias update='cd /etc/nixos/ && nix flake update'
 alias rebuild='sudo nixos-rebuild switch --flake /etc/nixos#nixos'
 alias test='sudo nixos-rebuild test --flake /etc/nixos#nixos'
 
