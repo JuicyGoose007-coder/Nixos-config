@@ -118,6 +118,11 @@ alias j='jobs'
 alias c='clear'
 alias cat='bat'
 
+# Update
+alias update='nix flake update /etc/nixos/'
+alias rebuild='sudo nixos-rebuild switch --flake /etc/nixos#nixos'
+alias test='sudo nixos-rebuild test --flake /etc/nixos#nixos'
+
 # Programs
 alias y='yazi'
 alias nv='nvim'
