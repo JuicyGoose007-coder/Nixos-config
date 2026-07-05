@@ -68,7 +68,7 @@ in
   users.users."juicygoose007" = {
     isNormalUser = true;
     description  = "Jake Turner";
-    extraGroups  = [ "networkmanager" "wheel" "input" ];
+    extraGroups  = [ "networkmanager" "wheel" "input" "docker" ];
     packages     = with pkgs; [];
     shell        = pkgs.zsh;
     home         = "/home/juicygoose007"; 
@@ -202,6 +202,9 @@ services.udisks2.enable = true;
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # networking.firewall.enable = false;
+
+  # ── Docker ─────────────────────────────────────────────────────────────────
+  virtualisation.docker.enable = true;
 
   # ── System ─────────────────────────────────────────────────────────────────
   system.stateVersion = "26.05"; # Did you read the comment?
