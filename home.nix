@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -10,7 +15,7 @@
     ./home/yazi.nix
     ./home/hyprlock.nix
     ./home/nvim.nix
-    ./home/niri.nix
+    ./home/niri
     ./home/tmux.nix
     ./home/fastfetch.nix
     ./home/wlogout.nix
@@ -18,27 +23,26 @@
     ./home/git.nix
   ];
 
-  home.username      = "juicygoose007";
+  home.username = "juicygoose007";
   home.homeDirectory = "/home/juicygoose007";
-  home.stateVersion  = "24.11";
-
+  home.stateVersion = "24.11";
 
   programs.home-manager.enable = true;
-  programs.claude-code.enable  = true;
+  programs.claude-code.enable = true;
 
-  stylix.enableReleaseChecks       = false;
-  stylix.targets.waybar.enable    = true;
-  stylix.targets.fzf.enable       = true;
-  stylix.targets.starship.enable  = true;
-  stylix.targets.tmux.enable      = false;
-  stylix.targets.yazi.enable      = true;
-  stylix.targets.hyprlock.enable  = false;
-  stylix.targets.neovim.enable    = false;
+  stylix.enableReleaseChecks = false;
+  stylix.targets.waybar.enable = true;
+  stylix.targets.fzf.enable = true;
+  stylix.targets.starship.enable = true;
+  stylix.targets.tmux.enable = false;
+  stylix.targets.yazi.enable = true;
+  stylix.targets.hyprlock.enable = false;
+  stylix.targets.neovim.enable = false;
 
   home.pointerCursor = {
     gtk.enable = true;
-    package    = pkgs.adwaita-icon-theme;
-    name       = "Adwaita";
-    size       = 20;
+    package = pkgs.adwaita-icon-theme;
+    name = "Adwaita";
+    size = 20;
   };
 }

@@ -5,6 +5,11 @@
     enable           = true;
     nixpkgs.source   = pkgs.path;
 
+    # Formatter binaries must be on Neovim's PATH — enabling the LSP / naming a
+    # conform formatter does NOT install them. nixfmt provides the `nixfmt`
+    # binary (RFC-style), used by both nixd (LSP format) and conform.
+    extraPackages = [ pkgs.nixfmt ];
+
     globals = {
       mapleader      = " ";
       maplocalleader = " ";
@@ -72,6 +77,7 @@
       lsp = {
         enable  = true;
         servers = {
+          nixd.enable    = true;
           pyright.enable = true;
           lua_ls.enable  = true;
           taplo.enable   = true;
@@ -91,6 +97,7 @@
         enable   = true;
         settings = {
           formatters_by_ft = {
+            nix    = [ "nixfmt" ];
             lua    = [ "stylua" ];
             python = [ "ruff_organize_imports" "ruff_format" ];
             rust   = [ "rustfmt" ];
