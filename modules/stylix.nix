@@ -4,7 +4,7 @@
   stylix = {
     enable = true;
     enableReleaseChecks = false;
-    image  = ../sushi.jpg;
+    image  = ../wallpapers/sushi.jpg;
 
     base16Scheme = {
       scheme = "Gruvbox Dark";

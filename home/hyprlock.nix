@@ -4,7 +4,7 @@ let
   wallpaper = pkgs.runCommand "hyprlock-wallpaper" {
     nativeBuildInputs = [ pkgs.imagemagick ];
   } ''
-    convert ${../mustacho.png} -filter Gaussian -blur 0x20 $out
+    convert ${../wallpapers/mustacho.png} -filter Gaussian -blur 0x20 $out
   '';
 in
 {
