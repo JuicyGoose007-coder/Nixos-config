@@ -22,6 +22,7 @@
   home.homeDirectory = "/home/juicygoose007";
   home.stateVersion  = "24.11";
 
+
   programs.home-manager.enable = true;
   programs.claude-code.enable  = true;
 
@@ -29,6 +30,7 @@
   stylix.targets.waybar.enable    = true;
   stylix.targets.fzf.enable       = true;
   stylix.targets.starship.enable  = true;
+  stylix.targets.tmux.enable      = false;
   stylix.targets.yazi.enable      = true;
   stylix.targets.hyprlock.enable  = false;
   stylix.targets.neovim.enable    = false;

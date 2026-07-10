@@ -5,7 +5,6 @@
     vesktop
     protonplus
     wlogout
-    tmux
     cargo
     gcc
     obsidian
@@ -13,7 +12,6 @@
 
     # Other distro packages
     distrobox
-    docker
 
     #Extra browser
     brave
@@ -21,6 +19,7 @@
     # Wayland tools
     wl-clipboard
     wlr-randr
+    wayland-utils
     grim
     slurp
     swappy
@@ -33,7 +32,6 @@
     kdePackages.kio-fuse
 
     # Status bar & launcher
-    waybar
     fuzzel
     rofi
 
@@ -61,11 +59,11 @@
     file
     wget
     curl
-    git
     lazygit
     eza
     python3
     bat
+    nvtopPackages.nvidia
 
     # Formatters for conform-nvim
     stylua

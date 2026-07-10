@@ -69,7 +69,6 @@ in
     isNormalUser = true;
     description  = "Jake Turner";
     extraGroups  = [ "networkmanager" "wheel" "input" "docker" ];
-    packages     = with pkgs; [];
     shell        = pkgs.zsh;
     home         = "/home/juicygoose007"; 
   };
@@ -81,7 +80,24 @@ in
     variant = "";
   };
 
-  programs.niri.enable     = true;
+  programs.niri = {
+    enable  = true;
+    package = pkgs.niri.overrideAttrs (old: {
+      postInstall = (old.postInstall or "") + ''
+        substituteInPlace $out/bin/niri-session \
+          --replace-fail \
+            'systemctl --user import-environment' \
+            'systemctl --user import-environment \
+              PATH HOME USER LOGNAME SHELL TERM \
+              XDG_RUNTIME_DIR XDG_SESSION_TYPE XDG_SESSION_CLASS \
+              XDG_SESSION_DESKTOP XDG_CURRENT_DESKTOP \
+              XDG_CONFIG_DIRS XDG_DATA_DIRS \
+              DBUS_SESSION_BUS_ADDRESS \
+              GTK_PATH QT_PLUGIN_PATH \
+              NIX_XDG_DESKTOP_PORTAL_DIR'
+      '';
+    });
+  };
   programs.xwayland.enable = true;
 
   xdg.portal = {
@@ -97,7 +113,7 @@ in
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --cmd niri-session";
+        command = ''${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --cmd "env XDG_SESSION_DESKTOP=niri XDG_CURRENT_DESKTOP=niri XDG_SESSION_CLASS=user niri-session"'';
         user    = "greeter";
       };
     };
@@ -127,9 +143,7 @@ in
   programs.zsh.enable = true;
   programs.zsh.enableCompletion = false;
   programs.zsh.promptInit = "";
-  programs.starship.enable = false;
-
-  programs.gamescope.enable = true;
+  programs.gamescope.enable  = true;
 
   programs.steam = {
     enable                       = true;
@@ -143,15 +157,10 @@ in
   # ── System Packages ────────────────────────────────────────────────────────
   environment.systemPackages = with pkgs; [
     # Niri / Wayland (compositor needs these system-wide)
-    niri
     xwayland-satellite
-    xdg-desktop-portal-gtk
-    xdg-desktop-portal-gnome
-    wayland-utils
 
     # Storage services
     gvfs
-    udisks2
     usbutils
 
     # Polkit agent
@@ -174,7 +183,7 @@ in
   # Required for xdg-document-portal to mount /run/user/1000/doc via fusermount3
   programs.fuse.userAllowOther = true;
 
-    fonts.packages = with pkgs; [
+  fonts.packages = with pkgs; [
     fira-code
     jetbrains-mono
     nerd-fonts.jetbrains-mono
@@ -182,9 +191,7 @@ in
     font-awesome
   ];
 
-
-# Enable the udisks2 service for automounting
-services.udisks2.enable = true;
+  services.udisks2.enable = true;
 
   # ── Wooting keyboard ───────────────────────────────────────────────────────
   # Installs wootility + the official udev rules (70-wooting.rules with uaccess

@@ -48,7 +48,13 @@
           home-manager.useGlobalPkgs    = true;
           home-manager.useUserPackages  = true;
           home-manager.users.juicygoose007 = import ./home.nix;
-          home-manager.extraSpecialArgs = { inherit inputs; };
+          home-manager.extraSpecialArgs = { 
+            inherit inputs; 
+            pkgs-unstable = import inputs.nixpkgs-unstable {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+            };
+          };
           home-manager.sharedModules = [
             nixvim.homeModules.nixvim
           ];
