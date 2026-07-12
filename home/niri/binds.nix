@@ -11,6 +11,7 @@
         MOD+RETURN                          hotkey-overlay-title="Open Terminal: ghostty" { spawn-sh "ghostty"; }
         MOD+D                               hotkey-overlay-title="Open App Launcher: rofi" { spawn-sh "/etc/nixos/dots/rofi/launchers/type-6/launcher.sh"; }
         MOD+B                               hotkey-overlay-title="Open Browser: firefox" { spawn-sh "firefox"; }
+        MOD+Z                               hotkey-overlay-title="Open Browser: zen-browser" { spawn-sh "zen"; }
         MOD+O                               hotkey-overlay-title="Open Browser: brave" { spawn-sh "brave"; }
         MOD+ALT+L                           hotkey-overlay-title="Lock Screen: hyprlock" { spawn-sh "hyprlock"; }
         MOD+T                               hotkey-overlay-title="Toggle Opacity" { toggle-window-rule-opacity; }
