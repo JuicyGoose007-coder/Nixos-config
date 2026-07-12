@@ -4,10 +4,8 @@
 
     output "DP-2" {
     	position x=1920 y=0
-    	mode "2560x1440@164.999" // Set resolution and refresh rate
-    	// mode "1920x1080@164.999" // Set resolution and refresh rate
-    	scale 1 // No scaling (use 2 for HiDPI)
-    	// variable-refresh-rate
+    	mode "2560x1440@164.999" 
+    	scale 1 
     	focus-at-startup
     }
 
