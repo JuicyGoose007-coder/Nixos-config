@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   home.packages = with pkgs; [
@@ -15,6 +15,7 @@
 
     #Extra browser
     brave
+    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Wayland tools
     wl-clipboard
