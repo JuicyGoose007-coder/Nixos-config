@@ -29,6 +29,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =
@@ -40,6 +45,7 @@
       stylix,
       nix-index-database,
       zen-browser,
+      niri,
       ...
     }@inputs:
     {
@@ -54,6 +60,7 @@
           ./modules/stylix.nix
           { disabledModules = [ "${stylix}/modules/kmscon/nixos.nix" ]; }
           nix-index-database.nixosModules.nix-index
+          niri.nixosModules.niri
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

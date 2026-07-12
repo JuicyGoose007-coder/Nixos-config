@@ -33,13 +33,19 @@ in
   # Try to force the console/greeter on DP-2 to native 2560x1440.
   # video=DP-1:d disables DP-1 for the *kernel console* so it can't force the
   # clone down to 1080p; niri re-enables DP-1 itself for the desktop.
-  boot.kernelParams = [ "video=DP-1:d" "video=DP-2:2560x1440@60" ];
+  boot.kernelParams = [
+    "video=DP-1:d"
+    "video=DP-2:2560x1440@60"
+  ];
 
   # ── Filesytems ─────────────────────────────────────────────────────────────
   fileSystems."/mnt/games" = {
     device = "/dev/disk/by-uuid/0ca9f5bb-3aa4-4050-8e12-5b69d3296659";
-      fsType = "ext4";
-      options = [ "defaults" "nofail" ];
+    fsType = "ext4";
+    options = [
+      "defaults"
+      "nofail"
+    ];
   };
 
   # ── Networking ─────────────────────────────────────────────────────────────
@@ -53,57 +59,59 @@ in
   time.timeZone = "America/New_York";
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
-    LC_ADDRESS        = "en_US.UTF-8";
+    LC_ADDRESS = "en_US.UTF-8";
     LC_IDENTIFICATION = "en_US.UTF-8";
-    LC_MEASUREMENT    = "en_US.UTF-8";
-    LC_MONETARY       = "en_US.UTF-8";
-    LC_NAME           = "en_US.UTF-8";
-    LC_NUMERIC        = "en_US.UTF-8";
-    LC_PAPER          = "en_US.UTF-8";
-    LC_TELEPHONE      = "en_US.UTF-8";
-    LC_TIME           = "en_US.UTF-8";
+    LC_MEASUREMENT = "en_US.UTF-8";
+    LC_MONETARY = "en_US.UTF-8";
+    LC_NAME = "en_US.UTF-8";
+    LC_NUMERIC = "en_US.UTF-8";
+    LC_PAPER = "en_US.UTF-8";
+    LC_TELEPHONE = "en_US.UTF-8";
+    LC_TIME = "en_US.UTF-8";
   };
 
   # ── Users ──────────────────────────────────────────────────────────────────
   users.users."juicygoose007" = {
     isNormalUser = true;
-    description  = "Jake Turner";
-    extraGroups  = [ "networkmanager" "wheel" "input" "docker" ];
-    shell        = pkgs.zsh;
-    home         = "/home/juicygoose007"; 
+    description = "Jake Turner";
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "input"
+      "docker"
+    ];
+    shell = pkgs.zsh;
+    home = "/home/juicygoose007";
   };
 
   # ── Display & Wayland ──────────────────────────────────────────────────────
   services.xserver.enable = true;
   services.xserver.xkb = {
-    layout  = "us";
+    layout = "us";
     variant = "";
   };
 
   programs.niri = {
-    enable  = true;
-    package = pkgs.niri.overrideAttrs (old: {
-      postInstall = (old.postInstall or "") + ''
-        substituteInPlace $out/bin/niri-session \
-          --replace-fail \
-            'systemctl --user import-environment' \
-            'systemctl --user import-environment \
-              PATH HOME USER LOGNAME SHELL TERM \
-              XDG_RUNTIME_DIR XDG_SESSION_TYPE XDG_SESSION_CLASS \
-              XDG_SESSION_DESKTOP XDG_CURRENT_DESKTOP \
-              XDG_CONFIG_DIRS XDG_DATA_DIRS \
-              DBUS_SESSION_BUS_ADDRESS \
-              GTK_PATH QT_PLUGIN_PATH \
-              NIX_XDG_DESKTOP_PORTAL_DIR'
-      '';
-    });
+    enable = true;
+    package = pkgs.niri;
   };
+
   programs.xwayland.enable = true;
 
   xdg.portal = {
-    enable                = true;
-    extraPortals          = [ pkgs.xdg-desktop-portal-gnome ];
-    config.common.default = "*";
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gnome
+      pkgs.xdg-desktop-portal-gtk
+    ];
+    # Route ScreenCast/Screenshot to the gnome backend (niri implements
+    # org.gnome.Mutter.ScreenCast, so screen sharing goes through it); use gtk
+    # for native file-picker dialogs. Replaces the old "*" wildcard, which tried
+    # to activate the absent gtk backend and silently killed ScreenCast.
+    config.common = {
+      default = [ "gnome" ];
+      "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+    };
   };
 
   # ── Display manager: greetd + tuigreet (native Wayland) ────────────────────
@@ -114,42 +122,49 @@ in
     settings = {
       default_session = {
         command = ''${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --cmd "env XDG_SESSION_DESKTOP=niri XDG_CURRENT_DESKTOP=niri XDG_SESSION_CLASS=user niri-session"'';
-        user    = "greeter";
+        user = "greeter";
       };
     };
   };
 
   # Let niri (as juicygoose007) run dp1-on passwordless at startup, so DP-1 is
   # re-enabled only once the desktop is up — keeping the greeter on DP-2 alone.
-  security.sudo.extraRules = [{
-    users    = [ "juicygoose007" ];
-    commands = [{ command = "/run/current-system/sw/bin/dp1-on"; options = [ "NOPASSWD" ]; }];
-  }];
+  security.sudo.extraRules = [
+    {
+      users = [ "juicygoose007" ];
+      commands = [
+        {
+          command = "/run/current-system/sw/bin/dp1-on";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
 
   # ── Audio ──────────────────────────────────────────────────────────────────
   services.pulseaudio.enable = false;
-  security.rtkit.enable      = true;
+  security.rtkit.enable = true;
   services.pipewire = {
-    enable       = true;
-    alsa.enable  = true;
+    enable = true;
+    alsa.enable = true;
     pulse.enable = true;
   };
 
   # ── Programs ───────────────────────────────────────────────────────────────
   programs.nix-index-database.comma.enable = true;
 
-  programs.firefox.enable  = true;
+  programs.firefox.enable = true;
   programs.gamemode.enable = true;
   programs.zsh.enable = true;
   programs.zsh.enableCompletion = false;
   programs.zsh.promptInit = "";
-  programs.gamescope.enable  = true;
+  programs.gamescope.enable = true;
 
   programs.steam = {
-    enable                       = true;
+    enable = true;
     dedicatedServer.openFirewall = false;
-    gamescopeSession.enable      = false;
-    extraCompatPackages          = with pkgs; [ proton-ge-bin ];
+    gamescopeSession.enable = false;
+    extraCompatPackages = with pkgs; [ proton-ge-bin ];
   };
 
   hardware.steam-hardware.enable = true;
@@ -198,7 +213,6 @@ in
   # tags for VIDs 03eb/31e3). uaccess grants the logged-in user hidraw access.
   hardware.wooting.enable = true;
 
-
   # ── Services (optional / commented out) ────────────────────────────────────
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
@@ -216,4 +230,3 @@ in
   # ── System ─────────────────────────────────────────────────────────────────
   system.stateVersion = "26.05"; # Did you read the comment?
 }
-

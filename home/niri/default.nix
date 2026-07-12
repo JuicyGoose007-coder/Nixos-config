@@ -17,11 +17,8 @@ let
   ];
 in
 {
-  xdg.configFile."niri/config.kdl" = {
-    force = true;
-    text = ''
-      // Niri configuration for NixOS — assembled from home/niri/*.nix
-    ''
-    + lib.concatMapStringsSep "\n\n" (s: s.text) sections;
-  };
+  programs.niri.config = ''
+    // Niri configuration for NixOS — assembled from home/niri/*.nix
+  ''
+  + lib.concatMapStringsSep "\n\n" (s: s.text) sections;
 }
