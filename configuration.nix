@@ -213,6 +213,9 @@ in
   # tags for VIDs 03eb/31e3). uaccess grants the logged-in user hidraw access.
   hardware.wooting.enable = true;
 
+  # ── Ploopy Adept ───────────────────────────────────────────────────────
+  hardware.keyboard.qmk.enable = true;
+
   # ── Services (optional / commented out) ────────────────────────────────────
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
@@ -228,5 +231,5 @@ in
   virtualisation.docker.enable = true;
 
   # ── System ─────────────────────────────────────────────────────────────────
-  system.stateVersion = "26.05"; # Did you read the comment?
+  system.stateVersion = "26.05";
 }
