@@ -117,6 +117,9 @@ alias h='history'
 alias j='jobs'
 alias c='clear'
 alias cat='bat'
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
 
 # Update
 alias update='cd /etc/nixos/ && nix flake update'
@@ -130,6 +133,7 @@ alias rb='reboot'
 alias rt='riptide'
 alias wm='wiremix'
 
+# Git
 alias g='git'
 alias gs='git status'
 alias ga='git add'
@@ -141,9 +145,8 @@ alias gd='git diff'
 # Lazygit
 alias lg='lazygit'
 
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
+# Kill
+alias kill='pkill -f '
 
 # ============================================================================
 # FUNCTIONS
