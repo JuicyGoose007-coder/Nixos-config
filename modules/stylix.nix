@@ -4,7 +4,7 @@
   stylix = {
     enable = true;
     enableReleaseChecks = false;
-    image  = ../wallpapers/sushi.jpg;
+    image = ../wallpapers/sushi.jpg;
 
     base16Scheme = {
       scheme = "Gruvbox Dark";
@@ -30,13 +30,13 @@
     fonts = {
       monospace = {
         package = pkgs.nerd-fonts.jetbrains-mono;
-        name    = "JetBrainsMono Nerd Font Mono";
+        name = "JetBrainsMono Nerd Font";
       };
       sansSerif = {
         package = pkgs.inter;
-        name    = "Inter";
+        name = "Inter";
       };
-      sizes.terminal     = 12;
+      sizes.terminal = 12;
       sizes.applications = 11;
     };
 
