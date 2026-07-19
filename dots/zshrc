@@ -128,6 +128,9 @@ alias test='sudo nixos-rebuild test --flake "/etc/nixos#nixos"'
 alias rollback='sudo nixos-rebuild switch --rollback'
 alias flakeback='git -C /etc/nixos checkout -- flake.lock'
 
+# Delete Old Rollback
+alias gen-delete='sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations +5 && sudo nix-collect-garbage && sudo nixos-rebuild boot'
+
 # Programs
 alias y='yazi'
 alias nv='nvim'
