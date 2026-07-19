@@ -34,10 +34,15 @@
   stylix.targets.waybar.enable = true;
   stylix.targets.fzf.enable = true;
   stylix.targets.starship.enable = true;
-  stylix.targets.tmux.enable = false;
+  stylix.targets.tmux.enable = true;
   stylix.targets.yazi.enable = true;
   stylix.targets.hyprlock.enable = false;
   stylix.targets.neovim.enable = false;
+
+  # Unlock tinted-tmux's powerline status bar (session left, date/time/host right).
+  # stylix's tmux target sources the tinted-tmux template, whose fuller status bar is
+  # gated behind this shell env var; set it session-wide so the tmux server inherits it.
+  home.sessionVariables.TINTED_TMUX_OPTION_STATUSBAR = "1";
 
   home.pointerCursor = {
     gtk.enable = true;

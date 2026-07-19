@@ -3,7 +3,7 @@
 {
   programs.tmux = {
     enable = true;
-    prefix = "C-a";
+    prefix = "C-b";
     baseIndex = 1;
     escapeTime = 50;
     aggressiveResize = true;
@@ -115,34 +115,8 @@
           set -g pane-border-indicators arrows
       }
 
-      # ── Status bar (Gruvbox Dark) ──────────────────────────────────────────
-      set -g status-style          "bg=#3c3836,fg=#d5c4a1"
-      set -g status-interval       1
-      set -g status-justify        centre
-      set -g status-left-length    30
-      set -g status-right-length   30
-
-      set-option -g pane-border-style           "fg=#504945"
-      set-option -g pane-active-border-style    "fg=#fabd2f"
-      set-option -g message-style               "bg=#3c3836,fg=#fe8019"
-      set-option -g display-panes-colour        "#fabd2f"
-      set-option -g display-panes-active-colour "#b8bb26"
-      set-window-option -g clock-mode-colour    "#83a598"
-
-      set -g window-status-style         "fg=#bdae93,bg=#3c3836,dim"
-      set -g window-status-current-style "fg=#fabd2f,bg=#3c3836,bold"
-      set -g window-status-separator     " "
-
-      # Left:  [󱄅] > [session]
-      set -g status-left  '#[fg=#ebdbb2,bg=#3c3836] 󱄅 #[fg=#3c3836,bg=#b8bb26]#[fg=#282828,bg=#b8bb26,bold] #S #[fg=#b8bb26,bg=#3c3836]#[none]          '
-
-      # Right: [date] > [time]
-      set -g status-right '#[fg=#504945,bg=#3c3836]#[fg=#d5c4a1,bg=#504945] %Y-%m-%d #[fg=#fabd2f,bg=#504945]#[fg=#282828,bg=#fabd2f,bold] %I:%M %p #[fg=#3c3836,bg=#fabd2f]'
-
-      # Window tabs (centre)
-      set -g window-status-format         '#[fg=#3c3836,bg=#504945]#[fg=#bdae93,bg=#504945] #I:#W #[fg=#504945,bg=#3c3836]'
-      set -g window-status-current-format '#[fg=#3c3836,bg=#83a598]#[fg=#282828,bg=#83a598,bold] #I:#W #[fg=#83a598,bg=#3c3836]'
-
+      # Status bar colors + layout are provided by stylix (tinted-tmux base16 template).
+      set -g status-interval 1
     '';
   };
 }
