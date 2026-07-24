@@ -9,6 +9,7 @@
     gcc
     obsidian
     via
+    go
 
     # Other distro packages
     distrobox
