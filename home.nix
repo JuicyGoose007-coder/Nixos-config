@@ -21,6 +21,7 @@
     ./home/wlogout.nix
     ./home/rofi.nix
     ./home/git.nix
+    ./home/nls.nix
   ];
 
   home.username = "juicygoose007";
