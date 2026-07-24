@@ -97,16 +97,22 @@ function zvm_after_init {
 # Sudo
 alias sudo='sudo '
 
-if command -v eza >/dev/null 2>&1; then
+# NLS
+if command -v nls >/dev/null 2>&1; then
+    alias ls='nls'
+    alias ll='nls -l'
+    alias la='nls -la'
+elif command -v eza >/dev/null 2>&1; then
     alias ls='eza --color=always'
     alias ll='eza -la --color=always'
     alias la='eza -a --color=always'
-    alias lt='eza --tree --color=always'
 else
     alias ls='ls --color=auto'
     alias ll='ls -la --color=auto'
     alias la='ls -a --color=auto'
 fi
+
+alias lt='eza --tree --color=always'
 
 # System
 alias grep='grep --color=auto'
