@@ -12,6 +12,7 @@
     spawn-sh-at-startup "hyprlock --daemonize"
     spawn-sh-at-startup "steam -no-browser"
     spawn-sh-at-startup "vesktop"
+    spawn-sh-at-startup "ghostty"
     // Turn on DP-1
     spawn-sh-at-startup "sudo -n /run/current-system/sw/bin/dp1-on; sleep 1; niri msg output DP-1 on"
     spawn-sh-at-startup "niri msg action focus-workspace Main"

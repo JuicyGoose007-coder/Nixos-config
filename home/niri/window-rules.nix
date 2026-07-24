@@ -147,6 +147,7 @@
             open-on-output "DP-1"
             open-on-workspace "Discord"
             open-maximized true
+            open-focused false
             opacity 0.9
         }
 
