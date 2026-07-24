@@ -10,6 +10,7 @@
     ./home/packages.nix
     ./home/shell.nix
     ./home/ghostty.nix
+    ./home/kitty.nix
     ./home/starship.nix
     ./home/waybar.nix
     ./home/yazi.nix
@@ -39,6 +40,8 @@
   stylix.targets.yazi.enable = true;
   stylix.targets.hyprlock.enable = false;
   stylix.targets.neovim.enable = false;
+  stylix.targets.kitty.enable = true;
+  stylix.targets.ghostty.enable = true;
 
   # Unlock tinted-tmux's powerline status bar (session left, date/time/host right).
   # stylix's tmux target sources the tinted-tmux template, whose fuller status bar is

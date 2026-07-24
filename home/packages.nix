@@ -41,9 +41,6 @@
     mako
     swaynotificationcenter
 
-    # Terminals
-    kitty
-
     # Audio & media
     pavucontrol
     playerctl
