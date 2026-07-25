@@ -13,7 +13,7 @@
     ./home/kitty.nix
     ./home/starship.nix
     ./home/waybar.nix
-    ./home/yazi.nix
+    ./home/superfile.nix
     ./home/hyprlock.nix
     ./home/nvim.nix
     ./home/niri
@@ -37,7 +37,6 @@
   stylix.targets.fzf.enable = true;
   stylix.targets.starship.enable = true;
   stylix.targets.tmux.enable = true;
-  stylix.targets.yazi.enable = true;
   stylix.targets.hyprlock.enable = false;
   stylix.targets.neovim.enable = false;
   stylix.targets.kitty.enable = true;

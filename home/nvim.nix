@@ -62,6 +62,7 @@
           operators = {};
           pairs     = {};
           surround  = {};
+          files     = { mappings = { go_in_plus = "<CR>"; }; };
         };
       };
 
@@ -138,11 +139,6 @@
           exclude.filetypes = [ "ministarter" "help" "dashboard" "alpha" ];
         };
       };
-
-      yazi = {
-        enable                       = true;
-        settings.open_for_directories = false;
-      };
     };
 
     # ── Extra plugins ────────────────────────────────────────────────────────
@@ -168,8 +164,21 @@
       { key = "<leader>wq"; action = "<cmd>wq<cr>";   mode = "n"; options.desc = "Save and quit"; }
       { key = "<leader>so"; action = "<cmd>so %<cr>"; mode = "n"; options.desc = "Source file"; }
 
-      # File explorer
-      { key = "<leader>e"; action = "<cmd>Yazi<cr>"; mode = "n"; options.desc = "File explorer"; }
+      # File explorer (mini.files — toggle at current file's dir, else cwd)
+      {
+        key  = "<leader>e";
+        mode = "n";
+        options.desc = "File explorer";
+        action.__raw = ''
+          function()
+            local mf = require("mini.files")
+            if not mf.close() then
+              local path = vim.api.nvim_buf_get_name(0)
+              mf.open(path ~= "" and path or vim.fn.getcwd())
+            end
+          end
+        '';
+      }
 
       # Lazygit (floating terminal)
       {
@@ -326,6 +335,18 @@
           end
         '';
       }
+      {
+        # In mini.files, `l` enters a directory or opens a file and closes.
+        event   = "User";
+        pattern = "MiniFilesBufferCreate";
+        callback.__raw = ''
+          function(args)
+            vim.keymap.set("n", "l", function()
+              require("mini.files").go_in({ close_on_file = true })
+            end, { buffer = args.data.buf_id })
+          end
+        '';
+      }
     ];
 
     # ── Extra Lua ─────────────────────────────────────────────────────────────
@@ -374,7 +395,7 @@
             { name = "find files  󰈞",  action = "FzfLua files",             section = "Actions" },
             { name = "grep  󰍉",        action = "FzfLua live_grep",         section = "Actions" },
             { name = "config  󰒓",    action = "edit /etc/nixos/home/nvim.nix", section = "Actions" },
-            { name = "explorer  󰙅",    action = "Yazi",                     section = "Actions" },
+            { name = "explorer  󰙅",    action = "lua require('mini.files').open()", section = "Actions" },
             { name = "new file  󰈔",    action = "enew",                     section = "Actions" },
             { name = "quit  󰩈",        action = "qall",                     section = "Actions" },
           },

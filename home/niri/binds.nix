@@ -23,7 +23,7 @@
 
         // Please choose your own file manager
         MOD+E                             hotkey-overlay-title="File Manager: Dolphin" { spawn-sh "dolphin"; }
-        MOD+Y                               hotkey-overlay-title="Open File Manager: Yazi"{ spawn "ghostty" "-e" "zsh" "-ic" "yazi"; }
+        MOD+Y                               hotkey-overlay-title="Open File Manager: superfile"{ spawn "ghostty" "-e" "zsh" "-ic" "superfile"; }
 
         // ─── Audio Controls ───
         // Example volume keys mappings for PipeWire & WirePlumber.

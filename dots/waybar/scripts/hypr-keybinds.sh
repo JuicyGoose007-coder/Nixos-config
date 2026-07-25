@@ -108,7 +108,7 @@ derive_label() {
 				*launcher*) echo "Launcher" ;; *wallpaper-switcher*) echo "Wallpaper" ;;
 				*theme-switcher*) echo "Theme" ;; *waybar-layout-switcher*) echo "Layout Switcher" ;;
 				*keybinds*) echo "Keybinds" ;; *swaync*) echo "Notifications" ;;
-				*hyprlock*) echo "Lock" ;; *yazi*) echo "Yazi" ;;
+				*hyprlock*) echo "Lock" ;; *superfile*) echo "Files" ;;
 				*cliphist*) echo "Clipboard" ;;
 				*wpctl*set-volume*5%\+*) echo "Vol Up" ;; *wpctl*set-volume*5%-*) echo "Vol Down" ;;
 				*wpctl*set-mute*SOURCE*) echo "Mic Mute" ;; *wpctl*set-mute*toggle*) echo "Mute" ;;
