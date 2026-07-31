@@ -15,7 +15,7 @@
     ./home/waybar.nix
     ./home/superfile.nix
     ./home/hyprlock.nix
-    ./home/nvim.nix
+    ./home/nvim
     ./home/niri
     ./home/tmux.nix
     ./home/fastfetch.nix
