@@ -48,7 +48,9 @@
       bind-key -N "Split vertical"      v split-window -h -c "#{pane_current_path}"
 
       # Smart pane switching with vim-tmux-navigator (no prefix required)
-      is_vim="ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\S+\/)?g?(view|l?n?vim?x?|fzf)(diff)?$'"
+      # Match only the pane's FOREGROUND command, so a backgrounded/child nvim
+      # or fzf lingering on the same tty can't hijack C-h/j/k/l in a shell pane.
+      is_vim="echo '#{pane_current_command}' | grep -iqE '^(g?(view|l?n?vim?x?)(diff)?|fzf)$'"
       bind-key -n 'C-h' if-shell "$is_vim" 'send-keys C-h' 'select-pane -L'
       bind-key -n 'C-j' if-shell "$is_vim" 'send-keys C-j' 'select-pane -D'
       bind-key -n 'C-k' if-shell "$is_vim" 'send-keys C-k' 'select-pane -U'

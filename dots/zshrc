@@ -138,7 +138,7 @@ alias flakeback='git -C /etc/nixos checkout -- flake.lock'
 alias gen-delete='sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations +5 && sudo nix-collect-garbage && sudo nixos-rebuild boot'
 
 # Programs
-alias y='superfile'
+alias spf='superfile'
 alias nv='nvim'
 alias rb='reboot'
 alias rt='riptide'

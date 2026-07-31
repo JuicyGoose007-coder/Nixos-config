@@ -34,11 +34,9 @@
     kdePackages.kio-fuse
 
     # Status bar & launcher
-    fuzzel
     rofi
 
     # Notifications
-    mako
     swaynotificationcenter
 
     # Audio & media

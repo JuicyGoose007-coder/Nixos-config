@@ -5,11 +5,6 @@
     // ────────────── Window Rules ──────────────
 
         window-rule {
-            match app-id=r#"firefox$"# title="^Picture-in-Picture$"
-            open-floating true // Always float Firefox PiP windows
-        }
-
-        window-rule {
             geometry-corner-radius 20 // Set every window radius to 20
             clip-to-geometry true
         }
@@ -109,13 +104,6 @@
 
         window-rule{
           match title="Battle.net"
-            match app-id="steam_app_0"
-            default-column-width { proportion 0.5; }
-            open-focused false
-            open-on-workspace "Gaming"
-        }
-
-        window-rule{
           match title="Battle.net Login"
             match app-id="steam_app_0"
             default-column-width { proportion 0.5; }

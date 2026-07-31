@@ -51,9 +51,6 @@ in
   # ── Networking ─────────────────────────────────────────────────────────────
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
-  # networking.wireless.enable = true;
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # ── Locale & Time ──────────────────────────────────────────────────────────
   time.timeZone = "America/New_York";
@@ -191,8 +188,6 @@ in
 
   # ── Polkit ─────────────────────────────────────────────────────────────────
   security.polkit.enable = true;
-  # polkit_gnome in systemPackages ships an autostart .desktop file that
-  # registers the agent automatically — no extra systemd unit needed.
 
   # ── FUSE ───────────────────────────────────────────────────────────────────
   # Required for xdg-document-portal to mount /run/user/1000/doc via fusermount3
@@ -209,8 +204,6 @@ in
   services.udisks2.enable = true;
 
   # ── Wooting keyboard ───────────────────────────────────────────────────────
-  # Installs wootility + the official udev rules (70-wooting.rules with uaccess
-  # tags for VIDs 03eb/31e3). uaccess grants the logged-in user hidraw access.
   hardware.wooting.enable = true;
 
   # ── Ploopy Adept ───────────────────────────────────────────────────────

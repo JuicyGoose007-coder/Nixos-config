@@ -21,9 +21,9 @@
         MOD+ALT+R                           hotkey-overlay-title="Launch Waybar" { spawn-sh "/etc/nixos/scripts/waybar.sh"; }
         
 
-        // Please choose your own file manager
+        // File manager
         MOD+E                             hotkey-overlay-title="File Manager: Dolphin" { spawn-sh "dolphin"; }
-        MOD+Y                               hotkey-overlay-title="Open File Manager: superfile"{ spawn "ghostty" "-e" "zsh" "-ic" "superfile"; }
+        MOD+S                               hotkey-overlay-title="Open File Manager: superfile"{ spawn "ghostty" "-e" "zsh" "-ic" "superfile"; }
 
         // ─── Audio Controls ───
         // Example volume keys mappings for PipeWire & WirePlumber.

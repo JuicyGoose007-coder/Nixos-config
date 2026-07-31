@@ -2,8 +2,8 @@
 
 {
   programs.nixvim = {
-    enable           = true;
-    nixpkgs.source   = pkgs.path;
+    enable = true;
+    nixpkgs.source = pkgs.path;
 
     # Formatter binaries must be on Neovim's PATH — enabling the LSP / naming a
     # conform formatter does NOT install them. nixfmt provides the `nixfmt`
@@ -11,83 +11,125 @@
     extraPackages = [ pkgs.nixfmt ];
 
     globals = {
-      mapleader      = " ";
+      mapleader = " ";
       maplocalleader = " ";
     };
 
     opts = {
-      number         = true;
+      number = true;
       relativenumber = true;
-      tabstop        = 2;
-      shiftwidth     = 2;
-      expandtab      = true;
-      smartindent    = true;
-      wrap           = true;
-      linebreak      = true;
-      breakindent    = true;
-      termguicolors  = true;
-      scrolloff      = 8;
-      signcolumn     = "yes";
-      autoread       = true;
-      mouse          = "a";
-      undofile       = true;
-      clipboard      = "unnamedplus";
-      ignorecase     = true;
-      smartcase      = true;
-      cursorline     = true;
-      cmdheight      = 1;
+      tabstop = 2;
+      shiftwidth = 2;
+      expandtab = true;
+      smartindent = true;
+      wrap = true;
+      linebreak = true;
+      breakindent = true;
+      termguicolors = true;
+      scrolloff = 8;
+      signcolumn = "yes";
+      autoread = true;
+      mouse = "a";
+      undofile = true;
+      clipboard = "unnamedplus";
+      ignorecase = true;
+      smartcase = true;
+      cursorline = true;
+      cmdheight = 1;
     };
 
     # ── Colorscheme ──────────────────────────────────────────────────────────
     colorschemes.gruvbox = {
-      enable   = true;
+      enable = true;
       settings = {
-        contrast_dark  = "hard";
-        italic.strings = false;
+        contrast_dark = "hard";
+        italic.strings = true;
       };
     };
 
     # ── Plugins ──────────────────────────────────────────────────────────────
     plugins = {
-      web-devicons.enable      = true;
+      web-devicons.enable = true;
       friendly-snippets.enable = true;
-      which-key.enable         = true;
-      harpoon.enable           = true;
-      fzf-lua.enable           = true;
+      which-key.enable = true;
+      harpoon.enable = true;
+      fzf-lua.enable = true;
+      flash.enable = true;
 
       mini = {
-        enable  = true;
+        enable = true;
         modules = {
-          ai        = {};
-          operators = {};
-          pairs     = {};
-          surround  = {};
-          files     = { mappings = { go_in_plus = "<CR>"; }; };
+          ai = { };
+          operators = { };
+          sessions = { }; # per-cwd session save/restore (see <leader>S* keymaps)
+          pairs = { };
+          surround = { };
+          files = {
+            mappings = {
+              go_in_plus = "<CR>";
+            };
+          };
+          diff = { };
+          bracketed = { };
+          trailspace = { };
+          hipatterns = {
+            highlighters = {
+              fixme = {
+                pattern = "%f[%w]()FIXME()%f[%W]";
+                group = "MiniHipatternsFixme";
+              };
+              hack = {
+                pattern = "%f[%w]()HACK()%f[%W]";
+                group = "MiniHipatternsHack";
+              };
+              todo = {
+                pattern = "%f[%w]()TODO()%f[%W]";
+                group = "MiniHipatternsTodo";
+              };
+              note = {
+                pattern = "%f[%w]()NOTE()%f[%W]";
+                group = "MiniHipatternsNote";
+              };
+              hex_color = {
+                __raw = "require('mini.hipatterns').gen_highlighter.hex_color()";
+              };
+            };
+          };
         };
       };
 
       treesitter = {
         enable = true;
         settings.ensure_installed = [
-          "python" "lua" "rust" "html" "css"
-          "toml" "json" "yaml" "vim" "vimdoc"
-          "markdown" "kde"
+          "python"
+          "lua"
+          "rust"
+          "html"
+          "css"
+          "toml"
+          "json"
+          "yaml"
+          "vim"
+          "vimdoc"
+          "markdown"
+          "markdown_inline"
+          "kde"
         ];
       };
 
       lsp = {
-        enable  = true;
+        enable = true;
         servers = {
-          nixd.enable    = true;
+          nixd.enable = true;
           pyright.enable = true;
-          lua_ls.enable  = true;
-          taplo.enable   = true;
-          yamlls.enable  = true;
-          jsonls.enable  = true;
-          html.enable    = true;
-          cssls.enable   = true;
-          rust_analyzer  = {
-            enable       = true;
+          lua_ls.enable = true;
+          taplo.enable = true;
+          yamlls.enable = true;
+          jsonls.enable = true;
+          html.enable = true;
+          cssls.enable = true;
+          rust_analyzer = {
+            enable = true;
             installCargo = false;
             installRustc = false;
           };
@@ -95,49 +137,93 @@
       };
 
       conform-nvim = {
-        enable   = true;
+        enable = true;
         settings = {
           formatters_by_ft = {
-            nix    = [ "nixfmt" ];
-            lua    = [ "stylua" ];
-            python = [ "ruff_organize_imports" "ruff_format" ];
-            rust   = [ "rustfmt" ];
-            html   = [ "prettier" ];
-            css    = [ "prettier" ];
-            json   = [ "prettier" ];
-            yaml   = [ "prettier" ];
-            toml   = [ "taplo" ];
+            nix = [ "nixfmt" ];
+            lua = [ "stylua" ];
+            python = [
+              "ruff_organize_imports"
+              "ruff_format"
+            ];
+            rust = [ "rustfmt" ];
+            html = [ "prettier" ];
+            css = [ "prettier" ];
+            json = [ "prettier" ];
+            yaml = [ "prettier" ];
+            toml = [ "taplo" ];
           };
           format_on_save = {
-            timeout_ms   = 500;
+            timeout_ms = 500;
             lsp_fallback = true;
           };
         };
       };
 
       blink-cmp = {
-        enable   = true;
+        enable = true;
         settings = {
           keymap = {
-            preset    = "enter";
-            "<Tab>"   = [ "select_next" "fallback" ];
-            "<S-Tab>" = [ "select_prev" "fallback" ];
+            preset = "enter";
+            "<Tab>" = [
+              "select_next"
+              "fallback"
+            ];
+            "<S-Tab>" = [
+              "select_prev"
+              "fallback"
+            ];
           };
           completion.ghost_text = {
-            enabled                = true;
+            enabled = true;
             show_without_selection = true;
           };
-          sources.default = [ "lsp" "path" "snippets" "buffer" ];
+          sources.default = [
+            "lsp"
+            "path"
+            "snippets"
+            "buffer"
+          ];
         };
       };
 
       indent-blankline = {
-        enable   = true;
+        enable = true;
         settings = {
-          indent.char       = "│";
-          scope.enabled     = true;
-          exclude.filetypes = [ "ministarter" "help" "dashboard" "alpha" ];
+          indent.char = "│";
+          scope.enabled = true;
+          exclude.filetypes = [
+            "ministarter"
+            "help"
+            "dashboard"
+            "alpha"
+          ];
         };
+      };
+
+      trouble.enable = true; # diagnostics / quickfix / loclist list
+      fidget.enable = true; # LSP progress spinner
+      todo-comments.enable = true; # search/jump the TODOs mini.hipatterns highlights
+      render-markdown.enable = true; # inline markdown rendering
+
+      # ── Debugging (DAP) ──────────────────────────────────────────────────────
+      dap = {
+        enable = true;
+        # Auto-open / auto-close dap-ui around a debug session.
+        extensionConfigLua = ''
+          local dap, dapui = require("dap"), require("dapui")
+          dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
+          dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
+          dap.listeners.before.event_exited["dapui_config"]     = function() dapui.close() end
+        '';
+      };
+      dap-ui.enable = true;
+      dap-virtual-text.enable = true;
+      dap-python.enable = true; # adapterPythonPath defaults to python3 + debugpy
+
+      dap-lldb = {
+        enable = true; # Rust/C/C++: ships ready-made Debug / Debug tests / Attach configs
+        settings.codelldb_path = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb";
       };
     };
 
@@ -147,10 +233,10 @@
       vim-visual-multi
       (pkgs.vimUtils.buildVimPlugin {
         name = "undotree-jiaoshijie";
-        src  = pkgs.fetchFromGitHub {
-          owner  = "jiaoshijie";
-          repo   = "undotree";
-          rev    = "02b69aed427b848c4dca483fc5e9524b6019c296";
+        src = pkgs.fetchFromGitHub {
+          owner = "jiaoshijie";
+          repo = "undotree";
+          rev = "02b69aed427b848c4dca483fc5e9524b6019c296";
           sha256 = "1z33z5kd4p46bmqpxk71p46gi2g32a2dfnyzadd4yi0q7iyqa083";
         };
       })
@@ -159,14 +245,34 @@
     # ── Keymaps ──────────────────────────────────────────────────────────────
     keymaps = [
       # Save / quit
-      { key = "<leader>qq"; action = "<cmd>q<cr>";    mode = "n"; options.desc = "Quit"; }
-      { key = "<leader>ww"; action = "<cmd>w<cr>";    mode = "n"; options.desc = "Save"; }
-      { key = "<leader>wq"; action = "<cmd>wq<cr>";   mode = "n"; options.desc = "Save and quit"; }
-      { key = "<leader>so"; action = "<cmd>so %<cr>"; mode = "n"; options.desc = "Source file"; }
+      {
+        key = "<leader>qq";
+        action = "<cmd>q<cr>";
+        mode = "n";
+        options.desc = "Quit";
+      }
+      {
+        key = "<leader>ww";
+        action = "<cmd>w<cr>";
+        mode = "n";
+        options.desc = "Save";
+      }
+      {
+        key = "<leader>wq";
+        action = "<cmd>wq<cr>";
+        mode = "n";
+        options.desc = "Save and quit";
+      }
+      {
+        key = "<leader>so";
+        action = "<cmd>so %<cr>";
+        mode = "n";
+        options.desc = "Source file";
+      }
 
       # File explorer (mini.files — toggle at current file's dir, else cwd)
       {
-        key  = "<leader>e";
+        key = "<leader>e";
         mode = "n";
         options.desc = "File explorer";
         action.__raw = ''
@@ -182,7 +288,7 @@
 
       # Lazygit (floating terminal)
       {
-        key  = "<leader>gg";
+        key = "<leader>gg";
         mode = "n";
         options.desc = "Lazygit";
         action.__raw = ''
@@ -205,104 +311,498 @@
       }
 
       # Fuzzy finder
-      { key = "<leader>ff"; action = "<cmd>FzfLua files<cr>";       mode = "n"; options.desc = "Find files"; }
-      { key = "<leader>fg"; action = "<cmd>FzfLua live_grep<cr>";   mode = "n"; options.desc = "Live grep"; }
-      { key = "<leader>/";  action = "<cmd>FzfLua blines<cr>";      mode = "n"; options.desc = "Search current file"; }
-      { key = "<leader>fb"; action = "<cmd>FzfLua buffers<cr>";     mode = "n"; options.desc = "Find buffers"; }
-      { key = "<leader>fc"; action = "<cmd>FzfLua commands<cr>";    mode = "n"; options.desc = "Commands"; }
-      { key = "<leader>fk"; action = "<cmd>FzfLua keymaps<cr>";     mode = "n"; options.desc = "Keymaps"; }
-      { key = "<leader>*";  action = "<cmd>FzfLua grep_cword<cr>";  mode = "n"; options.desc = "Grep word under cursor"; }
-      { key = "<leader>gv"; action = "<cmd>FzfLua grep_visual<cr>"; mode = "x"; options.desc = "Grep visual selection"; }
+      {
+        key = "<leader>ff";
+        action = "<cmd>FzfLua files<cr>";
+        mode = "n";
+        options.desc = "Find files";
+      }
+      {
+        key = "<leader>fg";
+        action = "<cmd>FzfLua live_grep<cr>";
+        mode = "n";
+        options.desc = "Live grep";
+      }
+      {
+        key = "<leader>/";
+        action = "<cmd>FzfLua blines<cr>";
+        mode = "n";
+        options.desc = "Search current file";
+      }
+      {
+        key = "<leader>fb";
+        action = "<cmd>FzfLua buffers<cr>";
+        mode = "n";
+        options.desc = "Find buffers";
+      }
+      {
+        key = "<leader>fc";
+        action = "<cmd>FzfLua commands<cr>";
+        mode = "n";
+        options.desc = "Commands";
+      }
+      {
+        key = "<leader>fk";
+        action = "<cmd>FzfLua keymaps<cr>";
+        mode = "n";
+        options.desc = "Keymaps";
+      }
+      {
+        key = "<leader>*";
+        action = "<cmd>FzfLua grep_cword<cr>";
+        mode = "n";
+        options.desc = "Grep word under cursor";
+      }
+      {
+        key = "<leader>gv";
+        action = "<cmd>FzfLua grep_visual<cr>";
+        mode = "x";
+        options.desc = "Grep visual selection";
+      }
 
       # Grep in current file
-      { key = "<leader>s*"; action = "<cmd>grep! <cword> %<cr>"; mode = "n"; options.desc = "Grep word in file"; }
+      {
+        key = "<leader>s*";
+        action = "<cmd>grep! <cword> %<cr>";
+        mode = "n";
+        options.desc = "Grep word in file";
+      }
 
       # Quickfix
-      { key = "<leader>qo"; action = "<cmd>copen<cr>";  mode = "n"; options.desc = "Open quickfix"; }
-      { key = "<leader>qc"; action = "<cmd>cclose<cr>"; mode = "n"; options.desc = "Close quickfix"; }
-      { key = "]q"; action = "<cmd>cnext<cr>"; mode = "n"; options.desc = "Next quickfix"; }
-      { key = "[q"; action = "<cmd>cprev<cr>"; mode = "n"; options.desc = "Prev quickfix"; }
+      {
+        key = "<leader>qo";
+        action = "<cmd>copen<cr>";
+        mode = "n";
+        options.desc = "Open quickfix";
+      }
+      {
+        key = "<leader>qc";
+        action = "<cmd>cclose<cr>";
+        mode = "n";
+        options.desc = "Close quickfix";
+      }
+      {
+        key = "]q";
+        action = "<cmd>cnext<cr>";
+        mode = "n";
+        options.desc = "Next quickfix";
+      }
+      {
+        key = "[q";
+        action = "<cmd>cprev<cr>";
+        mode = "n";
+        options.desc = "Prev quickfix";
+      }
 
       # Harpoon
-      { key = "<leader>ha"; mode = "n"; options.desc = "Harpoon add file";
-        action.__raw = "function() require('harpoon'):list():add() end"; }
-      { key = "<leader>hh"; mode = "n"; options.desc = "Harpoon menu";
-        action.__raw = "function() require('harpoon').ui:toggle_quick_menu(require('harpoon'):list()) end"; }
-      { key = "<leader>1"; mode = "n"; options.desc = "Harpoon file 1";
-        action.__raw = "function() require('harpoon'):list():select(1) end"; }
-      { key = "<leader>2"; mode = "n"; options.desc = "Harpoon file 2";
-        action.__raw = "function() require('harpoon'):list():select(2) end"; }
-      { key = "<leader>3"; mode = "n"; options.desc = "Harpoon file 3";
-        action.__raw = "function() require('harpoon'):list():select(3) end"; }
-      { key = "<leader>4"; mode = "n"; options.desc = "Harpoon file 4";
-        action.__raw = "function() require('harpoon'):list():select(4) end"; }
+      {
+        key = "<leader>ha";
+        mode = "n";
+        options.desc = "Harpoon add file";
+        action.__raw = "function() require('harpoon'):list():add() end";
+      }
+      {
+        key = "<leader>hh";
+        mode = "n";
+        options.desc = "Harpoon menu";
+        action.__raw = "function() require('harpoon').ui:toggle_quick_menu(require('harpoon'):list()) end";
+      }
+      {
+        key = "<leader>1";
+        mode = "n";
+        options.desc = "Harpoon file 1";
+        action.__raw = "function() require('harpoon'):list():select(1) end";
+      }
+      {
+        key = "<leader>2";
+        mode = "n";
+        options.desc = "Harpoon file 2";
+        action.__raw = "function() require('harpoon'):list():select(2) end";
+      }
+      {
+        key = "<leader>3";
+        mode = "n";
+        options.desc = "Harpoon file 3";
+        action.__raw = "function() require('harpoon'):list():select(3) end";
+      }
+      {
+        key = "<leader>4";
+        mode = "n";
+        options.desc = "Harpoon file 4";
+        action.__raw = "function() require('harpoon'):list():select(4) end";
+      }
 
       # LSP
-      { key = "gd";         action.__raw = "vim.lsp.buf.definition";  mode = "n"; options.desc = "Go to definition"; }
-      { key = "gR";         action.__raw = "vim.lsp.buf.references";  mode = "n"; options.desc = "References"; }
-      { key = "K";          action.__raw = "vim.lsp.buf.hover";       mode = "n"; options.desc = "Hover docs"; }
-      { key = "<leader>ca"; action.__raw = "vim.lsp.buf.code_action"; mode = "n"; options.desc = "Code action"; }
-      { key = "<leader>cr"; action.__raw = "vim.lsp.buf.rename";      mode = "n"; options.desc = "Rename"; }
+      {
+        key = "gd";
+        action.__raw = "vim.lsp.buf.definition";
+        mode = "n";
+        options.desc = "Go to definition";
+      }
+      {
+        key = "gR";
+        action.__raw = "vim.lsp.buf.references";
+        mode = "n";
+        options.desc = "References";
+      }
+      {
+        key = "K";
+        action.__raw = "vim.lsp.buf.hover";
+        mode = "n";
+        options.desc = "Hover docs";
+      }
+      {
+        key = "<leader>ca";
+        action.__raw = "vim.lsp.buf.code_action";
+        mode = "n";
+        options.desc = "Code action";
+      }
+      {
+        key = "<leader>cr";
+        action.__raw = "vim.lsp.buf.rename";
+        mode = "n";
+        options.desc = "Rename";
+      }
 
       # Format
-      { key = "<leader>cf"; mode = "n"; options.desc = "Format file";
-        action.__raw = "function() require('conform').format({ async = true, lsp_fallback = true }) end"; }
+      {
+        key = "<leader>cf";
+        mode = "n";
+        options.desc = "Format file";
+        action.__raw = "function() require('conform').format({ async = true, lsp_fallback = true }) end";
+      }
 
       # Undotree
-      { key = "<leader>u"; action = "<cmd>lua require('undotree').toggle()<cr>"; mode = "n"; options.desc = "Undotree"; }
+      {
+        key = "<leader>u";
+        action = "<cmd>lua require('undotree').toggle()<cr>";
+        mode = "n";
+        options.desc = "Undotree";
+      }
+
+      # Trouble (diagnostics / quickfix / loclist list)
+      {
+        key = "<leader>xx";
+        action = "<cmd>Trouble diagnostics toggle<cr>";
+        mode = "n";
+        options.desc = "Diagnostics (Trouble)";
+      }
+      {
+        key = "<leader>xX";
+        action = "<cmd>Trouble diagnostics toggle filter.buf=0<cr>";
+        mode = "n";
+        options.desc = "Buffer diagnostics (Trouble)";
+      }
+      {
+        key = "<leader>xq";
+        action = "<cmd>Trouble qflist toggle<cr>";
+        mode = "n";
+        options.desc = "Quickfix (Trouble)";
+      }
+      {
+        key = "<leader>xl";
+        action = "<cmd>Trouble loclist toggle<cr>";
+        mode = "n";
+        options.desc = "Location list (Trouble)";
+      }
+
+      # todo-comments (fits the fzf-lua <leader>s* / <leader>f* family)
+      {
+        key = "<leader>st";
+        action = "<cmd>TodoFzfLua<cr>";
+        mode = "n";
+        options.desc = "Search TODOs";
+      }
+      {
+        key = "]t";
+        mode = "n";
+        options.desc = "Next TODO comment";
+        action.__raw = "function() require('todo-comments').jump_next() end";
+      }
+      {
+        key = "[t";
+        mode = "n";
+        options.desc = "Prev TODO comment";
+        action.__raw = "function() require('todo-comments').jump_prev() end";
+      }
+
+      # mini.sessions (per-cwd session save/restore)
+      {
+        key = "<leader>Ss";
+        mode = "n";
+        options.desc = "Session write";
+        action.__raw = "function() require('mini.sessions').write() end";
+      }
+      {
+        key = "<leader>Sl";
+        mode = "n";
+        options.desc = "Session load/select";
+        action.__raw = "function() require('mini.sessions').select() end";
+      }
+
+      # mini.diff
+      {
+        key = "<leader>gd";
+        mode = "n";
+        options.desc = "Toggle mini.diff overlay";
+        action.__raw = "function() require('mini.diff').toggle_overlay(0) end";
+      }
+
+      # ── DAP (debugging) ──────────────────────────────────────────────────────
+      {
+        key = "<leader>db";
+        mode = "n";
+        options.desc = "Toggle breakpoint";
+        action.__raw = "function() require('dap').toggle_breakpoint() end";
+      }
+      {
+        key = "<leader>dc";
+        mode = "n";
+        options.desc = "Continue / start";
+        action.__raw = "function() require('dap').continue() end";
+      }
+      {
+        key = "<leader>di";
+        mode = "n";
+        options.desc = "Step into";
+        action.__raw = "function() require('dap').step_into() end";
+      }
+      {
+        key = "<leader>do";
+        mode = "n";
+        options.desc = "Step over";
+        action.__raw = "function() require('dap').step_over() end";
+      }
+      {
+        key = "<leader>du";
+        mode = "n";
+        options.desc = "Toggle DAP UI";
+        action.__raw = "function() require('dapui').toggle() end";
+      }
 
       # Tmux navigation
-      { key = "<C-h>"; action = "<cmd>TmuxNavigateLeft<cr>";  mode = ["n" "v" "i"]; options.silent = true; }
-      { key = "<C-j>"; action = "<cmd>TmuxNavigateDown<cr>";  mode = ["n" "v" "i"]; options.silent = true; }
-      { key = "<C-k>"; action = "<cmd>TmuxNavigateUp<cr>";    mode = ["n" "v" "i"]; options.silent = true; }
-      { key = "<C-l>"; action = "<cmd>TmuxNavigateRight<cr>"; mode = ["n" "v" "i"]; options.silent = true; }
+      {
+        key = "<C-h>";
+        action = "<cmd>TmuxNavigateLeft<cr>";
+        mode = [
+          "n"
+          "v"
+          "i"
+        ];
+        options.silent = true;
+      }
+      {
+        key = "<C-j>";
+        action = "<cmd>TmuxNavigateDown<cr>";
+        mode = [
+          "n"
+          "v"
+          "i"
+        ];
+        options.silent = true;
+      }
+      {
+        key = "<C-k>";
+        action = "<cmd>TmuxNavigateUp<cr>";
+        mode = [
+          "n"
+          "v"
+          "i"
+        ];
+        options.silent = true;
+      }
+      {
+        key = "<C-l>";
+        action = "<cmd>TmuxNavigateRight<cr>";
+        mode = [
+          "n"
+          "v"
+          "i"
+        ];
+        options.silent = true;
+      }
+
+      # Flash jump (trialling against mini.jump2d)
+      {
+        key = "<leader>j";
+        mode = [
+          "n"
+          "x"
+          "o"
+        ];
+        options.desc = "Flash jump";
+        action.__raw = "function() require('flash').jump() end";
+      }
 
       # Visual-line navigation
-      { key = "j"; mode = ["n" "x"]; action = "v:count == 0 ? 'gj' : 'j'"; options = { expr = true; silent = true; }; }
-      { key = "k"; mode = ["n" "x"]; action = "v:count == 0 ? 'gk' : 'k'"; options = { expr = true; silent = true; }; }
+      {
+        key = "j";
+        mode = [
+          "n"
+          "x"
+        ];
+        action = "v:count == 0 ? 'gj' : 'j'";
+        options = {
+          expr = true;
+          silent = true;
+        };
+      }
+      {
+        key = "k";
+        mode = [
+          "n"
+          "x"
+        ];
+        action = "v:count == 0 ? 'gk' : 'k'";
+        options = {
+          expr = true;
+          silent = true;
+        };
+      }
 
       # Search centred
-      { key = "n"; action = "nzzzv"; mode = "n"; options.silent = true; }
-      { key = "N"; action = "Nzzzv"; mode = "n"; options.silent = true; }
+      {
+        key = "n";
+        action = "nzzzv";
+        mode = "n";
+        options.silent = true;
+      }
+      {
+        key = "N";
+        action = "Nzzzv";
+        mode = "n";
+        options.silent = true;
+      }
 
       # Clear search highlight
-      { key = "<Esc>"; action = "<cmd>nohlsearch<cr>"; mode = "n"; }
+      {
+        key = "<Esc>";
+        action = "<cmd>nohlsearch<cr>";
+        mode = "n";
+      }
 
       # Buffer switching
-      { key = "<S-h>"; action = "<cmd>bprevious<cr>"; mode = "n"; options.desc = "Prev buffer"; }
-      { key = "<S-l>"; action = "<cmd>bnext<cr>";     mode = "n"; options.desc = "Next buffer"; }
+      {
+        key = "<S-h>";
+        action = "<cmd>bprevious<cr>";
+        mode = "n";
+        options.desc = "Prev buffer";
+      }
+      {
+        key = "<S-l>";
+        action = "<cmd>bnext<cr>";
+        mode = "n";
+        options.desc = "Next buffer";
+      }
 
       # Move lines
-      { key = "<A-j>"; action = "<cmd>execute 'move .+' . v:count1<cr>=="; mode = "n"; options.desc = "Move line down"; }
-      { key = "<A-k>"; action = "<cmd>execute 'move .-' . (v:count1 + 1)<cr>=="; mode = "n"; options.desc = "Move line up"; }
-      { key = "<A-j>"; action = ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv"; mode = "v"; options.desc = "Move selection down"; }
-      { key = "<A-k>"; action = ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv"; mode = "v"; options.desc = "Move selection up"; }
+      {
+        key = "<A-j>";
+        action = "<cmd>execute 'move .+' . v:count1<cr>==";
+        mode = "n";
+        options.desc = "Move line down";
+      }
+      {
+        key = "<A-k>";
+        action = "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==";
+        mode = "n";
+        options.desc = "Move line up";
+      }
+      {
+        key = "<A-j>";
+        action = ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv";
+        mode = "v";
+        options.desc = "Move selection down";
+      }
+      {
+        key = "<A-k>";
+        action = ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv";
+        mode = "v";
+        options.desc = "Move selection up";
+      }
 
       # Indent keeps selection
-      { key = "<"; action = "<gv"; mode = "x"; }
-      { key = ">"; action = ">gv"; mode = "x"; }
+      {
+        key = "<";
+        action = "<gv";
+        mode = "x";
+      }
+      {
+        key = ">";
+        action = ">gv";
+        mode = "x";
+      }
 
       # Centred scroll
-      { key = "<C-d>"; action = "<C-d>zz"; mode = "n"; options.desc = "Scroll down (centred)"; }
-      { key = "<C-u>"; action = "<C-u>zz"; mode = "n"; options.desc = "Scroll up (centred)"; }
+      {
+        key = "<C-d>";
+        action = "<C-d>zz";
+        mode = "n";
+        options.desc = "Scroll down (centred)";
+      }
+      {
+        key = "<C-u>";
+        action = "<C-u>zz";
+        mode = "n";
+        options.desc = "Scroll up (centred)";
+      }
 
       # Join lines keep cursor
-      { key = "J"; action = "mzJ`z"; mode = "n"; options.desc = "Join lines (keep cursor)"; }
+      {
+        key = "J";
+        action = "mzJ`z";
+        mode = "n";
+        options.desc = "Join lines (keep cursor)";
+      }
 
       # Clipboard
-      { key = "<leader>y"; action = ''"+y''; mode = ["n" "v"]; options.desc = "Yank to clipboard"; }
-      { key = "<leader>Y"; action = ''"+Y''; mode = "n";       options.desc = "Yank line to clipboard"; }
-      { key = "<leader>p"; action = ''"+p''; mode = ["n" "v"]; options.desc = "Paste from clipboard"; }
+      {
+        key = "<leader>y";
+        action = ''"+y'';
+        mode = [
+          "n"
+          "v"
+        ];
+        options.desc = "Yank to clipboard";
+      }
+      {
+        key = "<leader>Y";
+        action = ''"+Y'';
+        mode = "n";
+        options.desc = "Yank line to clipboard";
+      }
+      {
+        key = "<leader>p";
+        action = ''"+p'';
+        mode = [
+          "n"
+          "v"
+        ];
+        options.desc = "Paste from clipboard";
+      }
 
       # Delete to void
-      { key = "<leader>D"; action = ''"_d''; mode = ["n" "v"]; options.desc = "Delete to void"; }
+      {
+        key = "<leader>D";
+        action = ''"_d'';
+        mode = [
+          "n"
+          "v"
+        ];
+        options.desc = "Delete to void";
+      }
 
       # Visual paste without yanking replaced text
-      { key = "p"; action = ''"_dP''; mode = "v"; options.desc = "Paste without yanking"; }
+      {
+        key = "p";
+        action = ''"_dP'';
+        mode = "v";
+        options.desc = "Paste without yanking";
+      }
 
       # Replace word under cursor
       {
-        key  = "<leader>rw";
+        key = "<leader>rw";
         mode = "n";
         options.desc = "Replace word under cursor";
         action.__raw = ''
@@ -318,15 +818,18 @@
     # ── Autocommands ─────────────────────────────────────────────────────────
     autoCmd = [
       {
-        event    = "TextYankPost";
+        event = "TextYankPost";
         callback.__raw = "function() vim.highlight.on_yank() end";
       }
       {
-        event   = [ "FocusGained" "BufEnter" ];
+        event = [
+          "FocusGained"
+          "BufEnter"
+        ];
         command = "checktime";
       }
       {
-        event    = "FileType";
+        event = "FileType";
         callback.__raw = ''
           function(args)
             if pcall(vim.treesitter.start, args.buf) then
@@ -337,7 +840,7 @@
       }
       {
         # In mini.files, `l` enters a directory or opens a file and closes.
-        event   = "User";
+        event = "User";
         pattern = "MiniFilesBufferCreate";
         callback.__raw = ''
           function(args)
