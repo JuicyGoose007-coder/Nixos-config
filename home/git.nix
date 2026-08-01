@@ -7,6 +7,7 @@
       name  = "Jake Turner";
       email = "jaketurner624@gmail.com";
     };
+    settings.safe.directory = [ "/etc/nixos" ];
   };
 
   programs.ssh = {
