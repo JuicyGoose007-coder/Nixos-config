@@ -34,6 +34,10 @@ if ! command -v git &>/dev/null; then
   exit 1
 fi
 
+# Avoid deleting the shell's own cwd out from under it (causes
+# "getcwd: cannot access parent directories" on every command after).
+cd /
+
 # ── Backup hardware config ───────────────────────────────────────────────────
 
 echo "==> Saving hardware-configuration.nix..."
@@ -58,7 +62,7 @@ echo "==> Running nixos-rebuild switch..."
 echo "    (this will take a while on first run)"
 nixos-rebuild switch \
   --flake "$NIXOS_DIR#nixos" \
-  --extra-experimental-features "nix-command flakes"
+  --option experimental-features "nix-command flakes"
 
 echo ""
-echo "==> Done! Reboot to start niri."
+echo "==> Done! Reboot to start 
