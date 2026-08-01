@@ -24,6 +24,7 @@
     ./home/git.nix
     ./home/nls.nix
     ./home/iris.nix
+    ./home/xdg-mime.nix
   ];
 
   home.username = "juicygoose007";

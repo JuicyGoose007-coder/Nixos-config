@@ -47,8 +47,9 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 zinit ice wait lucid blockf atpull'zinit creinstall -q .'
 zinit light zsh-users/zsh-completions
 
-zinit ice wait lucid
-zinit light Aloxaf/fzf-tab
+# Disabled: iris overlay conflicts with fzf-tab (both hijack Tab completion).
+# zinit ice wait lucid
+# zinit light Aloxaf/fzf-tab
 
 
 # ============================================================================
@@ -68,7 +69,7 @@ zstyle ':completion::complete:*' cache-path ~/.zsh/cache
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' menu select
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':fzf-tab:*' use-fzf-default-opts yes
+# zstyle ':fzf-tab:*' use-fzf-default-opts yes  # fzf-tab disabled (iris)
 
 
 
@@ -80,7 +81,8 @@ zstyle ':fzf-tab:*' use-fzf-default-opts yes
 function zvm_after_init {
   export VIM_INSERT="I"
 
-  bindkey -M viins '^I' expand-or-complete
+  # Tab left unbound here so iris owns it (<Tab> Accept). Re-binding it to
+  # expand-or-complete makes zsh's native menu fire alongside iris's overlay.
   bindkey -M viins '^R' history-incremental-search-backward
   bindkey -M viins '^S' history-incremental-search-forward
   bindkey -M viins '^[[1;5C' forward-word
@@ -145,7 +147,6 @@ alias flakeback='git -C /etc/nixos checkout -- flake.lock'
 alias gen-delete='sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations +5 && sudo nix-collect-garbage && sudo nixos-rebuild boot'
 
 # Programs
-alias spf='superfile'
 alias nv='nvim'
 command -v iris >/dev/null 2>&1 && alias i="iris"
 alias rb='reboot'

@@ -3,7 +3,9 @@
 {
   programs.fzf = {
     enable             = true;
-    enableZshIntegration = true;
+    # Disabled: fzf's zsh hooks (Ctrl-T / Alt-C / **<Tab> fuzzy trigger) overlap
+    # with the iris autocomplete overlay. Binary stays installed for other uses.
+    enableZshIntegration = false;
   };
 
   programs.zoxide = {
