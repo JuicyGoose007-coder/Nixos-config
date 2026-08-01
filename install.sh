@@ -58,7 +58,7 @@ echo "==> Running nixos-rebuild switch..."
 echo "    (this will take a while on first run)"
 nixos-rebuild switch \
   --flake "$NIXOS_DIR#nixos" \
-  --extra-experimental-features 'nix-command flakes'
+  --extra-experimental-features "nix-command flakes"
 
 echo ""
 echo "==> Done! Reboot to start niri."
