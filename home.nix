@@ -23,6 +23,7 @@
     ./home/rofi.nix
     ./home/git.nix
     ./home/nls.nix
+    ./home/iris.nix
   ];
 
   home.username = "juicygoose007";

@@ -2,74 +2,44 @@
 
 {
   programs.waybar = {
-    enable   = true;
-    settings = [{
-      position     = "bottom";
-      layer        = "top";
-      margin-bottom = 13;
+    enable = true;
+    settings = [
+      {
+        position = "bottom";
+        layer = "top";
+        margin-bottom = 13;
 
-      modules-left   = [ "niri/workspaces" ];
-      modules-center = [ "custom/notification" ];
-      modules-right  = [ "clock" "wireplumber" ];
+        modules-center = [
+          "niri/workspaces"
+          "clock"
+        ];
 
-      "clock" = {
-        timezone = "America/New_York";
-        locale   = "en_US.UTF-8";
-        format   = "{:%I:%M %p}";
-        interval = 60;
-      };
-
-      "niri/workspaces" = {
-        format       = "{name}: {icon}";
-        active-only  = true;
-        format-icons = {
-          Main    = "";
-          Discord = "󰙯";
-          Gaming  = "󰸴";
-          "3"     = "③";
-          "4"     = "④";
-          "5"     = "⑤";
-          "6"     = "⑥";
-          "7"     = "⑦";
-          "8"     = "⑧";
-          "9"     = "⑨";
-          active  = "●";
-          default = "○";
+        "clock" = {
+          timezone = "America/New_York";
+          locale = "en_US.UTF-8";
+          format = "{:%I:%M %p}";
+          interval = 60;
         };
-      };
 
-      "wireplumber" = {
-        format         = "{icon} {volume}%";
-        format-muted   = "󰖁 muted";
-        tooltip-format = "Volume: {volume}%";
-        on-click       = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-        on-click-right = "ghostty -e wiremix";
-        on-scroll-up   = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
-        on-scroll-down = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
-        format-icons   = [ "󰕿" "󰖀" "󰕾" ];
-      };
-
-      "custom/notification" = {
-        tooltip      = true;
-        format       = "<span size='16pt'>{icon}</span>";
-        format-icons = {
-          notification          = "󱅫";
-          none                  = "󰂜";
-          dnd-notification      = "󰂠";
-          dnd-none              = "󰪓";
-          inhibited-notification = "󰂛";
-          inhibited-none        = "󰪑";
-          dnd-inhibited-notification = "󰂛";
-          dnd-inhibited-none    = "󰪑";
+        "niri/workspaces" = {
+          format = "{name}: {icon}";
+          active-only = true;
+          format-icons = {
+            Main = "";
+            Discord = "󰙯";
+            Gaming = "󰸴";
+            "1" = "⚀";
+            "2" = "⚁";
+            "3" = "⚂";
+            "4" = "⚃";
+            "5" = "⚄";
+            "6" = "⚅";
+            active = "●";
+            default = "○";
+          };
         };
-        return-type = "json";
-        exec-if     = "which swaync-client";
-        exec        = "swaync-client -swb";
-        on-click       = "swaync-client -t -sw";
-        on-click-right = "swaync-client -d -sw";
-        escape      = true;
-      };
-    }];
+      }
+    ];
 
     # Stylix prepends @define-color base00..base0F — referenced below
     style = ''
@@ -96,31 +66,20 @@
         color: @base05;
       }
 
+      /* The single centered pill — holds workspaces + clock */
       .modules-center {
-        margin-right: 15px;
-        margin-left: 15px;
-      }
-
-      .modules-left {
-        margin-left: 15px;
-      }
-
-      .modules-right {
-        margin-right: 15px;
-      }
-
-      #custom-launcher,
-      #clock,
-      #workspaces,
-      #custom-notification,
-      #custom-media,
-      #custom-pacman,
-      #wireplumber {
         background: @base01;
         border: 1px solid @base02;
+        border-radius: 50px;
+        padding: 0 16px;
+      }
+
+      /* Modules read as one continuous pill: no own background */
+      #clock,
+      #workspaces {
+        background: transparent;
         color: @base09;
-        margin-right: 10px;
-        padding: 0 10px;
+        padding: 0 8px;
       }
 
       #workspaces button {
@@ -129,7 +88,7 @@
         border-radius: 50px;
         color: @base09;
         transition: all 0.3s ease-in-out;
-        background-color: @base02;
+        background-color: transparent;
       }
 
       #workspaces button.active {
@@ -155,11 +114,6 @@
         border-radius: 16px;
         min-width: 50px;
         transition: all 0.3s ease-in-out;
-      }
-
-      #custom-notification:hover {
-        background-color: @base09;
-        color: @base00;
       }
     '';
   };

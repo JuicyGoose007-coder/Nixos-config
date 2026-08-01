@@ -34,6 +34,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    iris = {
+      url = "github:versenilvis/iris";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =
