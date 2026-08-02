@@ -60,7 +60,7 @@ mainbox {
 imagebox {
     padding:                     20px;
     background-color:            transparent;
-    background-image:            url("/home/juicygoose007/Pictures/wallpapers/wall.jpg", height);
+    background-image:            url("/etc/nixos/wallpapers/wall.jpg", height);
     orientation:                 vertical;
     children:                    [ "inputbar", "dummy", "mode-switcher" ];
 }
