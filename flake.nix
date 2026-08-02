@@ -54,15 +54,15 @@
       ...
     }@inputs:
     {
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.goosenest = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
           inherit inputs;
         };
         modules = [
-          ./configuration.nix
+          ./hosts/goosenest/default.nix
           stylix.nixosModules.stylix
-          ./modules/stylix.nix
+          ./modules/nixos/stylix.nix
           { disabledModules = [ "${stylix}/modules/kmscon/nixos.nix" ]; }
           nix-index-database.nixosModules.nix-index
           niri.nixosModules.niri
@@ -70,7 +70,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.juicygoose007 = import ./home.nix;
+            home-manager.users.juicygoose007 = import ./home;
             home-manager.extraSpecialArgs = {
               inherit inputs;
             };

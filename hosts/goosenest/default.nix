@@ -14,9 +14,9 @@ let
 in
 {
   imports = [
-    ./hardware-configuration.nix
-    ./modules/nvidia.nix
-    ./modules/ollama.nix
+    ./hardware.nix
+    ../../modules/nixos/nvidia.nix
+    ../../modules/nixos/ollama.nix
   ];
 
   # ── Nix ────────────────────────────────────────────────────────────────────
@@ -31,7 +31,7 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # Try to force the console/greeter on DP-2 to native 2560x1440.
+  # Try to force the console/greeter on DP-2 to native..440.
   # video=DP-1:d disables DP-1 for the *kernel console* so it can't force the
   # clone down to 1080p; niri re-enables DP-1 itself for the desktop.
   boot.kernelParams = [

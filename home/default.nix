@@ -7,24 +7,24 @@
 
 {
   imports = [
-    ./home/packages.nix
-    ./home/shell.nix
-    ./home/ghostty.nix
-    ./home/kitty.nix
-    ./home/starship.nix
-    ./home/waybar.nix
-    ./home/superfile.nix
-    ./home/hyprlock.nix
-    ./home/nvim
-    ./home/niri
-    ./home/tmux.nix
-    ./home/fastfetch.nix
-    ./home/wlogout.nix
-    ./home/rofi.nix
-    ./home/git.nix
-    ./home/nls.nix
-    ./home/iris.nix
-    ./home/xdg-mime.nix
+    ./packages.nix
+    ./shell.nix
+    ./ghostty.nix
+    ./kitty.nix
+    ./starship.nix
+    ./waybar.nix
+    ./superfile.nix
+    ./hyprlock.nix
+    ./nvim
+    ./niri
+    ./tmux.nix
+    ./fastfetch.nix
+    ./wlogout.nix
+    ./rofi.nix
+    ./git.nix
+    ./nls.nix
+    ./iris.nix
+    ./xdg-mime.nix
   ];
 
   home.username = "juicygoose007";
