@@ -138,8 +138,6 @@ alias mv='mv -i'
 
 # Update & Rollback
 alias update='cd /etc/nixos/ && nix flake update'
-alias rebuild='sudo nixos-rebuild switch --flake "/etc/nixos#nixos"'
-alias rebuild-test='sudo nixos-rebuild test --flake "/etc/nixos#nixos"'
 alias rollback='sudo nixos-rebuild switch --rollback'
 alias flakeback='git -C /etc/nixos checkout -- flake.lock'
 
