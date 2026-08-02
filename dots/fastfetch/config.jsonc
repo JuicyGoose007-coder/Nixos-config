@@ -75,15 +75,16 @@
       "keyColor": "cyan"
     },
     {
-      "type": "terminal",
+      "type": "command",
       "key": "  ",
-      "keyColor": "cyan"
+      "keyColor": "cyan",
+      "text": "sh /etc/nixos/dots/fastfetch/term.sh name"
     },
     {
-      "type": "terminalfont",
-      "format": "{name}",
+      "type": "command",
       "key": " 󰛖 ",
-      "keyColor": "cyan"
+      "keyColor": "cyan",
+      "text": "sh /etc/nixos/dots/fastfetch/term.sh font"
     },
     {
       "type": "custom",
