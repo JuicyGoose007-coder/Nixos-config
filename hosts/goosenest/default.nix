@@ -1,8 +1,12 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running 'nixos-help').
+# Host-specific config for goosenest (the desktop). Shared settings live in
+# modules/nixos/common.nix; this file is only what's unique to this machine.
 
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  username,
+  ...
+}:
 
 let
   # Force the DP-1 connector "connected" (it is kernel-disabled via video=DP-1:d
@@ -19,19 +23,10 @@ in
     ../../modules/nixos/ollama.nix
   ];
 
-  # ── Nix ────────────────────────────────────────────────────────────────────
-  nix.settings.experimental-features = "nix-command flakes";
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = [
-    "pnpm-10.29.2"
-  ];
+  # ── Networking ─────────────────────────────────────────────────────────────
+  networking.hostName = "goosenest";
 
-  # ── Boot ───────────────────────────────────────────────────────────────────
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  # Try to force the console/greeter on DP-2 to native..440.
+  # ── Boot: multi-monitor console fix ────────────────────────────────────────
   # video=DP-1:d disables DP-1 for the *kernel console* so it can't force the
   # clone down to 1080p; niri re-enables DP-1 itself for the desktop.
   boot.kernelParams = [
@@ -39,7 +34,7 @@ in
     "video=DP-2:2560x1440@60"
   ];
 
-  # ── Filesytems ─────────────────────────────────────────────────────────────
+  # ── Filesystems ────────────────────────────────────────────────────────────
   fileSystems."/mnt/games" = {
     device = "/dev/disk/by-uuid/0ca9f5bb-3aa4-4050-8e12-5b69d3296659";
     fsType = "ext4";
@@ -49,87 +44,11 @@ in
     ];
   };
 
-  # ── Networking ─────────────────────────────────────────────────────────────
-  networking.hostName = "nixos";
-  networking.networkmanager.enable = true;
-
-  # ── Locale & Time ──────────────────────────────────────────────────────────
-  time.timeZone = "America/New_York";
-  i18n.defaultLocale = "en_US.UTF-8";
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_US.UTF-8";
-    LC_IDENTIFICATION = "en_US.UTF-8";
-    LC_MEASUREMENT = "en_US.UTF-8";
-    LC_MONETARY = "en_US.UTF-8";
-    LC_NAME = "en_US.UTF-8";
-    LC_NUMERIC = "en_US.UTF-8";
-    LC_PAPER = "en_US.UTF-8";
-    LC_TELEPHONE = "en_US.UTF-8";
-    LC_TIME = "en_US.UTF-8";
-  };
-
-  # ── Users ──────────────────────────────────────────────────────────────────
-  users.users."juicygoose007" = {
-    isNormalUser = true;
-    description = "Jake Turner";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "input"
-      "docker"
-    ];
-    shell = pkgs.zsh;
-    home = "/home/juicygoose007";
-  };
-
-  # ── Display & Wayland ──────────────────────────────────────────────────────
-  services.xserver.enable = true;
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
-
-  programs.niri = {
-    enable = true;
-    package = pkgs.niri;
-  };
-
-  programs.xwayland.enable = true;
-
-  xdg.portal = {
-    enable = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-gnome
-      pkgs.xdg-desktop-portal-gtk
-    ];
-    # Route ScreenCast/Screenshot to the gnome backend (niri implements
-    # org.gnome.Mutter.ScreenCast, so screen sharing goes through it); use gtk
-    # for native file-picker dialogs. Replaces the old "*" wildcard, which tried
-    # to activate the absent gtk backend and silently killed ScreenCast.
-    config.common = {
-      default = [ "gnome" ];
-      "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
-    };
-  };
-
-  # ── Display manager: greetd + tuigreet (native Wayland) ────────────────────
-  # Launches niri directly as a Wayland session — no X server, no double
-  # modeset. Replaces the old LightDM greeter inherited from the base config.
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = ''${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --cmd "env XDG_SESSION_DESKTOP=niri XDG_CURRENT_DESKTOP=niri XDG_SESSION_CLASS=user niri-session"'';
-        user = "greeter";
-      };
-    };
-  };
-
   # Let niri (as juicygoose007) run dp1-on passwordless at startup, so DP-1 is
   # re-enabled only once the desktop is up — keeping the greeter on DP-2 alone.
   security.sudo.extraRules = [
     {
-      users = [ "juicygoose007" ];
+      users = [ username ];
       commands = [
         {
           command = "/run/current-system/sw/bin/dp1-on";
@@ -139,75 +58,25 @@ in
     }
   ];
 
-  # ── Audio ──────────────────────────────────────────────────────────────────
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
-
-  # ── Programs ───────────────────────────────────────────────────────────────
-  programs.nix-index-database.comma.enable = true;
-
-  programs.firefox.enable = true;
+  # ── Gaming ─────────────────────────────────────────────────────────────────
   programs.gamemode.enable = true;
-  programs.zsh.enable = true;
-  programs.zsh.enableCompletion = false;
-  programs.zsh.promptInit = "";
   programs.gamescope.enable = true;
-
   programs.steam = {
     enable = true;
     dedicatedServer.openFirewall = false;
     gamescopeSession.enable = false;
     extraCompatPackages = with pkgs; [ proton-ge-bin ];
   };
-
   hardware.steam-hardware.enable = true;
 
-  # ── System Packages ────────────────────────────────────────────────────────
-  environment.systemPackages = with pkgs; [
-    # Niri / Wayland (compositor needs these system-wide)
-    xwayland-satellite
-
-    # Storage services
-    gvfs
-    usbutils
-
-    # Polkit agent
-    polkit_gnome
-
-    # Theming (GTK apps need these system-wide)
-    adwaita-icon-theme
-    gnome-themes-extra
-
-    # DP-1 re-enable helper (see dp1On above; called by niri via sudo)
-    dp1On
-  ];
-
-  # ── Polkit ─────────────────────────────────────────────────────────────────
-  security.polkit.enable = true;
-
-  # ── FUSE ───────────────────────────────────────────────────────────────────
-  # Required for xdg-document-portal to mount /run/user/1000/doc via fusermount3
-  programs.fuse.userAllowOther = true;
-
-  fonts.packages = with pkgs; [
-    fira-code
-    jetbrains-mono
-    nerd-fonts.jetbrains-mono
-    d2coding
-    font-awesome
-  ];
-
-  services.udisks2.enable = true;
+  # ── Host packages ──────────────────────────────────────────────────────────
+  # DP-1 re-enable helper (see dp1On above; called by niri via sudo).
+  environment.systemPackages = [ dp1On ];
 
   # ── Wooting keyboard ───────────────────────────────────────────────────────
   hardware.wooting.enable = true;
 
-  # ── Ploopy Adept ───────────────────────────────────────────────────────
+  # ── Ploopy Adept ───────────────────────────────────────────────────────────
   hardware.keyboard.qmk.enable = true;
 
   # ── Services (optional / commented out) ────────────────────────────────────
@@ -221,9 +90,8 @@ in
   # networking.firewall.allowedUDPPorts = [ ... ];
   # networking.firewall.enable = false;
 
-  # ── Docker ─────────────────────────────────────────────────────────────────
-  virtualisation.docker.enable = true;
-
   # ── System ─────────────────────────────────────────────────────────────────
+  # Records the NixOS version this machine was first installed on — never change
+  # it per-host. Kept host-side so each machine owns its own.
   system.stateVersion = "26.05";
 }

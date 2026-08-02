@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  username,
   ...
 }:
 
@@ -27,8 +28,8 @@
     ./xdg-mime.nix
   ];
 
-  home.username = "juicygoose007";
-  home.homeDirectory = "/home/juicygoose007";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
   home.stateVersion = "24.11";
 
   programs.home-manager.enable = true;

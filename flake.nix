@@ -53,32 +53,41 @@
       niri,
       ...
     }@inputs:
-    {
-      nixosConfigurations.goosenest = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {
-          inherit inputs;
+    let
+      # Build a full NixOS system from a hostname. Adding a machine later is
+      # then a one-liner: `laptop = mkHost { hostname = "laptop"; };`.
+      mkHost =
+        {
+          hostname,
+          username ? "juicygoose007",
+          system ? "x86_64-linux",
+        }:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit inputs username; };
+          modules = [
+            ./hosts/${hostname}
+            ./modules/nixos
+            stylix.nixosModules.stylix
+            { disabledModules = [ "${stylix}/modules/kmscon/nixos.nix" ]; }
+            nix-index-database.nixosModules.nix-index
+            niri.nixosModules.niri
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.${username} = import ./home;
+              home-manager.extraSpecialArgs = {
+                inherit inputs username;
+              };
+              home-manager.sharedModules = [
+                nixvim.homeModules.nixvim
+              ];
+            }
+          ];
         };
-        modules = [
-          ./hosts/goosenest/default.nix
-          stylix.nixosModules.stylix
-          ./modules/nixos/stylix.nix
-          { disabledModules = [ "${stylix}/modules/kmscon/nixos.nix" ]; }
-          nix-index-database.nixosModules.nix-index
-          niri.nixosModules.niri
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.juicygoose007 = import ./home;
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-            };
-            home-manager.sharedModules = [
-              nixvim.homeModules.nixvim
-            ];
-          }
-        ];
-      };
+    in
+    {
+      nixosConfigurations.goosenest = mkHost { hostname = "goosenest"; };
     };
 }
