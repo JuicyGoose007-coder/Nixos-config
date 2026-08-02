@@ -79,5 +79,5 @@ The script saves your machine-specific `hardware-configuration.nix`, clones this
 ## Day-to-day rebuild
 
 ```sh
-sudo nixos-rebuild switch --flake /etc/nixos#nixos
+sudo nixos-rebuild switch --flake /etc/nixos#goosenest
 ```

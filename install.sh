@@ -61,7 +61,7 @@ cp "$HW_BACKUP" "$HW_CONFIG"
 echo "==> Running nixos-rebuild switch..."
 echo "    (this will take a while on first run)"
 nixos-rebuild switch \
-  --flake "$NIXOS_DIR#nixos" \
+  --flake "$NIXOS_DIR#goosenest" \
   --option experimental-features "nix-command flakes"
 
 echo ""
