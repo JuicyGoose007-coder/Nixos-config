@@ -69,7 +69,12 @@
             ./hosts/${hostname}
             ./modules/nixos
             stylix.nixosModules.stylix
-            { disabledModules = [ "${stylix}/modules/kmscon/nixos.nix" ]; }
+            {
+              disabledModules = [
+                "${stylix}/modules/kmscon/nixos.nix"
+                "${stylix}/modules/regreet/nixos.nix"
+              ];
+            }
             nix-index-database.nixosModules.nix-index
             niri.nixosModules.niri
             home-manager.nixosModules.home-manager

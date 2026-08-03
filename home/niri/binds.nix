@@ -17,9 +17,6 @@
         MOD+T                               hotkey-overlay-title="Toggle Opacity" { toggle-window-rule-opacity; }
         MOD+ALT+P                           hotkey-overlay-title="Open Power Menu" { spawn-sh "$HOME/.config/rofi/scripts/powermenu_t2"; }
 
-        // ─── Waybar ───
-        MOD+ALT+R                           hotkey-overlay-title="Launch Waybar" { spawn-sh "/etc/nixos/scripts/waybar.sh"; }
-
         // File manager
         MOD+E                             hotkey-overlay-title="File Manager: Dolphin" { spawn-sh "dolphin"; }
         MOD+S                               hotkey-overlay-title="Open File Manager: superfile" { spawn "ghostty" "-e" "superfile"; }
