@@ -68,5 +68,8 @@
     rustfmt
     prettier
     taplo
+
+    # Agents
+    pi-coding-agent
   ];
 }
