@@ -91,7 +91,8 @@ let
       debounce_ms = 400;
       providers.ollama = {
         endpoint = "http://localhost:11434/v1/chat/completions";
-        model = "qwen2.5-coder";
+        # Shared with git-aic (home/git.nix); 3B keeps ghost-text snappy on 8GB.
+        model = "qwen2.5-coder:3b";
         timeout_ms = 5000;
       };
     };
