@@ -40,16 +40,9 @@ zinit light jeffreytse/zsh-vi-mode
 zinit ice wait lucid
 zinit light zdharma-continuum/fast-syntax-highlighting
 
-# Disabled: iris overlay conflicts with zsh-autosuggestions (visual + keybinding overlap).
-# zinit ice wait lucid atload'_zsh_autosuggest_start'
-# zinit light zsh-users/zsh-autosuggestions
-
 zinit ice wait lucid blockf atpull'zinit creinstall -q .'
 zinit light zsh-users/zsh-completions
 
-# Disabled: iris overlay conflicts with fzf-tab (both hijack Tab completion).
-# zinit ice wait lucid
-# zinit light Aloxaf/fzf-tab
 
 
 # ============================================================================
@@ -69,7 +62,6 @@ zstyle ':completion::complete:*' cache-path ~/.zsh/cache
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' menu select
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-# zstyle ':fzf-tab:*' use-fzf-default-opts yes  # fzf-tab disabled (iris)
 
 
 
