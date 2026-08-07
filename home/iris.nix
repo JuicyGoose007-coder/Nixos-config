@@ -1,4 +1,9 @@
-{ pkgs, config, inputs, ... }:
+{
+  pkgs,
+  config,
+  inputs,
+  ...
+}:
 
 let
   # Stylix base16 palette (with leading '#'), used to re-theme iris below.
@@ -69,11 +74,18 @@ let
       "nerd-fonts" = true;
     };
     keybindings = {
-      "toggle-mode" = "ctrl+r";
-      "toggle-menu" = "shift+tab";
-      select = "tab";
-      "navigate-up" = "up";
-      "navigate-down" = "down";
+      # Was ctrl+r (which stole zsh reverse-history-search); C-o mnemonic =
+      # nvim insert-mode one-shot normal command, a brief "mode switch".
+      "toggle-mode" = "ctrl+o";
+      "toggle-menu" = "shift+tab"; # unchanged
+      select = "tab"; # unchanged: accept highlighted menu item
+      # nvim-style completion nav (C-n/C-p), matching blink-cmp; tmux-safe.
+      "navigate-down" = "ctrl+n";
+      "navigate-up" = "ctrl+p";
+      # New: accept inline ghost text. Right arrow (iris default) — deliberately
+      # New: accept inline ghost text. Right arrow (iris default) — deliberately
+      # NOT ctrl+e, which in blink-cmp *cancels* the menu (opposite of accept).
+      "navigate-right" = "right";
     };
     git = {
       "filter-active-branch" = true;
@@ -101,6 +113,5 @@ in
 {
   home.packages = [ iris ];
 
-  xdg.configFile."iris/config.toml".source =
-    tomlFormat.generate "iris-config.toml" irisSettings;
+  xdg.configFile."iris/config.toml".source = tomlFormat.generate "iris-config.toml" irisSettings;
 }
