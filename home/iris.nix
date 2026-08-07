@@ -80,8 +80,8 @@ let
       "toggle-menu" = "shift+tab"; # unchanged
       select = "tab"; # unchanged: accept highlighted menu item
       # nvim-style completion nav (C-n/C-p), matching blink-cmp; tmux-safe.
-      "navigate-down" = "ctrl+n";
-      "navigate-up" = "ctrl+p";
+      "navigate-down" = "down";
+      "navigate-up" = "up";
       # New: accept inline ghost text. Right arrow (iris default) — deliberately
       # New: accept inline ghost text. Right arrow (iris default) — deliberately
       # NOT ctrl+e, which in blink-cmp *cancels* the menu (opposite of accept).
