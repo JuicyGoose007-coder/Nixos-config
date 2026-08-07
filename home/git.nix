@@ -41,12 +41,24 @@ let
       fi
 
       diff=$(git diff --cached)
+      stat=$(git diff --cached --stat)
 
       # Subject wording: plain imperative, or a Conventional Commit prefix.
       if [ "$conventional" -eq 1 ]; then
-        instr='Format the subject as a Conventional Commit "type(scope): description". Choose type from: feat, fix, docs, style, refactor, perf, test, build, ci, chore. Keep the subject line under 60 characters. Output only the line, no quotes, no markdown.'
+        instr='Format the subject as a Conventional Commit "type(scope): description".
+               Choose type from: feat, fix, docs, style, refactor, perf, test, build, ci, chore.
+               Examples:
+               feat(auth): add OAuth login flow
+               fix(parser): handle empty input without crashing
+               build(flake): pin stylix to release-26.05
+               Keep the subject under 60 characters. Output only the line, no quotes, no markdown.'
       else
-        instr='Write a single imperative subject line, under 50 characters. Output only the line, no quotes, no markdown.'
+        instr='Write a single imperative commit subject line under 50 characters.
+              Examples:
+              add dark mode toggle to settings page
+              fix crash when opening an empty file
+              remove unused logging from the auth handler
+              Output only the subject line: no quotes, no markdown, no trailing period.'           
       fi
 
       # One model, shared with iris (home/iris.nix) so it's always warm - no extra
@@ -57,12 +69,13 @@ let
       # + stop:["\n"] keep it to a single fast line; "Subject: " primes the answer.
       payload=$(jq -n \
         --arg diff "$diff" \
+        --arg stat "$stat" \
         --arg model "$model" \
         --arg instr "$instr" '{
           model: $model,
-          prompt: ($diff + "\n\n---\n" + $instr + "\nSubject: "),
+          prompt: ($stat + "\n\n" + $diff + "\n\n---\n" + $instr + "\nSubject: "),
           stream: false,
-          options: { temperature: 0.5, num_predict: 40, stop: ["\n"] }
+          options: { temperature: 0.3, num_predict: 40, stop: ["\n"] }
         }')
       raw=$(curl -s http://localhost:11434/api/generate -d "$payload" | jq -r '.response')
       # Strip a stray "Subject:" label, surrounding quotes, trailing whitespace.
