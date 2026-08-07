@@ -3,7 +3,6 @@
 {
   stylix = {
     enable = true;
-    enableReleaseChecks = false;
     image = ../../wallpapers/sushi.jpg;
 
     base16Scheme = {
