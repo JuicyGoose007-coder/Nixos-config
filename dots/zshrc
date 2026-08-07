@@ -160,6 +160,7 @@ alias kill='pkill -f '
 
 # Tmux
 alias tn='tmux new-session -A -s'
+alias tk='tmux kill-session -t'
 
 # ============================================================================
 # FUNCTIONS
