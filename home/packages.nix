@@ -3,13 +3,15 @@
 {
   home.packages = with pkgs; [
     vesktop
-    protonplus
     wlogout
     cargo
     gcc
     obsidian
     via
     go
+
+    # Gaming
+    protonplus
 
     # Other distro packages
     distrobox

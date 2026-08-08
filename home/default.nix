@@ -26,6 +26,7 @@
     ./nls.nix
     ./iris.nix
     ./xdg-mime.nix
+    ./mangohud.nix
   ];
 
   home.username = username;
