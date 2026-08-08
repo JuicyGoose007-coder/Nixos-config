@@ -10,7 +10,7 @@
     spawn-sh-at-startup "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
     spawn-sh-at-startup "awww-daemon" // Wallpaper daemon
     spawn-sh-at-startup "hyprlock --daemonize"
-    spawn-sh-at-startup "steam -no-browser"
+    spawn-sh-at-startup "sleep 1 && steam -no-browser"
     spawn-sh-at-startup "vesktop"
     spawn-sh-at-startup "ghostty"
     // Turn on DP-1
