@@ -16,25 +16,6 @@ let
     version = inputs.iris.shortRev or "dirty";
     src = inputs.iris;
 
-    # iris hardcodes its "Aura" hex palette (lipgloss.Color) in one file with
-    # no color config, so we swap those literals for the stylix palette at
-    # build time. --replace-warn logs (doesn't fail) if upstream changes a hex.
-    postPatch = ''
-      substituteInPlace integration/overlay.go \
-        --replace-warn '#a277ff' '${c.base0E}' \
-        --replace-warn '#61ffca' '${c.base0C}' \
-        --replace-warn '#edecee' '${c.base05}' \
-        --replace-warn '#ffffff' '${c.base07}' \
-        --replace-warn '#9692a8' '${c.base04}' \
-        --replace-warn '#6d6a7f' '${c.base03}' \
-        --replace-warn '#4B4A4C' '${c.base03}' \
-        --replace-warn '#3d375e' '${c.base02}' \
-        --replace-warn '#2a2342' '${c.base01}' \
-        --replace-warn '#1a2d36' '${c.base01}' \
-        --replace-warn '#1e1d28' '${c.base01}' \
-        --replace-warn '#110f18' '${c.base00}'
-    '';
-
     subPackages = [ "cmd/iris" ];
 
     proxyVendor = true;
@@ -67,7 +48,7 @@ let
     ui = {
       style = "modern";
       "ghost-text" = true;
-      "hidden-files" = false;
+      "hidden-files" = true;
       "max-suggestions" = 100;
       "max-height" = 15;
       "max-width" = 0;
@@ -109,9 +90,31 @@ let
       };
     };
   };
+  irisTheme = {
+    border = c.base09;
+    accent = c.base0C;
+    muted = c.base03;
+    text = c.base05;
+    text_sel = c.base07;
+    key = c.base09;
+    match = c.base0C;
+    desc = c.base04;
+    desc_sel = c.base05;
+    sel_bg = c.base02;
+    sel_text = c.base00;
+    scroll_info = c.base09;
+    ghost_text = c.base03;
+    sys = c.base01;
+    sys_sel = c.base09;
+    hist = c.base01;
+    hist_sel = c.base0C;
+    alias = c.base01;
+    alias_sel = c.base09;
+  };
 in
 {
   home.packages = [ iris ];
 
   xdg.configFile."iris/config.toml".source = tomlFormat.generate "iris-config.toml" irisSettings;
+  xdg.configFile."iris/theme.toml".source = tomlFormat.generate "iris-theme.toml" irisTheme;
 }
