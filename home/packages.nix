@@ -63,6 +63,7 @@
     python3
     bat
     nvtopPackages.nvidia
+    qbittorrent
 
     # Formatters for conform-nvim
     stylua
