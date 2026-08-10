@@ -35,7 +35,7 @@
             }
 
             window-open {
-                duration-ms 500
+                duration-ms 800
                 curve "ease-out-cubic"
 
                 // https://github.com/liixini/shaders
@@ -45,7 +45,7 @@
             }
 
             window-close {
-                duration-ms 500
+                duration-ms 800
                 curve "ease-out-cubic"
 
                 custom-shader r"
