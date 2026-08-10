@@ -11,6 +11,7 @@ let
     (import ./outputs.nix args)
     (import ./binds.nix args)
     (import ./layout.nix args)
+    (import ./animations.nix args)
     (import ./window-rules.nix args)
     (import ./startup.nix args)
     (import ./environment.nix args)

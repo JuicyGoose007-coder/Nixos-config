@@ -1,0 +1,58 @@
+{ ... }:
+{
+  text = ''
+    // ────────────── Animation Settings ──────────────
+
+        animations {
+
+            workspace-switch {
+                spring damping-ratio=1.0 stiffness=1000 epsilon=0.0001
+            }
+
+            horizontal-view-movement {
+                spring damping-ratio=1.0 stiffness=900 epsilon=0.0001
+            }
+
+            window-movement {
+                spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+            }
+
+            window-resize {
+                spring damping-ratio=1.0 stiffness=1000 epsilon=0.0001
+            }
+
+            config-notification-open-close {
+                spring damping-ratio=0.6 stiffness=1200 epsilon=0.001
+            }
+
+            screenshot-ui-open {
+                duration-ms 300
+                curve "ease-out-quad"
+            }
+
+            overview-open-close {
+                spring damping-ratio=1.0 stiffness=900 epsilon=0.0001
+            }
+
+            window-open {
+                duration-ms 500
+                curve "ease-out-cubic"
+
+                // https://github.com/liixini/shaders
+                custom-shader r"
+    ${builtins.readFile ./shaders/inkwell-drop-open.glsl}
+                "
+            }
+
+            window-close {
+                duration-ms 500
+                curve "ease-out-cubic"
+
+                custom-shader r"
+    ${builtins.readFile ./shaders/inkwell-drop-close.glsl}
+                "
+            }
+        }
+  '';
+
+}
