@@ -35,7 +35,7 @@
 
       hostname = {
         ssh_only = false;
-        format = "-[NixOS](bold #8ec07c)";
+        format = "@[$hostname](bold #8ec07c)";
         disabled = false;
       };
 
