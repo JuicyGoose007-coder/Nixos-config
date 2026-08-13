@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   username,
   ...
 }:
@@ -26,6 +27,7 @@
     ./nls.nix
     ./iris.nix
     ./xdg-mime.nix
+    ./nixup.nix
   ];
 
   home.username = username;

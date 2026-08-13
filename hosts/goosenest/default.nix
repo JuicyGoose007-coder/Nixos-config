@@ -1,5 +1,5 @@
 # Host-specific config for goosenest (the desktop). Shared settings live in
-# modules/nixos/common.nix; this file is only what's unique to this machine.
+# system/common.nix; this file is only what's unique to this machine.
 
 {
   config,
@@ -19,8 +19,8 @@ in
 {
   imports = [
     ./hardware.nix
-    ../../modules/nixos/nvidia.nix
-    ../../modules/nixos/ollama.nix
+    ../../system/nvidia.nix
+    ../../system/ollama.nix
   ];
 
   # ── Networking ─────────────────────────────────────────────────────────────

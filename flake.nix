@@ -39,60 +39,22 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Dendritic pattern: flake-parts supplies the module system for the flake
+    # itself, import-tree loads every .nix under ./modules as a flake-parts
+    # module (paths containing /_ are skipped).
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+
+    import-tree.url = "github:denful/import-tree";
+
   };
 
+  # Every .nix file under ./modules is a flake-parts module and is picked up
+  # automatically — there is no import list to maintain. See modules/hosts.nix
+  # for how goosenest is assembled.
   outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      nixvim,
-      stylix,
-      nix-index-database,
-      zen-browser,
-      niri,
-      ...
-    }@inputs:
-    let
-      # Build a full NixOS system from a hostname. Adding a machine later is
-      # then a one-liner: `laptop = mkHost { hostname = "laptop"; };`.
-      mkHost =
-        {
-          hostname,
-          username ? "juicygoose007",
-          system ? "x86_64-linux",
-        }:
-        nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit inputs username; };
-          modules = [
-            ./hosts/${hostname}
-            ./modules/nixos
-            stylix.nixosModules.stylix
-            {
-              disabledModules = [
-                "${stylix}/modules/kmscon/nixos.nix"
-                "${stylix}/modules/regreet/nixos.nix"
-              ];
-            }
-            nix-index-database.nixosModules.nix-index
-            niri.nixosModules.niri
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.${username} = import ./home;
-              home-manager.extraSpecialArgs = {
-                inherit inputs username;
-              };
-              home-manager.sharedModules = [
-                nixvim.homeModules.nixvim
-              ];
-            }
-          ];
-        };
-    in
-    {
-      nixosConfigurations.goosenest = mkHost { hostname = "goosenest"; };
-    };
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 }

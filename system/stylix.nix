@@ -3,7 +3,7 @@
 {
   stylix = {
     enable = true;
-    image = ../../wallpapers/sushi.jpg;
+    image = ../wallpapers/gruvbox_retrocity.png;
 
     base16Scheme = {
       scheme = "Gruvbox Dark";
