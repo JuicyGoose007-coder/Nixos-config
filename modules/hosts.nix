@@ -1,7 +1,7 @@
 # Host assembly. A flake-parts module: everything under ./modules is imported
 # automatically by import-tree (see flake.nix), so this file is never imported
 # by name — it just declares what it contributes to the flake.
-{ inputs, ... }:
+{ config, inputs, ... }:
 
 let
   # Build a full NixOS system from a hostname. Adding a machine later is
@@ -18,6 +18,11 @@ let
       modules = [
         ../hosts/${hostname}
         ../system
+      ]
+      # Every aspect that registered a NixOS half. `or { }` because no aspect
+      # declares this class yet — attrValues on a missing attribute is an error.
+      ++ builtins.attrValues (config.flake.modules.nixos or { })
+      ++ [
         inputs.stylix.nixosModules.stylix
         {
           disabledModules = [
@@ -31,7 +36,14 @@ let
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.${username} = import ../home;
+          # ../home is the classic tree, still shrinking; the attrValues are the
+          # aspects that have already been converted (modules/superfile.nix).
+          home-manager.users.${username} = {
+            imports = [
+              ../home
+            ]
+            ++ builtins.attrValues (config.flake.modules.homeManager or { });
+          };
           home-manager.extraSpecialArgs = {
             inherit inputs username;
           };

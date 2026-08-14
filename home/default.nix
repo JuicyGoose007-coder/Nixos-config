@@ -15,7 +15,6 @@
     ./kitty.nix
     ./starship.nix
     ./waybar.nix
-    ./superfile.nix
     ./hyprlock.nix
     ./nvim
     ./niri
