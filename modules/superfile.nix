@@ -7,11 +7,71 @@
 # registry by name rather than by path.
 #
 # The option `flake.modules.<class>.<name>` is declared by modules/aspects.nix.
+#
+# It also builds superfile itself: nixpkgs is pinned at 1.3.3 while upstream is on
+# 1.6.0, so the package half lives here too — the whole point of an aspect is that
+# one topic is one file, package and config together.
+{ withSystem, ... }:
+
 {
+  # `nix build /etc/nixos#superfile` builds this directly, same as nixup.
+  perSystem =
+    { pkgs, lib, ... }:
+    let
+      version = "1.6.0";
+      tag = "v${version}";
+    in
+    {
+      packages.superfile = pkgs.buildGoModule {
+        pname = "superfile";
+        inherit version;
+
+        src = pkgs.fetchFromGitHub {
+          owner = "yorukot";
+          repo = "superfile";
+          inherit tag;
+          hash = "sha256-JETdQ42vGPnpviCAR29BSdBTG+huWRr5syN5NysnAlo=";
+        };
+
+        vendorHash = "sha256-d2Yo8fWJ2fj7RJrnktljY6TkEPq6Tnbdh2BM4DIAr0E=";
+
+        ldflags = [
+          "-s"
+          "-w"
+        ];
+
+        nativeBuildInputs = [ pkgs.exiftool ];
+
+        # zoxide is not in nixpkgs' 1.3.3 expression, but 1.6.0's test suite shells
+        # out to it across several packages — supplying it beats skipping them all.
+        nativeCheckInputs = [
+          pkgs.writableTmpDirAsHomeHook
+          pkgs.zoxide
+        ];
+
+        # Both fail on the build sandbox rather than on the code:
+        #   TestReturnDirElement — flaky date sort, nixpkgs skips it too
+        #   TestLayout           — asserts on a populated $HOME; ours is empty
+        # Go splits -skip on "/" and matches each element, so these are top-level
+        # names; only one -skip flag is honoured, hence the single alternation.
+        checkFlags = [
+          "-skip=^(TestReturnDirElement|TestLayout)$"
+        ];
+
+        meta = {
+          description = "Pretty fancy and modern terminal file manager";
+          homepage = "https://github.com/yorukot/superfile";
+          changelog = "https://github.com/yorukot/superfile/blob/${tag}/changelog.md";
+          license = lib.licenses.mit;
+          mainProgram = "superfile";
+        };
+      };
+    };
+
   flake.modules.homeManager.superfile =
     # From here down this is an ordinary home-manager module. Note `config` is the
     # *home-manager* config — not the flake-parts config the outer file would see.
-    { config, ... }:
+    { config, pkgs, ... }:
     let
       # Stylix exposes the active base16 palette here (same accessor used in
       # home/niri/layout.nix). Values are bare hex ("ebdbb2"), so prefix "#".
@@ -21,6 +81,14 @@
     {
       programs.superfile = {
         enable = true;
+
+        # Reach the package built by `perSystem` above. `withSystem` stays inside
+        # this flake-parts evaluation rather than routing through inputs.self, so
+        # it can't become a self-reference. The `config` in the callback is a
+        # third one: the perSystem config, not home-manager's and not the flake's.
+        package = withSystem pkgs.stdenv.hostPlatform.system (
+          { config, ... }: config.packages.superfile
+        );
 
         settings = {
           theme = "stylix";
