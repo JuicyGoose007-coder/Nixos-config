@@ -123,7 +123,6 @@ alias ....='cd ../../..'
 alias h='history'
 alias j='jobs'
 alias c='clear'
-alias cat='bat'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
@@ -154,9 +153,6 @@ alias gd='git diff'
 
 # Lazygit
 alias lg='lazygit'
-
-# Kill
-alias kill='pkill -f '
 
 # Tmux
 alias tn='tmux new-session -A -s'
