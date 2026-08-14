@@ -17,10 +17,11 @@
       packages.nixup = pkgs.writeShellApplication {
         name = "nixup";
 
-        # nvd is the only thing here that isn't already on PATH. The lockfile
-        # revert uses cp/mktemp from coreutils, not git, so nothing else is needed.
+        # Neither of these is on PATH otherwise. The lockfile revert uses
+        # cp/mktemp from coreutils, so nothing else is needed.
         runtimeInputs = [
           pkgs.nvd
+          pkgs.nix-output-monitor
         ];
 
         text = ''
@@ -93,8 +94,11 @@
 
           before=$(generation)
 
+          # nom wraps nix build with a live dependency tree instead of a wall of
+          # store paths. It renders to stderr and still prints the built path to
+          # stdout, so capturing it here works exactly as with plain nix build.
           echo "Building goosenest..."
-          new=$(nix build --no-link --print-out-paths \
+          new=$(nom build --no-link --print-out-paths \
             "/etc/nixos#nixosConfigurations.goosenest.config.system.build.toplevel")
 
           # /run/current-system always points at what's running right now.
