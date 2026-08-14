@@ -4,12 +4,10 @@ let
   nixup = pkgs.writeShellApplication {
     name = "nixup";
 
-    # nvd isn't on PATH otherwise. git is listed explicitly rather than
-    # relied on: it's only present because programs.git is enabled, and a
-    # script shouldn't depend on that.
+    # nvd is the only thing here that isn't already on PATH. The lockfile
+    # revert uses cp/mktemp from coreutils, not git, so nothing else is needed.
     runtimeInputs = [
       pkgs.nvd
-      pkgs.git
     ];
 
     text = ''
@@ -23,10 +21,13 @@ let
       #   nixup -b    activate at next boot instead of now.
       #   nixup -n    dry run: build and show the diff, then stop.
 
+      lock=/etc/nixos/flake.lock
+
       update=0
       switched=0
       dryrun=0
       mode="switch"
+      backup=""
 
       while getopts "ubn" opt; do
         case "$opt" in
@@ -44,18 +45,21 @@ let
       }
 
       # Runs however the script ends: clean finish, abort, dry run, or a build
-      # failure under set -e. If we bumped flake.lock but never activated
-      # anything, put it back - a lock pinning versions you never ran is worse
-      # than no bump at all. (`switched` covers -b too: setting the next boot
-      # counts as earning the bump.)
+      # failure under set -e. If we bumped the lock but never activated
+      # anything, put back the copy we took before updating - a lock pinning
+      # versions you never ran is worse than no bump at all. (`switched` covers
+      # -b too: setting the next boot counts as earning the bump.)
       #
-      # Caveat: this can't tell its own bump from edits you already had in
-      # flight, so it restores flake.lock wholesale.
+      # Restoring the snapshot rather than `git checkout` matters: this undoes
+      # exactly our own change, so a lock you already had modified before
+      # running nixup survives untouched.
       revert_lock() {
-        if [ "$update" -eq 1 ] && [ "$switched" -eq 0 ]; then
+        [ -n "$backup" ] || return 0
+        if [ "$switched" -eq 0 ]; then
           echo "Reverting flake.lock - nothing was activated."
-          git -C /etc/nixos checkout -- flake.lock
+          cp "$backup" "$lock"
         fi
+        rm -f "$backup"
       }
       trap revert_lock EXIT
 
@@ -63,6 +67,12 @@ let
       # Note that positional args to `nix flake update` are input NAMES, not
       # paths, so `nix flake update /etc/nixos` would be wrong.
       if [ "$update" -eq 1 ]; then
+        # Assign `backup` only once the copy succeeded - otherwise a failed cp
+        # would leave the trap restoring from an empty file.
+        snapshot=$(mktemp)
+        cp "$lock" "$snapshot"
+        backup="$snapshot"
+
         echo "Updating flake inputs..."
         nix flake update --flake /etc/nixos
         echo
