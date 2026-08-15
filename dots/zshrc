@@ -37,8 +37,9 @@ export COLORTERM="truecolor"
 zinit ice depth=1 wait"!" lucid atload'zvm_init'
 zinit light jeffreytse/zsh-vi-mode
 
-zinit ice wait lucid
-zinit light zdharma-continuum/fast-syntax-highlighting
+# fast-syntax-highlighting moved to nixpkgs (modules/zsh.nix). It has to load
+# in a fixed order relative to fzf-tab and history-substring-search, and that
+# order can only be guaranteed if one loader owns the whole chain.
 
 zinit ice wait lucid blockf atpull'zinit creinstall -q .'
 zinit light zsh-users/zsh-completions
