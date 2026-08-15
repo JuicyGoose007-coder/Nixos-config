@@ -122,10 +122,23 @@
             esac
           done
 
-          # `mode` is literally the nixos-rebuild subcommand: switch or boot.
-          # Re-evaluates the flake, but everything is already in the store from
-          # the build above, so this is quick.
-          sudo nixos-rebuild "$mode" --flake "/etc/nixos#goosenest"
+          # Activate exactly the path that was built and diffed above.
+          #
+          # This used to be `sudo nixos-rebuild "$mode" --flake ...`, which
+          # re-evaluates the flake and activates whatever *that* evaluation
+          # produces — $new was only ever used for the nvd diff. The two
+          # normally agree, so it looked fine, but they are two independent
+          # evaluations and nothing guarantees it: on 2026-08-15 a switch landed
+          # on a toplevel that differed from the diffed one, and the generation
+          # that got activated was never the one shown. That makes the diff
+          # advisory rather than binding, which defeats the point of the prompt.
+          #
+          # These two commands are what nixos-rebuild does internally once a
+          # system is built, minus the second evaluation. --set makes it the
+          # current generation; switch-to-configuration activates it. `mode` is
+          # switch or boot, which switch-to-configuration takes verbatim.
+          sudo nix-env --profile /nix/var/nix/profiles/system --set "$new"
+          sudo "$new/bin/switch-to-configuration" "$mode"
 
           # Only now is the lock bump earned. Set after activation, never before:
           # if it fails, set -e stops us above this line and the trap still sees
