@@ -19,8 +19,10 @@ let
         ../hosts/${hostname}
         ../system
       ]
-      # Every aspect that registered a NixOS half. `or { }` because no aspect
-      # declares this class yet — attrValues on a missing attribute is an error.
+      # Every aspect that registered a NixOS half (modules/zsh.nix is the first).
+      # `or { }` is defensive rather than necessary now: attrValues on a missing
+      # attribute is an error, so this keeps working if the last nixos-class
+      # aspect is ever removed again.
       ++ builtins.attrValues (config.flake.modules.nixos or { })
       ++ [
         inputs.stylix.nixosModules.stylix

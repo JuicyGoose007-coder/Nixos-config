@@ -44,7 +44,6 @@
       "input"
       "docker"
     ];
-    shell = pkgs.zsh;
     home = "/home/${username}";
   };
 
@@ -100,9 +99,6 @@
   # ── Programs ───────────────────────────────────────────────────────────────
   programs.nix-index-database.comma.enable = true;
   programs.firefox.enable = true;
-  programs.zsh.enable = true;
-  programs.zsh.enableCompletion = false;
-  programs.zsh.promptInit = "";
 
   # ── System Packages ────────────────────────────────────────────────────────
   environment.systemPackages = with pkgs; [
