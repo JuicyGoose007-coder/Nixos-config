@@ -28,6 +28,9 @@
 
     # Migrated verbatim from the previously-unmanaged ~/.config/mimeapps.list so
     # enabling HM management doesn't drop your browser / scheme handlers.
+    #
+    # Not the whole picture: video/* and audio/* defaults are owned by the mpv
+    # aspect (modules/mpv.nix) and merge into this attrset.
     defaultApplications = {
       # Text editing — the fix: .nix files are detected as text/plain, which is the
       # association that was spawning the headless nvim orphans.
