@@ -187,13 +187,6 @@ unsetopt BEEP
 [[ -d "$HOME/bin" ]] && export PATH="$HOME/bin:$PATH"
 
 # ============================================================================
-# HOME-MANAGER SESSION VARS (fzf colors, etc.)
-# ============================================================================
-
-source "/etc/profiles/per-user/juicygoose007/etc/profile.d/hm-session-vars.sh"
-export FZF_DEFAULT_OPTS="--color=bg:#282828,bg+:#3c3836,fg:#bdae93,fg+:#ebdbb2,hl:#83a598,hl+:#83a598,info:#fabd2f,marker:#8ec07c,pointer:#fe8019,prompt:#fabd2f,spinner:#8ec07c,header:#83a598"
-
-# ============================================================================
 # FINAL SETUP
 # ============================================================================
 

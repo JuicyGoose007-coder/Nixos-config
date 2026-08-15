@@ -55,7 +55,7 @@
     # Ordinary home-manager module from here down. `lib` is taken here, not on
     # the outer flake-parts module: mkMerge/mkAfter are evaluated as part of the
     # home-manager config, so it is this function that needs it.
-    { lib, pkgs, ... }:
+    { lib, pkgs, config, ... }:
     {
       programs.fzf = {
         enable = true;
@@ -70,6 +70,15 @@
         # ^R is the real prize here — it replaces zsh's incremental search, and
         # dots/zshrc no longer rebinds it (see the note in zvm_after_init).
         enableZshIntegration = true;
+
+        # stylix's fzf target sets the whole programs.fzf.colors attrset, which
+        # Home Manager renders into FZF_DEFAULT_OPTS. dots/zshrc used to
+        # re-export that variable by hand, duplicating all 13 values purely to
+        # turn the pointer orange — so any future scheme change would have moved
+        # every fzf colour except those. One key, taken from the palette rather
+        # than pinned as a hex, does the same job and follows the scheme.
+        # mkForce because stylix defines this key without mkDefault.
+        colors.pointer = lib.mkForce config.lib.stylix.colors.withHashtag.base09;
       };
 
       programs.zoxide = {
