@@ -8,20 +8,6 @@ if command -v iris >/dev/null 2>&1 && [ -z "$IRIS_RESCUE" ]; then
 fi
 
 # ============================================================================
-# ZINIT INITIALIZATION
-# ============================================================================
-
-ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-
-if [ ! -d "$ZINIT_HOME" ]; then
-   mkdir -p "$(dirname $ZINIT_HOME)"
-   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
-fi
-
-source "${ZINIT_HOME}/zinit.zsh"
-unalias zi 2>/dev/null || true 
-
-# ============================================================================
 # EDITOR
 # ============================================================================
 
@@ -31,19 +17,19 @@ export COLORTERM="truecolor"
 
 
 # ============================================================================
-# PLUGINS & TOOLS (via Zinit)
+# PLUGINS
 # ============================================================================
-
-zinit ice depth=1 wait"!" lucid atload'zvm_init'
-zinit light jeffreytse/zsh-vi-mode
-
-# fast-syntax-highlighting moved to nixpkgs (modules/zsh.nix). It has to load
-# in a fixed order relative to fzf-tab and history-substring-search, and that
-# order can only be guaranteed if one loader owns the whole chain.
-
-zinit ice wait lucid blockf atpull'zinit creinstall -q .'
-zinit light zsh-users/zsh-completions
-
+#
+# There is no plugin manager any more. zinit used to bootstrap itself here by
+# git-cloning into $XDG_DATA_HOME on first run, then load zsh-vi-mode,
+# fast-syntax-highlighting and zsh-completions with turbo mode.
+#
+# All of those now come from the pinned nixpkgs and are loaded by
+# modules/zsh.nix through zsh-defer, which also owns the ordering between them
+# (see the comments there — the order is load-bearing and fails silently).
+# zsh-completions is the exception: it ships completion *functions*, not a
+# sourceable plugin, so modules/zsh.nix puts it on fpath in a mkBefore block
+# that lands ahead of the compinit call below.
 
 
 # ============================================================================
@@ -56,7 +42,6 @@ if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
 else
     compinit -C
 fi
-zinit cdreplay -q
 
 zstyle ':completion::complete:*' use-cache 1
 zstyle ':completion::complete:*' cache-path ~/.zsh/cache

@@ -47,6 +47,14 @@
         enable = true;
         enableCompletion = false;
         initContent = lib.mkMerge [
+          # mkBefore (order 500) lands ahead of the dots/zshrc body (1000), which
+          # is required: zsh-completions ships 146 completion *functions* rather
+          # than a sourceable plugin, so it has to be on fpath before dots/zshrc
+          # calls compinit. Sourcing it like the other plugins would do nothing.
+          (lib.mkBefore ''
+            fpath+=(${pkgs.zsh-completions}/share/zsh/site-functions)
+          '')
+
           (builtins.readFile ../dots/zshrc)
 
           # Plugins from nixpkgs, loaded through zsh-defer.
@@ -59,6 +67,8 @@
           #
           # LOAD ORDER IS LOAD-BEARING and every failure here is silent:
           #   compinit    -> already run by dots/zshrc
+          #   zsh-vi-mode -> FIRST, because it re-binds widgets on init; the
+          #                  plugins below wrap what it leaves behind
           #   fzf-tab     -> after compinit, before anything wrapping widgets
           #   fsh         -> before history-substring-search, or hss's own
           #                  highlighting stops working with no error
@@ -68,6 +78,19 @@
           (lib.mkOrder 1200 ''
             # ---- plugin loading (nixpkgs, not zinit) ----
             source ${pkgs.zsh-defer}/share/zsh-defer/zsh-defer.plugin.zsh
+
+            # ZVM_INIT_MODE=sourcing makes zsh-vi-mode initialise the moment it
+            # is sourced, rather than on the first precmd. That matters because
+            # zsh-defer also drains its queue on precmd: with the default
+            # (last-zle) the two race, and whether vi-mode clobbers the plugins
+            # below is down to luck. Sourcing mode makes the order deterministic
+            # and is also what sets ZVM_MODE, which zvm_after_select_vi_mode in
+            # dots/zshrc reads for the starship mode indicator.
+            #
+            # It calls zvm_after_init immediately, so that function (defined in
+            # dots/zshrc, merged above at order 1000) must already exist here.
+            ZVM_INIT_MODE=sourcing
+            zsh-defer source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.zsh
 
             # fzf-tab shells out to the fzf binary; it does NOT need
             # programs.fzf.enableZshIntegration, which stays off until iris is
