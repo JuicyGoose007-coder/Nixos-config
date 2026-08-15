@@ -34,6 +34,7 @@
     nautilus
     kdePackages.dolphin
     kdePackages.kio-fuse
+    kdePackages.kservice.out
 
     # Status bar & launcher
     rofi
