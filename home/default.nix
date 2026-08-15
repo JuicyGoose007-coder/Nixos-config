@@ -10,7 +10,6 @@
 {
   imports = [
     ./packages.nix
-    ./shell.nix
     ./ghostty.nix
     ./kitty.nix
     ./starship.nix
