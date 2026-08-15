@@ -53,11 +53,16 @@ function zvm_after_init {
   # Tab is deliberately left unbound: fzf-tab (modules/zsh.nix) binds it, and
   # it loads later than this hook, so anything set here would just be overwritten.
   #
-  # ^R is likewise unbound on purpose. `fzf --zsh` binds it to
-  # fzf-history-widget in viins, and this hook runs AFTER that (zsh-vi-mode is
-  # sourced from the mkOrder 1200 block), so re-binding it here would silently
-  # shadow fzf's fuzzy history with zsh's much weaker incremental search.
-  # ^S went with it — fzf has no forward-search equivalent.
+  # ^R has to be re-bound here; leaving it to fzf does not work. `fzf --zsh`
+  # does bind it in viins (order 910), but zsh-vi-mode rebuilds the viins
+  # keymap when it initialises (order 1200) and sets ^R back to
+  # history-incremental-search-backward itself — so fzf's binding survives only
+  # in vicmd, and fuzzy history appears to work in normal mode but not insert
+  # mode. This hook runs after zvm_init, which makes it the one place that wins.
+  #
+  # ^T and Alt-C need no such help: zsh-vi-mode leaves them alone.
+  # ^S is gone for good — fzf has no forward-search equivalent.
+  bindkey -M viins '^R' fzf-history-widget
   bindkey -M viins '^[[1;5C' forward-word
   bindkey -M viins '^[[1;5D' backward-word
   bindkey -M viins '^A' beginning-of-line

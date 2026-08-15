@@ -55,7 +55,12 @@
     # Ordinary home-manager module from here down. `lib` is taken here, not on
     # the outer flake-parts module: mkMerge/mkAfter are evaluated as part of the
     # home-manager config, so it is this function that needs it.
-    { lib, pkgs, config, ... }:
+    {
+      lib,
+      pkgs,
+      config,
+      ...
+    }:
     {
       programs.fzf = {
         enable = true;
