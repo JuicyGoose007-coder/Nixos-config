@@ -34,11 +34,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    iris = {
-      url = "github:versenilvis/iris";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # Dendritic pattern: flake-parts supplies the module system for the flake
     # itself, import-tree loads every .nix under ./modules as a flake-parts
     # module (paths containing /_ are skipped).

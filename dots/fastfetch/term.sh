@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# Resolve the real terminal + its font, seeing past wrappers (iris/tmux) that
+# Resolve the real terminal + its font, seeing past wrappers (tmux) that
 # confuse fastfetch's process-tree walk. Usage: term.sh name|font
 
 term() {

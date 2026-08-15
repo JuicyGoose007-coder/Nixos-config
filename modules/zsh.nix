@@ -30,9 +30,17 @@
     {
       programs.fzf = {
         enable = true;
-        # Disabled: fzf's zsh hooks (Ctrl-T / Alt-C / **<Tab> fuzzy trigger) overlap
-        # with the iris autocomplete overlay. Binary stays installed for other uses.
-        enableZshIntegration = false;
+        # Home Manager emits `source <(fzf --zsh)` at mkOrder 910 — ahead of the
+        # dots/zshrc body (1000) and the plugin block (1200). That ordering is
+        # what makes this safe alongside fzf-tab: fzf --zsh ends with an
+        # unqualified `bindkey '^I' fzf-completion`, but fzf-tab is sourced
+        # later and takes ^I back. Verified in an isolated harness.
+        #
+        # Gains ^T (files) and Alt-C (cd), both bound in emacs/vicmd/viins.
+        #
+        # ^R is the real prize here — it replaces zsh's incremental search, and
+        # dots/zshrc no longer rebinds it (see the note in zvm_after_init).
+        enableZshIntegration = true;
       };
 
       programs.zoxide = {
@@ -92,9 +100,11 @@
             ZVM_INIT_MODE=sourcing
             zsh-defer source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.zsh
 
-            # fzf-tab shells out to the fzf binary; it does NOT need
-            # programs.fzf.enableZshIntegration, which stays off until iris is
-            # gone. Loaded before fsh/autosuggestions per its own docs.
+            # fzf-tab shells out to the fzf binary and does not depend on
+            # programs.fzf.enableZshIntegration; it just has to be sourced after
+            # HM's `source <(fzf --zsh)` (order 910) so that it wins ^I back,
+            # which this block's placement guarantees. Loaded before fsh and
+            # autosuggestions per its own docs.
             zsh-defer source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
             zsh-defer eval 'zstyle ":completion:*:descriptions" format "[%d]"'
 

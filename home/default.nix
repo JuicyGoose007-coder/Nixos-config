@@ -23,7 +23,6 @@
     ./rofi.nix
     ./git.nix
     ./nls.nix
-    ./iris.nix
     ./xdg-mime.nix
     ./nixup.nix
   ];

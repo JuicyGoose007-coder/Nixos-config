@@ -61,7 +61,7 @@ let
               Output only the subject line: no quotes, no markdown, no trailing period.'           
       fi
 
-      # One model, shared with iris (home/iris.nix) so it's always warm - no extra
+      # Kept warm by services.ollama's loadModels (system/ollama.nix) - no extra
       # VRAM, no cold-load lag. 3B fits comfortably on the 8GB 2070 with headroom.
       model="qwen2.5-coder:3b"
 

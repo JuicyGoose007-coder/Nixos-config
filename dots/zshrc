@@ -1,13 +1,4 @@
 # ============================================================================
-# IRIS AUTOSTART (real-time autocomplete overlay)
-# ============================================================================
-# Execs iris to wrap this shell, then re-runs zsh as a child with its hooks.
-# Escape hatch: `IRIS_RESCUE=1 zsh` launches a plain shell.
-if command -v iris >/dev/null 2>&1 && [ -z "$IRIS_RESCUE" ]; then
-  eval "$(iris init zsh)"
-fi
-
-# ============================================================================
 # EDITOR
 # ============================================================================
 
@@ -59,10 +50,14 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 function zvm_after_init {
   export VIM_INSERT="I"
 
-  # Tab left unbound here so iris owns it (<Tab> Accept). Re-binding it to
-  # expand-or-complete makes zsh's native menu fire alongside iris's overlay.
-  bindkey -M viins '^R' history-incremental-search-backward
-  bindkey -M viins '^S' history-incremental-search-forward
+  # Tab is deliberately left unbound: fzf-tab (modules/zsh.nix) binds it, and
+  # it loads later than this hook, so anything set here would just be overwritten.
+  #
+  # ^R is likewise unbound on purpose. `fzf --zsh` binds it to
+  # fzf-history-widget in viins, and this hook runs AFTER that (zsh-vi-mode is
+  # sourced from the mkOrder 1200 block), so re-binding it here would silently
+  # shadow fzf's fuzzy history with zsh's much weaker incremental search.
+  # ^S went with it — fzf has no forward-search equivalent.
   bindkey -M viins '^[[1;5C' forward-word
   bindkey -M viins '^[[1;5D' backward-word
   bindkey -M viins '^A' beginning-of-line
@@ -123,7 +118,6 @@ alias gen-delete='sudo nix-env --profile /nix/var/nix/profiles/system --delete-g
 
 # Programs
 alias nv='nvim'
-command -v iris >/dev/null 2>&1 && alias i="iris"
 alias rb='reboot'
 alias rt='riptide'
 alias wm='wiremix'
