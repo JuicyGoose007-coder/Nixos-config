@@ -84,7 +84,7 @@ function zvm_after_init {
 # Sudo
 alias sudo='sudo '
 
-if  command -v eza >/dev/null 2>&1; then
+if command -v eza >/dev/null 2>&1; then
     alias ls='eza --color=always'
     alias ll='eza -la --color=always'
     alias la='eza -a --color=always'
