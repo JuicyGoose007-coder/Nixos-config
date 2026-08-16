@@ -8,7 +8,8 @@
 
     spawn-sh-at-startup "waybar"
     spawn-sh-at-startup "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
-    spawn-sh-at-startup "awww-daemon" // Wallpaper daemon
+    // Wallpaper: the awww daemon is a systemd user service owned by
+    // modules/stylix.nix, which also sets the image from stylix.image.
     spawn-sh-at-startup "hyprlock --daemonize"
     spawn-sh-at-startup "sleep 1 && steam -no-browser"
     spawn-sh-at-startup "vesktop"

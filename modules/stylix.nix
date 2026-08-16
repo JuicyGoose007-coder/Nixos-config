@@ -40,7 +40,7 @@
 
       stylix = {
         enable = true;
-        image = ../wallpapers/gruvbox_retrocity.png;
+        image = ../wallpapers/sushi.jpg;
 
         base16Scheme = {
           scheme = "Gruvbox Dark";
@@ -82,9 +82,48 @@
   # injects stylix's home-manager module into home-manager.sharedModules itself,
   # so these are only option assignments.
   flake.modules.homeManager.stylix =
-    { ... }:
+    { config, pkgs, ... }:
 
+    let
+      # awww only accepts an image over its socket, so the daemon has to be
+      # accepting connections before `awww img` is worth running. The daemon
+      # forks before the socket is live, so poll instead of sleeping a guessed
+      # interval — the loop exits within a few hundred ms in practice.
+      setWallpaper = pkgs.writeShellScript "awww-set-wallpaper" ''
+        until ${pkgs.awww}/bin/awww query >/dev/null 2>&1; do
+          sleep 0.1
+        done
+        exec ${pkgs.awww}/bin/awww img ${config.stylix.image}
+      '';
+    in
     {
+      # The wallpaper daemon belongs to this aspect rather than to niri: the image
+      # it displays is stylix.image, so the topic owns both halves. It used to be
+      # a `spawn-sh-at-startup "awww-daemon"` line in home/niri/startup.nix that
+      # never said *which* image — the wallpaper was set by hand and survived only
+      # in awww's runtime state, which is what this replaces.
+      home.packages = [ pkgs.awww ];
+
+      systemd.user.services.awww = {
+        Unit = {
+          Description = "awww wallpaper daemon";
+          # Same guards home-manager's own hyprpaper service uses: don't start
+          # without a compositor, and die with the session rather than linger.
+          ConditionEnvironment = "WAYLAND_DISPLAY";
+          After = [ config.wayland.systemd.target ];
+          PartOf = [ config.wayland.systemd.target ];
+        };
+
+        Service = {
+          ExecStart = "${pkgs.awww}/bin/awww-daemon";
+          ExecStartPost = "${setWallpaper}";
+          Restart = "always";
+          RestartSec = "10";
+        };
+
+        Install.WantedBy = [ config.wayland.systemd.target ];
+      };
+
       stylix.enableReleaseChecks = false;
 
       stylix.targets.waybar.enable = true;

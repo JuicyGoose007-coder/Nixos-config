@@ -27,7 +27,6 @@
     grim
     slurp
     swappy
-    awww
 
     # Storage & files
     gnome-disk-utility
