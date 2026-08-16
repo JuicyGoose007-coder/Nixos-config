@@ -86,9 +86,7 @@
         # this flake-parts evaluation rather than routing through inputs.self, so
         # it can't become a self-reference. The `config` in the callback is a
         # third one: the perSystem config, not home-manager's and not the flake's.
-        package = withSystem pkgs.stdenv.hostPlatform.system (
-          { config, ... }: config.packages.superfile
-        );
+        package = withSystem pkgs.stdenv.hostPlatform.system ({ config, ... }: config.packages.superfile);
 
         settings = {
           theme = "stylix";
