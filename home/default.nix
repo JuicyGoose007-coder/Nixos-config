@@ -10,17 +10,12 @@
 {
   imports = [
     ./packages.nix
-    ./ghostty.nix
-    ./kitty.nix
     ./starship.nix
-    ./waybar.nix
     ./hyprlock.nix
     ./nvim
     ./niri
     ./tmux.nix
-    ./fastfetch.nix
     ./wlogout.nix
-    ./rofi.nix
     ./git.nix
     ./nls.nix
     ./xdg-mime.nix

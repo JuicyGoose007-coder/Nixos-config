@@ -126,13 +126,13 @@
 
       stylix.enableReleaseChecks = false;
 
-      stylix.targets.waybar.enable = true;
+      # Targets for topics that are still legacy home/ modules. Each moves into
+      # its own aspect as that topic migrates — waybar, kitty, and ghostty
+      # already have.
       stylix.targets.fzf.enable = true;
       stylix.targets.starship.enable = true;
       stylix.targets.tmux.enable = true;
       stylix.targets.hyprlock.enable = false;
       stylix.targets.neovim.enable = false;
-      stylix.targets.kitty.enable = true;
-      stylix.targets.ghostty.enable = true;
     };
 }
