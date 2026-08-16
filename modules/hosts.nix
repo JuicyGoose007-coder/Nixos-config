@@ -25,13 +25,6 @@ let
       # aspect is ever removed again.
       ++ builtins.attrValues (config.flake.modules.nixos or { })
       ++ [
-        inputs.stylix.nixosModules.stylix
-        {
-          disabledModules = [
-            "${inputs.stylix}/modules/kmscon/nixos.nix"
-            "${inputs.stylix}/modules/regreet/nixos.nix"
-          ];
-        }
         inputs.nix-index-database.nixosModules.nix-index
         inputs.niri.nixosModules.niri
         inputs.home-manager.nixosModules.home-manager
