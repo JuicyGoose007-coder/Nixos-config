@@ -15,7 +15,6 @@
     ./nvim
     ./niri
     ./tmux.nix
-    ./wlogout.nix
     ./git.nix
     ./nls.nix
     ./xdg-mime.nix

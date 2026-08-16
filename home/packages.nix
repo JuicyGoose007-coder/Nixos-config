@@ -3,7 +3,6 @@
 {
   home.packages = with pkgs; [
     vesktop
-    wlogout
     cargo
     gcc
     obsidian
