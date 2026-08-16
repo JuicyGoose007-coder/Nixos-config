@@ -3,7 +3,7 @@
 {
   programs.tmux = {
     enable = true;
-    prefix = "C-b";
+    prefix = "C-a";
     baseIndex = 1;
     escapeTime = 50;
     aggressiveResize = true;
