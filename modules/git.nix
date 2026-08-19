@@ -1,0 +1,26 @@
+{ ... }:
+
+{
+  flake.modules.homeManager.git =
+    { ... }:
+    {
+      programs.git = {
+        enable = true;
+        settings.user = {
+          name = "Jake Turner";
+          email = "jaketurner624@gmail.com";
+        };
+        settings.safe.directory = [ "/etc/nixos" ];
+      };
+
+      programs.ssh = {
+        enable = true;
+        enableDefaultConfig = false;
+        settings."github.com" = {
+          hostname = "github.com";
+          user = "git";
+          identityFile = "~/.ssh/id_ed25519";
+        };
+      };
+    };
+}
