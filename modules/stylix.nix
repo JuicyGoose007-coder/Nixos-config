@@ -85,15 +85,21 @@
     { config, pkgs, ... }:
 
     let
-      # awww only accepts an image over its socket, so the daemon has to be
-      # accepting connections before `awww img` is worth running. The daemon
-      # forks before the socket is live, so poll instead of sleeping a guessed
-      # interval — the loop exits within a few hundred ms in practice.
+      # Retry the image call itself rather than polling a proxy for readiness.
+      # Two things have to be true before `awww img` works, and they do not
+      # become true together: the daemon's socket comes up almost immediately,
+      # but niri advertises its outputs a beat later. An earlier version polled
+      # `awww query` — which only proves the socket is live — and so ran `img`
+      # too early, got "none of the requested outputs are valid", failed
+      # ExecStartPost, and took the whole unit down for a full RestartSec.
+      #
+      # Errors are silenced because the loop would otherwise write one to the
+      # journal every 200ms. The backstop is systemd's TimeoutStartSec (90s by
+      # default): if the outputs genuinely never arrive, the unit fails there.
       setWallpaper = pkgs.writeShellScript "awww-set-wallpaper" ''
-        until ${pkgs.awww}/bin/awww query >/dev/null 2>&1; do
-          sleep 0.1
+        until ${pkgs.awww}/bin/awww img ${config.stylix.image} >/dev/null 2>&1; do
+          sleep 0.2
         done
-        exec ${pkgs.awww}/bin/awww img ${config.stylix.image}
       '';
     in
     {
