@@ -20,7 +20,6 @@ in
   imports = [
     ./hardware.nix
     ../../system/nvidia.nix
-    ../../system/ollama.nix
   ];
 
   # ── Networking ─────────────────────────────────────────────────────────────
