@@ -49,7 +49,5 @@
   # Every .nix file under ./modules is a flake-parts module and is picked up
   # automatically — there is no import list to maintain. See modules/hosts.nix
   # for how goosenest is assembled.
-  outputs =
-    inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 }
