@@ -40,27 +40,30 @@
 
       stylix = {
         enable = true;
-        image = ../wallpapers/sushi.jpg;
+        image = ../wallpapers/forest.jpg;
 
+        # Names are upstream's, from https://github.com/sainnhe/everforest
+        # palette.md. base06/base07 come from Light Soft: the dark palette has
+        # nothing above fg to fill base16's two lightest slots.
         base16Scheme = {
-          scheme = "Gruvbox Dark";
-          author = "Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)";
-          base00 = "282828";
-          base01 = "3c3836";
-          base02 = "504945";
-          base03 = "665c54";
-          base04 = "bdae93";
-          base05 = "d5c4a1";
-          base06 = "ebdbb2";
-          base07 = "fbf1c7";
-          base08 = "fb4934";
-          base09 = "fe8019";
-          base0A = "fabd2f";
-          base0B = "b8bb26";
-          base0C = "8ec07c";
-          base0D = "83a598";
-          base0E = "d3869b";
-          base0F = "d65d0e";
+          scheme = "Everforest Dark Soft";
+          author = "Sainnhe Park (https://github.com/sainnhe)";
+          base00 = "333c43"; # bg0
+          base01 = "3a464c"; # bg1
+          base02 = "4d5960"; # bg3
+          base03 = "859289"; # grey1
+          base04 = "9da9a0"; # grey2
+          base05 = "d3c6aa"; # fg
+          base06 = "ddd8be"; # light bg3
+          base07 = "f3ead3"; # light bg0
+          base08 = "e67e80"; # red
+          base09 = "e69875"; # orange
+          base0A = "dbbc7f"; # yellow
+          base0B = "a7c080"; # green
+          base0C = "83c092"; # aqua
+          base0D = "7fbbb3"; # blue
+          base0E = "d699b6"; # purple
+          base0F = "9da9a0"; # grey2
         };
 
         fonts = {

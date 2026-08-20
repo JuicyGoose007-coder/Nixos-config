@@ -45,11 +45,11 @@
     };
 
     # ── Colorscheme ──────────────────────────────────────────────────────────
-    colorschemes.gruvbox = {
+    colorschemes.everforest = {
       enable = true;
       settings = {
-        contrast_dark = "hard";
-        italic.strings = true;
+        background = "soft";
+        enable_italic = 1;
       };
     };
   };

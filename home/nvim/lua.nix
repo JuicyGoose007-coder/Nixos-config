@@ -98,12 +98,12 @@
         },
       })
 
-      -- Mini starter highlight groups (Gruvbox)
+      -- Mini starter highlight groups (stylix palette)
       vim.api.nvim_set_hl(0, "MiniStarterHeader",        { fg = "#${config.lib.stylix.colors.base0A}", bold   = true })
       vim.api.nvim_set_hl(0, "MiniStarterSection",       { fg = "#${config.lib.stylix.colors.base0C}", bold   = true })
       vim.api.nvim_set_hl(0, "MiniStarterItem",          { fg = "#${config.lib.stylix.colors.base05}" })
       vim.api.nvim_set_hl(0, "MiniStarterItemBullet",    { fg = "#${config.lib.stylix.colors.base02}" })
-      vim.api.nvim_set_hl(0, "MiniStarterItemPrefix",    { fg = "#${config.lib.stylix.colors.base08}", bold   = true })
+      vim.api.nvim_set_hl(0, "MiniStarterItemPrefix",    { fg = "#${config.lib.stylix.colors.base0B}", bold   = true })
       vim.api.nvim_set_hl(0, "MiniStarterQuery",         { fg = "#${config.lib.stylix.colors.base0B}" })
       vim.api.nvim_set_hl(0, "MiniStarterInactive",      { fg = "#${config.lib.stylix.colors.base02}" })
       vim.api.nvim_set_hl(0, "MiniStarterFooter",        { fg = "#${config.lib.stylix.colors.base03}", italic = true })

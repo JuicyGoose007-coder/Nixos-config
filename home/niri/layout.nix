@@ -16,7 +16,7 @@
 
             focus-ring {
                 width 3
-                active-color "#${config.lib.stylix.colors.base08}"
+                active-color "#${config.lib.stylix.colors.base0B}"
                 inactive-color "#${config.lib.stylix.colors.base02}"
             }
 

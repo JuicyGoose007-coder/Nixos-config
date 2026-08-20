@@ -26,7 +26,7 @@
       };
 
       username = {
-        style_user = "bold base09";
+        style_user = "bold base0C";
         style_root = "bold base08";
         format = " [$user]($style)";
         disabled = false;
@@ -35,12 +35,12 @@
 
       hostname = {
         ssh_only = false;
-        format = "@[$hostname](bold #8ec07c)";
+        format = "@[$hostname](bold base0C)";
         disabled = false;
       };
 
       directory = {
-        style = "bold base08";
+        style = "bold base0B";
         truncation_length = 3;
         truncation_symbol = "…/";
         home_symbol = " ~";
