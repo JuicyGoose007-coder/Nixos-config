@@ -1,23 +1,10 @@
-{ pkgs, inputs, ... }:
+{ pkgs, ... }:
 
 {
   home.packages = with pkgs; [
-    vesktop
     cargo
     gcc
-    obsidian
-    via
     go
-
-    # Gaming
-    protonplus
-
-    # Other distro packages
-    distrobox
-
-    #Extra browser
-    brave
-    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Wayland tools
     grim
@@ -53,7 +40,6 @@
     python3
     bat
     nvtopPackages.nvidia
-    qbittorrent
 
   ];
 }
