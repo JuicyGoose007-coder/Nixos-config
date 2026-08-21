@@ -1,21 +1,3 @@
-# stylix — system-wide theming: the base16 palette, the wallpaper, and the fonts,
-# plus the per-application targets on the home-manager side.
-#
-# The fourth aspect converted to the dendritic pattern, and the first to pull in
-# its own flake input. Until now `inputs.stylix.nixosModules.stylix` and the
-# disabledModules below sat in the module list in modules/hosts.nix, which meant
-# the host builder had to know this topic exists and where its upstream module
-# comes from. It does not any more — the aspect imports its own dependency, and
-# mkHost picks the whole registry up by name.
-#
-# The option `flake.modules.<class>.<name>` is declared by modules/aspects.nix.
-#
-# The NixOS half moved verbatim from system/stylix.nix and the home-manager half
-# from the stylix block in home/default.nix: one topic that used to be spread
-# across two trees *and* the host builder. `../wallpapers/…` resolves to the same
-# path from modules/ as it did from system/ (both are one level under the flake
-# root), so the image path needed no adjustment — the same free ride
-# `../dots/zshrc` got in the zsh move.
 { inputs, ... }:
 
 {
@@ -28,11 +10,6 @@
     {
       imports = [ inputs.stylix.nixosModules.stylix ];
 
-      # Inherited from the pre-dendritic config: kmscon has been disabled since
-      # the repo's initial commit and regreet was added some time after, but
-      # neither reason was ever recorded in a commit message or a comment. Kept
-      # as-is because this move is meant to be behaviour-neutral; finding out
-      # whether they are still needed is a separate experiment.
       disabledModules = [
         "${inputs.stylix}/modules/kmscon/nixos.nix"
         "${inputs.stylix}/modules/regreet/nixos.nix"
@@ -88,17 +65,6 @@
     { config, pkgs, ... }:
 
     let
-      # Retry the image call itself rather than polling a proxy for readiness.
-      # Two things have to be true before `awww img` works, and they do not
-      # become true together: the daemon's socket comes up almost immediately,
-      # but niri advertises its outputs a beat later. An earlier version polled
-      # `awww query` — which only proves the socket is live — and so ran `img`
-      # too early, got "none of the requested outputs are valid", failed
-      # ExecStartPost, and took the whole unit down for a full RestartSec.
-      #
-      # Errors are silenced because the loop would otherwise write one to the
-      # journal every 200ms. The backstop is systemd's TimeoutStartSec (90s by
-      # default): if the outputs genuinely never arrive, the unit fails there.
       setWallpaper = pkgs.writeShellScript "awww-set-wallpaper" ''
         until ${pkgs.awww}/bin/awww img ${config.stylix.image} >/dev/null 2>&1; do
           sleep 0.2
@@ -106,11 +72,7 @@
       '';
     in
     {
-      # The wallpaper daemon belongs to this aspect rather than to niri: the image
-      # it displays is stylix.image, so the topic owns both halves. It used to be
-      # a `spawn-sh-at-startup "awww-daemon"` line in home/niri/startup.nix that
-      # never said *which* image — the wallpaper was set by hand and survived only
-      # in awww's runtime state, which is what this replaces.
+      # Wallpaper daemon
       home.packages = [ pkgs.awww ];
 
       systemd.user.services.awww = {
@@ -136,9 +98,7 @@
       stylix.enableReleaseChecks = false;
 
       # Only the off switches are worth stating: stylix.autoEnable turns every
-      # other target on by itself, so `= true` lines would be no-ops. hyprlock
-      # hand-picks its own colours from config.lib.stylix.colors, and neovim
-      # belongs to nixvim — stylix would fight its colorscheme.
+      # other target on by itself, so `= true` lines would be no-ops.
       stylix.targets.hyprlock.enable = false;
       stylix.targets.neovim.enable = false;
     };
