@@ -1,5 +1,14 @@
-# Addressable as /etc/nixos#nx; home/nx.nix installs it.
+{ withSystem, ... }:
+
 {
+  flake.modules.homeManager.nx =
+    { pkgs, ... }:
+    {
+      home.packages = [
+        (withSystem pkgs.stdenv.hostPlatform.system ({ config, ... }: config.packages.nx))
+      ];
+    };
+
   perSystem =
     { pkgs, ... }:
     let

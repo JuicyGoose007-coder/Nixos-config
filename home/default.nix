@@ -12,9 +12,7 @@
     ./packages.nix
     ./nvim
     ./niri
-    ./nls.nix
     ./xdg-mime.nix
-    ./nx.nix
   ];
 
   home.username = username;
