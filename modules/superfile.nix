@@ -14,7 +14,7 @@
 { withSystem, ... }:
 
 {
-  # `nix build /etc/nixos#superfile` builds this directly, same as nixup.
+  # `nix build /etc/nixos#superfile` builds this directly, same as nx.
   perSystem =
     { pkgs, lib, ... }:
     let

@@ -14,7 +14,7 @@
     ./niri
     ./nls.nix
     ./xdg-mime.nix
-    ./nixup.nix
+    ./nx.nix
   ];
 
   home.username = username;

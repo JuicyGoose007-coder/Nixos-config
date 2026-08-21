@@ -49,6 +49,10 @@
       programs.zsh.enableCompletion = false;
       # starship owns the prompt; promptInit would fight it.
       programs.zsh.promptInit = "";
+
+      # enableCompletion would have added this. Without it the per-user profile
+      # drops share/zsh entirely, so packaged completions never reach fpath.
+      environment.pathsToLink = [ "/share/zsh" ];
     };
 
   flake.modules.homeManager.zsh =

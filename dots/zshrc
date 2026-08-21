@@ -107,14 +107,10 @@ alias c='clear'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
+alias pd='/etc/nixos/scripts/powerdown.sh'
 
-# Update & Rollback
-alias update='cd /etc/nixos/ && nix flake update'
-alias rollback='sudo nixos-rebuild switch --rollback'
-alias flakeback='git -C /etc/nixos checkout -- flake.lock'
-
-# Delete Old Rollback
-alias gen-delete='sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations +5 && sudo nix-collect-garbage && sudo nixos-rebuild boot'
+# update, rollback, flakeback and gen-delete are now nx up, back, lock
+# and clean (modules/nx.nix). `nx help` lists them.
 
 # Programs
 alias nv='nvim'

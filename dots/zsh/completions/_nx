@@ -1,0 +1,33 @@
+#compdef nx
+
+local curcontext="$curcontext" state
+local -a verbs opts
+
+verbs=(
+  'up:update flake.lock first, then build, diff and switch'
+  'check:nix flake check, without building'
+  'clean:keep the newest N generations, then collect garbage'
+  'back:roll back one generation, after showing the diff'
+  'lock:restore flake.lock from git'
+  'help:show usage'
+)
+
+opts=(
+  '-u[update flake.lock first, reverted if nothing is activated]'
+  '-b[activate at next boot instead of now]'
+  '-n[dry run: build and show the diff, then stop]'
+)
+
+_arguments -C $opts '1: :->verb' '*:: :->args'
+
+case $state in
+  verb)
+    _describe -t commands 'nx command' verbs
+    ;;
+  args)
+    case $words[1] in
+      clean) _message 'generations to keep (default 5)' ;;
+      up) _arguments $opts[2,3] ;;
+    esac
+    ;;
+esac
