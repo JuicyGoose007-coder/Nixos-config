@@ -5,6 +5,8 @@
     { pkgs, ... }:
 
     {
+      home.sessionVariables.TINTED_TMUX_OPTION_STATUSBAR = "1";
+
       programs.tmux = {
         enable = true;
         prefix = "C-a";
