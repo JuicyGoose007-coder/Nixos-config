@@ -10,9 +10,11 @@
 
 {
   flake.modules.homeManager.rofi =
-    { ... }:
+    { pkgs, ... }:
 
     {
+      home.packages = [ pkgs.rofi ];
+
       xdg.configFile."rofi".source = ../dots/rofi;
     };
 }

@@ -1,28 +1,17 @@
 # mpv — primary media player.
 #
-# The second aspect converted to the dendritic pattern. Like modules/superfile.nix
-# this is a *flake-parts* module (import-tree loads everything under ./modules), and
-# it registers a home-manager module under `flake.modules.homeManager.mpv` rather
-# than configuring home-manager directly. modules/hosts.nix imports the whole
-# registry with `builtins.attrValues`, so adding this file wires it in — there is no
-# import list to touch.
-#
-# Scope is deliberately narrow: mpv is already installed as a plain package in
-# home/packages.nix and plays fine, so this file does not turn on
-# `programs.mpv.enable` and generates no mpv.conf. It only claims the default-handler
-# slot for media types, which is what was actually missing.
-#
-# Switching to `programs.mpv.enable` later would move the package here and light up
-# stylix's mpv target (upstream modules/mpv/hm.nix: OSD/subtitle fonts and base16
-# colours, no hand-rolled theme needed, unlike superfile). Left for when there's a
-# reason to configure mpv rather than just point file managers at it.
+# Deliberately a plain package plus mime claims, not `programs.mpv.enable`:
+# enabling it generates an mpv.conf and lights up stylix's mpv target (OSD and
+# subtitle fonts, base16 colours). Left for when there's a reason to configure
+# mpv rather than just point file managers at it.
 { ... }:
 
 {
   flake.modules.homeManager.mpv =
-    # Ordinary home-manager module from here down.
-    { ... }:
+    { pkgs, ... }:
     {
+      home.packages = [ pkgs.mpv ];
+
       xdg.mimeApps = {
         # modules/xdg-mime.nix already sets this, but repeating it keeps the aspect
         # self-contained: if that file is ever converted or dropped, mpv doesn't

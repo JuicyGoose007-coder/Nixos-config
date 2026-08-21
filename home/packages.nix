@@ -20,9 +20,6 @@
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Wayland tools
-    wl-clipboard
-    wlr-randr
-    wayland-utils
     grim
     slurp
     swappy
@@ -34,9 +31,6 @@
     kdePackages.kio-fuse
     kdePackages.kservice.out
 
-    # Status bar & launcher
-    rofi
-
     # Notifications
     swaynotificationcenter
 
@@ -44,32 +38,22 @@
     pavucontrol
     playerctl
     wiremix
-    mpv
 
     # System utilities
     networkmanagerapplet
     brightnessctl
     htop
     btop
-    fastfetch
     ripgrep
     jq
     file
     wget
     curl
-    lazygit
     eza
     python3
     bat
     nvtopPackages.nvidia
     qbittorrent
-
-    # Formatters for conform-nvim
-    stylua
-    ruff
-    rustfmt
-    prettier
-    taplo
 
   ];
 }

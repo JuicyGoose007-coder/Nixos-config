@@ -2,8 +2,10 @@
 
 {
   flake.modules.homeManager.git =
-    { ... }:
+    { pkgs, ... }:
     {
+      home.packages = [ pkgs.lazygit ];
+
       programs.git = {
         enable = true;
         settings.user = {

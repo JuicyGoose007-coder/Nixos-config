@@ -34,6 +34,14 @@
       ];
     in
     {
+      # Session tools, not shell tools: wl-clipboard is what makes nvim's
+      # clipboard=unnamedplus work here.
+      home.packages = [
+        pkgs.wl-clipboard
+        pkgs.wlr-randr
+        pkgs.wayland-utils
+      ];
+
       programs.niri.config = ''
         // Niri configuration for NixOS — assembled from home/niri/*.nix
       ''

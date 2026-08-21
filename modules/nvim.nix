@@ -14,6 +14,16 @@
       # Deleting this flips the target to true and stylix fights everforest below.
       stylix.targets.neovim.enable = false;
 
+      # conform-nvim's formatters. In home.packages rather than extraPackages
+      # below so they stay on the interactive PATH too.
+      home.packages = [
+        pkgs.stylua
+        pkgs.ruff
+        pkgs.rustfmt
+        pkgs.prettier
+        pkgs.taplo
+      ];
+
       programs.nixvim = {
         enable = true;
         nixpkgs.source = pkgs.path;
