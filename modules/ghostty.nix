@@ -1,6 +1,5 @@
-# ghostty — terminal emulator, the one niri spawns at startup.
-#
-# Font and palette come from stylix's ghostty target, so the toggle lives here.
+# ghostty — terminal emulator, the one niri spawns at startup. Font and palette
+# come from stylix.
 { ... }:
 
 {
@@ -8,8 +7,6 @@
     { ... }:
 
     {
-      stylix.targets.ghostty.enable = true;
-
       programs.ghostty = {
         enable = true;
         settings = {

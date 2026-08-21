@@ -1,7 +1,5 @@
-# kitty — terminal emulator.
-#
-# Everything beyond `enable` comes from stylix's kitty target (font and palette),
-# which is why the toggle lives here rather than in modules/stylix.nix.
+# kitty — terminal emulator. Font and palette come from stylix, which is why
+# there is nothing here beyond `enable`.
 { ... }:
 
 {
@@ -9,8 +7,6 @@
     { ... }:
 
     {
-      stylix.targets.kitty.enable = true;
-
       programs.kitty = {
         enable = true;
       };

@@ -2,8 +2,7 @@
 # clock.
 #
 # The GTK style below references @base00..@base0F, which stylix prepends to the
-# stylesheet — hence the target toggle living here rather than in
-# modules/stylix.nix: delete this aspect and its theming goes with it.
+# stylesheet.
 { ... }:
 
 {
@@ -11,8 +10,6 @@
     { ... }:
 
     {
-      stylix.targets.waybar.enable = true;
-
       programs.waybar = {
         enable = true;
         settings = [

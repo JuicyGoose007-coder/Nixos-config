@@ -135,10 +135,10 @@
 
       stylix.enableReleaseChecks = false;
 
-      # Targets for topics that are still legacy home/ modules. Each moves into
-      # its own aspect as that topic migrates — waybar, kitty, and ghostty
-      # already have.
-      stylix.targets.fzf.enable = true;
+      # Only the off switches are worth stating: stylix.autoEnable turns every
+      # other target on by itself, so `= true` lines would be no-ops. hyprlock
+      # hand-picks its own colours from config.lib.stylix.colors, and neovim
+      # belongs to nixvim — stylix would fight its colorscheme.
       stylix.targets.hyprlock.enable = false;
       stylix.targets.neovim.enable = false;
     };
