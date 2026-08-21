@@ -97,9 +97,6 @@
 
       stylix.enableReleaseChecks = false;
 
-      # Only the off switches are worth stating: stylix.autoEnable turns every
-      # other target on by itself, so `= true` lines would be no-ops.
-      stylix.targets.hyprlock.enable = false;
       stylix.targets.neovim.enable = false;
     };
 }
