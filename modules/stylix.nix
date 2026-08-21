@@ -139,7 +139,6 @@
       # its own aspect as that topic migrates — waybar, kitty, and ghostty
       # already have.
       stylix.targets.fzf.enable = true;
-      stylix.targets.tmux.enable = true;
       stylix.targets.hyprlock.enable = false;
       stylix.targets.neovim.enable = false;
     };

@@ -13,7 +13,6 @@
     ./hyprlock.nix
     ./nvim
     ./niri
-    ./tmux.nix
     ./nls.nix
     ./xdg-mime.nix
     ./nixup.nix
