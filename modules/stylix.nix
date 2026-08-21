@@ -96,7 +96,5 @@
       };
 
       stylix.enableReleaseChecks = false;
-
-      stylix.targets.neovim.enable = false;
     };
 }

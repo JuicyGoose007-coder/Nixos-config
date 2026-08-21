@@ -74,7 +74,7 @@
     { config, pkgs, ... }:
     let
       # Stylix exposes the active base16 palette here (same accessor used in
-      # home/niri/layout.nix). Values are bare hex ("ebdbb2"), so prefix "#".
+      # modules/niri/_sections/layout.nix). Values are bare hex ("ebdbb2"), so prefix "#".
       colors = config.lib.stylix.colors;
       c = base: "#${colors.${base}}";
     in

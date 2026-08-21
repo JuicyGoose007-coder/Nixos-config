@@ -10,8 +10,6 @@
 {
   imports = [
     ./packages.nix
-    ./nvim
-    ./niri
   ];
 
   home.username = username;

@@ -24,7 +24,7 @@
     { ... }:
     {
       xdg.mimeApps = {
-        # home/xdg-mime.nix already sets this, but repeating it keeps the aspect
+        # modules/xdg-mime.nix already sets this, but repeating it keeps the aspect
         # self-contained: if that file is ever converted or dropped, mpv doesn't
         # silently stop being the default. Two identical `true` definitions of a
         # bool option merge without conflict.
@@ -39,7 +39,7 @@
         # The list below is hand-curated rather than read out of mpv.desktop:
         # `builtins.readFile "${pkgs.mpv}/share/applications/mpv.desktop"` would
         # force mpv to build during evaluation. This attrset merges with the
-        # browser/editor entries in home/xdg-mime.nix — it does not replace them.
+        # browser/editor entries in modules/xdg-mime.nix — it does not replace them.
         defaultApplications = {
           # Video
           "video/mp4" = "mpv.desktop";
