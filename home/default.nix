@@ -10,7 +10,6 @@
 {
   imports = [
     ./packages.nix
-    ./starship.nix
     ./hyprlock.nix
     ./nvim
     ./niri
