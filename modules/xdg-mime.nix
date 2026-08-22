@@ -34,48 +34,18 @@
       xdg.mimeApps = {
         enable = true;
 
-        # Migrated verbatim from the previously-unmanaged ~/.config/mimeapps.list so
-        # enabling HM management doesn't drop your browser / scheme handlers.
-        #
-        # Not the whole picture: video/* and audio/* defaults are owned by the mpv
-        # aspect (modules/mpv.nix) and merge into this attrset.
+        # Browser and media defaults live in the aspects that own those programs
+        # (modules/firefox.nix, modules/vesktop.nix, modules/mpv.nix) and merge
+        # into this attrset.
         defaultApplications = {
           # Text editing — the fix: .nix files are detected as text/plain, which is the
           # association that was spawning the headless nvim orphans.
           "text/plain" = "nvim-ghostty.desktop";
           "text/x-nix" = "nvim-ghostty.desktop";
 
-          # Web / HTML → Firefox
-          "x-scheme-handler/http" = "firefox.desktop";
-          "x-scheme-handler/https" = "firefox.desktop";
-          "x-scheme-handler/chrome" = "firefox.desktop";
-          "text/html" = "firefox.desktop";
-          "application/xhtml+xml" = "firefox.desktop";
-          "application/x-extension-htm" = "firefox.desktop";
-          "application/x-extension-html" = "firefox.desktop";
-          "application/x-extension-shtml" = "firefox.desktop";
-          "application/x-extension-xhtml" = "firefox.desktop";
-          "application/x-extension-xht" = "firefox.desktop";
-
-          # App scheme handlers
-          "x-scheme-handler/discord" = "vesktop.desktop";
           "x-scheme-handler/claude-cli" = "claude-code-url-handler.desktop";
           "x-scheme-handler/wootwoot" = "wootility.desktop";
           "x-scheme-handler/web+wootwoot" = "wootility.desktop";
-        };
-
-        # Ported from the old file's [Added Associations] block.
-        associations.added = {
-          "x-scheme-handler/http" = "firefox.desktop";
-          "x-scheme-handler/https" = "firefox.desktop";
-          "x-scheme-handler/chrome" = "firefox.desktop";
-          "text/html" = "firefox.desktop";
-          "application/xhtml+xml" = "firefox.desktop";
-          "application/x-extension-htm" = "firefox.desktop";
-          "application/x-extension-html" = "firefox.desktop";
-          "application/x-extension-shtml" = "firefox.desktop";
-          "application/x-extension-xhtml" = "firefox.desktop";
-          "application/x-extension-xht" = "firefox.desktop";
         };
       };
     };
