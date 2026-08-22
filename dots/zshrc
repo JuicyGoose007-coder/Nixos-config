@@ -115,6 +115,7 @@ alias nv='nvim'
 alias rb='reboot'
 alias rt='riptide'
 alias wm='wiremix'
+alias sf='superfile'
 
 # Git
 alias g='git'
