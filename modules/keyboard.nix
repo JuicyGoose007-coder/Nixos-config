@@ -14,5 +14,14 @@
     { pkgs, ... }:
     {
       home.packages = [ pkgs.via ];
+
+      # wootility.desktop comes from hardware.wooting.enable above, system-side.
+      xdg.mimeApps = {
+        enable = true;
+        defaultApplications = {
+          "x-scheme-handler/wootwoot" = "wootility.desktop";
+          "x-scheme-handler/web+wootwoot" = "wootility.desktop";
+        };
+      };
     };
 }
