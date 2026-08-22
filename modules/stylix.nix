@@ -55,6 +55,12 @@
           sizes.terminal = 12;
           sizes.applications = 11;
         };
+
+        cursor = {
+          name = "Adwaita";
+          package = pkgs.adwaita-icon-theme;
+          size = 20;
+        };
       };
 
       # nerd-fonts.jetbrains-mono is NOT listed here: stylix already contributes
@@ -87,13 +93,6 @@
       '';
     in
     {
-      home.pointerCursor = {
-        gtk.enable = true;
-        package = pkgs.adwaita-icon-theme;
-        name = "Adwaita";
-        size = 20;
-      };
-
       # Wallpaper daemon
       home.packages = [ pkgs.awww ];
 
