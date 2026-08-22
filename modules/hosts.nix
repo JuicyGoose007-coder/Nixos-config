@@ -17,7 +17,6 @@ let
       specialArgs = { inherit inputs username; };
       modules = [
         ../hosts/${hostname}
-        ../system
       ]
       # Every aspect that registered a NixOS half (modules/zsh.nix is the first).
       # `or { }` is defensive rather than necessary now: attrValues on a missing

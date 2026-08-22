@@ -10,6 +10,11 @@
         enable = true;
         package = pkgs.niri;
       };
+
+      # xwayland-satellite is niri's X11 bridge specifically, not a generic
+      # system package.
+      programs.xwayland.enable = true;
+      environment.systemPackages = [ pkgs.xwayland-satellite ];
     };
 
   flake.modules.homeManager.niri =

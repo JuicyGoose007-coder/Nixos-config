@@ -56,6 +56,20 @@
           sizes.applications = 11;
         };
       };
+
+      fonts.packages = with pkgs; [
+        fira-code
+        jetbrains-mono
+        nerd-fonts.jetbrains-mono
+        d2coding
+        font-awesome
+      ];
+
+      # GTK apps resolve these system-wide, not from the user profile.
+      environment.systemPackages = with pkgs; [
+        adwaita-icon-theme
+        gnome-themes-extra
+      ];
     };
 
   # The home-manager half. Nothing is imported here: the NixOS module above
