@@ -9,5 +9,8 @@
       security.polkit.enable = true;
 
       environment.systemPackages = [ pkgs.polkit_gnome ];
+
+      # niri-flake ships its own KDE agent; only one can register per session.
+      systemd.user.services.niri-flake-polkit.enable = false;
     };
 }
