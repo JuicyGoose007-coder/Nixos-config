@@ -104,9 +104,7 @@ alias ....='cd ../../..'
 alias h='history'
 alias j='jobs'
 alias c='clear'
-alias rm='rm -i'
 alias cp='cp -i'
-alias mv='mv -i'
 alias pd='/etc/nixos/scripts/powerdown.sh'
 
 # update, rollback, flakeback and gen-delete are now nx up, back, lock
