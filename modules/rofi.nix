@@ -1,20 +1,36 @@
-# rofi — application launcher.
+# rofi — application launcher and power menu.
 #
-# Config is a directory of .rasi files under dots/, symlinked into place rather
-# than generated: it is upstream theme data, not something worth expressing as
-# Nix. Same reasoning as dots/zshrc in modules/zsh.nix.
-#
-# `../dots/rofi` resolves to the same path from modules/ as it did from home/ —
-# both are one level under the flake root.
+# The .rasi layout files stay under dots/ as upstream theme data, but their
+# palette is generated here from stylix, so a base16Scheme change repaints both
+# menus. recursive is what lets the generated file land inside the tree.
 { ... }:
 
 {
   flake.modules.homeManager.rofi =
-    { pkgs, ... }:
+    { config, pkgs, ... }:
 
+    let
+      c = config.lib.stylix.colors;
+      inherit (config.stylix.fonts) monospace sizes;
+    in
     {
       home.packages = [ pkgs.rofi ];
 
-      xdg.configFile."rofi".source = ../dots/rofi;
+      xdg.configFile."rofi" = {
+        source = ../dots/rofi;
+        recursive = true;
+      };
+
+      xdg.configFile."rofi/colors/stylix.rasi".text = ''
+        * {
+            font:            "${monospace.name} ${toString sizes.popups}";
+            background:      #${c.base00}FF;
+            background-alt:  #${c.base01}FF;
+            foreground:      #${c.base05}FF;
+            selected:        #${c.base0D}FF;
+            active:          #${c.base0B}FF;
+            urgent:          #${c.base08}FF;
+        }
+      '';
     };
 }

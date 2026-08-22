@@ -13,8 +13,7 @@ configuration {
 }
 
 /*****----- Global Properties -----*****/
-@import                          "shared/colors.rasi"
-@import                          "shared/fonts.rasi"
+@import                          "~/.config/rofi/colors/stylix.rasi"
 
 /*
 USE_BUTTONS=YES
