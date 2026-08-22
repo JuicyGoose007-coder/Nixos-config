@@ -48,7 +48,7 @@
       ];
 
       programs.niri.config = ''
-        // Niri configuration for NixOS — assembled from home/niri/*.nix
+        // Niri configuration for NixOS — assembled from modules/niri/_sections/*.nix
       ''
       + lib.concatMapStringsSep "\n\n" (s: s.text) sections;
     };
