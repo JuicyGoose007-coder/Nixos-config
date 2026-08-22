@@ -8,9 +8,6 @@
   # ── Nix ────────────────────────────────────────────────────────────────────
   nix.settings.experimental-features = "nix-command flakes";
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = [
-    "pnpm-10.29.2"
-  ];
 
   # ── Boot ───────────────────────────────────────────────────────────────────
   boot.loader.systemd-boot.enable = true;
@@ -92,7 +89,6 @@
   };
 
   # ── Programs ───────────────────────────────────────────────────────────────
-  programs.nix-index-database.comma.enable = true;
   programs.firefox.enable = true;
 
   # ── System Packages ────────────────────────────────────────────────────────

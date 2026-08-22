@@ -1,4 +1,4 @@
-{ ... }:
+{ inputs, ... }:
 
 {
   flake.modules.homeManager.nvim =
@@ -6,6 +6,7 @@
     {
       # Home-manager modules, not flake-parts ones — the _ keeps import-tree out.
       imports = [
+        inputs.nixvim.homeModules.nixvim
         ./nvim/_parts/plugins.nix
         ./nvim/_parts/keymaps.nix
         ./nvim/_parts/lua.nix

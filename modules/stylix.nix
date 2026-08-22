@@ -72,6 +72,13 @@
       '';
     in
     {
+      home.pointerCursor = {
+        gtk.enable = true;
+        package = pkgs.adwaita-icon-theme;
+        name = "Adwaita";
+        size = 20;
+      };
+
       # Wallpaper daemon
       home.packages = [ pkgs.awww ];
 

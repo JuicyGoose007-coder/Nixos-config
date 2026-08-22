@@ -25,25 +25,16 @@ let
       # aspect is ever removed again.
       ++ builtins.attrValues (config.flake.modules.nixos or { })
       ++ [
-        inputs.nix-index-database.nixosModules.nix-index
         inputs.home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          # ../home is the classic tree, still shrinking; the attrValues are the
-          # aspects that have already been converted (modules/superfile.nix).
           home-manager.users.${username} = {
-            imports = [
-              ../home
-            ]
-            ++ builtins.attrValues (config.flake.modules.homeManager or { });
+            imports = builtins.attrValues (config.flake.modules.homeManager or { });
           };
           home-manager.extraSpecialArgs = {
             inherit inputs username;
           };
-          home-manager.sharedModules = [
-            inputs.nixvim.homeModules.nixvim
-          ];
         }
       ];
     };
