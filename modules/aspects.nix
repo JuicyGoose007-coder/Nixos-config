@@ -11,7 +11,7 @@
 # and home-manager evaluate their own module trees with, so a module registered
 # under the wrong class fails loudly instead of silently.
 #
-# Consumed in modules/hosts.nix via `config.flake.modules.<class>`.
+# Consumed in modules/host.nix via `config.flake.modules.<class>`.
 { inputs, ... }:
 
 {

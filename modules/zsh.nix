@@ -1,27 +1,10 @@
 # zsh — the shell topic: zsh itself plus the two tools wired directly into its
 # init (fzf, zoxide).
 #
-# The third aspect converted to the dendritic pattern, after modules/superfile.nix
-# and modules/mpv.nix, and the first to declare BOTH classes: it registers
-# `flake.modules.nixos.zsh` and `flake.modules.homeManager.zsh` rather than
-# configuring either directly. modules/hosts.nix imports both registries with
-# `builtins.attrValues`, so this file wires itself in — no import list to touch.
-#
-# Declaring both halves here is the point of the pattern: zsh's system-side
-# settings previously lived in system/common.nix, so changing one topic meant
-# editing two files in two trees.
-#
-# The option `flake.modules.<class>.<name>` is declared by modules/aspects.nix.
-#
-# The home-manager half moved verbatim from home/shell.nix. `../dots/zshrc`
-# resolves to the same path from modules/ as it did from home/ (both are one
-# level under the flake root), so the readFile needed no adjustment.
-#
 # dots/zshrc stays a separate file on purpose. It is data consumed by this
-# module, not a second definition site — the aspect pattern is about the module
-# graph, and there is still exactly one module defining zsh. Its contents are
-# genuine shell code (keybinding hooks, mkcd/extract), which gains nothing from
-# being a Nix string literal and would lose `zsh -n` and syntax highlighting.
+# module, not a second definition site. Its contents are genuine shell code
+# (keybinding hooks, mkcd/extract), which gains nothing from being a Nix string
+# literal and would lose `zsh -n` and syntax highlighting.
 #
 # fzf and zoxide live here rather than in their own aspects because neither is
 # configured independently: both exist only as zsh integrations, and both have
@@ -30,14 +13,6 @@
 { ... }:
 
 {
-  # The NixOS half of the same aspect. This is the first module in the repo to
-  # declare the nixos class — until now every aspect was home-manager only, and
-  # zsh's system-side settings sat in system/common.nix, which meant changing one
-  # topic meant editing two files in two trees. That is exactly what the aspect
-  # pattern exists to prevent, so they live here now.
-  #
-  # `username` arrives via specialArgs (modules/hosts.nix), same as it does for
-  # the modules under ../system.
   flake.modules.nixos.zsh =
     { pkgs, username, ... }:
     {

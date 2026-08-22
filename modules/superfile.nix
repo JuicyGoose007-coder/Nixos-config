@@ -1,16 +1,7 @@
 # superfile — terminal file manager.
 #
-# The first aspect converted to the dendritic pattern. This file is a *flake-parts*
-# module (everything under ./modules is, via import-tree in flake.nix). It does not
-# configure home-manager directly — it registers a home-manager module under
-# `flake.modules.homeManager.superfile`, and modules/hosts.nix imports the whole
-# registry by name rather than by path.
-#
-# The option `flake.modules.<class>.<name>` is declared by modules/aspects.nix.
-#
-# It also builds superfile itself: nixpkgs is pinned at 1.3.3 while upstream is on
-# 1.6.0, so the package half lives here too — the whole point of an aspect is that
-# one topic is one file, package and config together.
+# Builds superfile itself: nixpkgs is pinned at 1.3.3 while upstream is on 1.6.0,
+# so the package half lives here too.
 { withSystem, ... }:
 
 {
