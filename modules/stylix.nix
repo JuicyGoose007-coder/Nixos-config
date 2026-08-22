@@ -57,10 +57,11 @@
         };
       };
 
+      # nerd-fonts.jetbrains-mono is NOT listed here: stylix already contributes
+      # fonts.monospace.package to fonts.packages.
       fonts.packages = with pkgs; [
         fira-code
         jetbrains-mono
-        nerd-fonts.jetbrains-mono
         d2coding
         font-awesome
       ];
