@@ -1,0 +1,193 @@
+" ~/.vimrc — hand-managed. Nix installs vim-full and the language servers
+" (modules/vim.nix); everything below is yours. Reload with :so %
+
+" ── Core ─────────────────────────────────────────────────────────────────────
+" $VIM/vimrc (the nixos-vimrc) already ran this, but `vim -u ~/.vimrc` skips the
+" system vimrc and leaves 'compatible' on, which silently disables the \ line
+" continuations below.
+set nocompatible
+let mapleader = " "
+let maplocalleader = " "
+
+set number relativenumber
+set tabstop=2 shiftwidth=2 expandtab smartindent
+set wrap linebreak breakindent
+set termguicolors
+set scrolloff=8
+set signcolumn=yes
+set cursorline
+set mouse=a
+set ignorecase smartcase
+set incsearch hlsearch
+set hidden
+set autoread
+set splitbelow splitright
+set clipboard=unnamedplus            " needs +wayland_clipboard — vim-full, not vim
+set undofile undodir=$HOME/.vim/undo " the dir must exist or writes fail silently
+" Vim defaults swap/backup to the edited file's own directory, which drops
+" .foo.swp litter straight into whatever repo you're editing.
+set directory=$HOME/.vim/swap//
+set backupdir=$HOME/.vim/backup//
+set updatetime=100                   " gitgutter and LSP hover both key off this
+set shortmess+=c                     " no "match 1 of 2" spam during completion
+set completeopt=menuone,popup,noinsert,noselect
+set wildmenu wildmode=longest:full,full
+set laststatus=2
+
+" ── Plugins ──────────────────────────────────────────────────────────────────
+" NixOS rule: never add a `do` hook that downloads or compiles a binary — the
+" result is not patchelf'd and will not run. Everything here is pure vimscript.
+call plug#begin('~/.vim/plugged')
+
+Plug 'yegappan/lsp'                  " vim9script LSP client
+Plug 'hrsh7th/vim-vsnip'             " snippet engine yegappan/lsp expects
+Plug 'hrsh7th/vim-vsnip-integ'
+
+Plug 'junegunn/fzf'                  " no fzf#install() hook: use the Nix fzf on PATH
+Plug 'junegunn/fzf.vim'
+
+Plug 'preservim/nerdtree'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'mbbill/undotree'
+
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'jiangmiao/auto-pairs'
+
+Plug 'liuchengxu/vim-which-key'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'sainnhe/gruvbox-material'
+
+
+call plug#end()
+
+filetype plugin indent on
+
+" ── Theme ────────────────────────────────────────────────────────────────────
+" Stylix cannot reach this vim (it themes via programs.vim, which we don't use),
+" so match modules/stylix.nix by hand: foreground=original is morhetz's palette,
+" which is the base16 scheme stylix themes everything else with.
+set background=dark
+let g:gruvbox_material_background = 'medium'
+let g:gruvbox_material_foreground = 'original'
+let g:gruvbox_material_better_performance = 1
+silent! colorscheme gruvbox-material
+
+let g:airline_powerline_fonts = 1     " JetBrainsMono Nerd Font is the system mono
+let g:airline_theme = 'gruvbox_material'
+
+" ── LSP ──────────────────────────────────────────────────────────────────────
+" exepath() resolves off PATH at runtime, so a rebuild that moves a server's
+" store path does not stale this config.
+let g:lspOpts = #{
+  \ autoComplete: v:true,
+  \ completionMatcher: 'fuzzy',
+  \ showSignature: v:true,
+  \ snippetSupport: v:true,
+  \ showDiagWithVirtualText: v:true,
+  \ diagVirtualTextAlign: 'after',
+  \ usePopupInCodeAction: v:true,
+  \ ignoreMissingServer: v:true,
+  \ }
+
+let g:lspServers = [
+  \ #{ name: 'nixd',
+  \    filetype: ['nix'],
+  \    path: exepath('nixd'),
+  \    args: [],
+  \    workspaceConfig: #{ nixd: #{ formatting: #{ command: ['nixfmt'] } } } },
+  \ #{ name: 'luals',
+  \    filetype: ['lua'],
+  \    path: exepath('lua-language-server'),
+  \    args: [] },
+  \ #{ name: 'pyright',
+  \    filetype: ['python'],
+  \    path: exepath('pyright-langserver'),
+  \    args: ['--stdio'] },
+  \ #{ name: 'rustanalyzer',
+  \    filetype: ['rust'],
+  \    path: exepath('rust-analyzer'),
+  \    args: [],
+  \    syncInit: v:true },
+  \ #{ name: 'taplo',
+  \    filetype: ['toml'],
+  \    path: exepath('taplo'),
+  \    args: ['lsp', 'stdio'] },
+  \ ]
+
+" The plugin's vim9script functions do not exist until it sources — registering
+" on the LspSetup event is what makes this work from a legacy vimrc.
+augroup LspSetupGroup
+  autocmd!
+  autocmd User LspSetup call LspOptionsSet(g:lspOpts)
+  autocmd User LspSetup call LspAddServer(g:lspServers)
+augroup END
+
+" ── Keymaps ──────────────────────────────────────────────────────────────────
+" Files / buffers (mirrors the nvim leader map so muscle memory carries over)
+nnoremap <leader>ww <cmd>w<cr>
+nnoremap <leader>qq <cmd>q<cr>
+nnoremap <leader>wq <cmd>wq<cr>
+nnoremap <leader>so <cmd>source %<cr>
+nnoremap <leader>e  <cmd>NERDTreeToggle<cr>
+nnoremap <leader>u  <cmd>UndotreeToggle<cr>
+nnoremap <leader>h  <cmd>nohlsearch<cr>
+
+" Fuzzy find
+nnoremap <leader>ff <cmd>Files<cr>
+nnoremap <leader>fg <cmd>Rg<cr>
+nnoremap <leader>fb <cmd>Buffers<cr>
+nnoremap <leader>fh <cmd>Helptags<cr>
+
+" Git
+nnoremap <leader>gs <cmd>Git<cr>
+nnoremap <leader>gb <cmd>Git blame<cr>
+nnoremap <leader>gd <cmd>Gvdiffsplit<cr>
+
+" LSP
+nnoremap gd         <cmd>LspGotoDefinition<cr>
+nnoremap gD         <cmd>LspGotoDeclaration<cr>
+nnoremap gi         <cmd>LspGotoImpl<cr>
+nnoremap gr         <cmd>LspShowReferences<cr>
+nnoremap K          <cmd>LspHover<cr>
+nnoremap <leader>rn <cmd>LspRename<cr>
+nnoremap <leader>ca <cmd>LspCodeAction<cr>
+nnoremap <leader>lf <cmd>LspFormat<cr>
+nnoremap <leader>ld <cmd>LspDiag show<cr>
+nnoremap [d         <cmd>LspDiag prev<cr>
+nnoremap ]d         <cmd>LspDiag next<cr>
+nnoremap <leader>ls <cmd>LspDocumentSymbol<cr>
+
+" Popup navigation — <expr> so Tab still indents when no menu is open
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Debugging is stock vim, no plugin
+packadd! termdebug
+nnoremap <leader>db <cmd>Termdebug<cr>
+
+" ── which-key ────────────────────────────────────────────────────────────────
+nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<cr>
+vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<cr>
+set timeoutlen=400
+
+let g:which_key_map = {
+  \ 'w': { 'name': '+write', 'w': 'save', 'q': 'save and quit' },
+  \ 'q': { 'name': '+quit',  'q': 'quit' },
+  \ 'f': { 'name': '+find',  'f': 'files', 'g': 'grep', 'b': 'buffers', 'h': 'help' },
+  \ 'g': { 'name': '+git',   's': 'status', 'b': 'blame', 'd': 'diff' },
+  \ 'l': { 'name': '+lsp',   'f': 'format', 'd': 'diagnostics', 's': 'symbols' },
+  \ 'c': { 'name': '+code',  'a': 'code action' },
+  \ 'r': { 'name': '+refactor', 'n': 'rename' },
+  \ 'd': { 'name': '+debug', 'b': 'termdebug' },
+  \ 'e': 'file explorer',
+  \ 'u': 'undo tree',
+  \ 'h': 'clear highlight',
+  \ 'so': 'source this file',
+  \ }
+" Registered directly, not on `User vim-which-key`: vim-plug only fires that
+" event for lazy-loaded plugins, and which-key here is eager.
+call which_key#register('<Space>', 'g:which_key_map')

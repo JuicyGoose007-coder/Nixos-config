@@ -11,6 +11,8 @@
 set -euo pipefail
 
 REPO_URL="https://github.com/JuicyGoose007-coder/Nixos-config.git"
+USERNAME="juicygoose007"
+USER_HOME="/home/$USERNAME"
 NIXOS_DIR="/etc/nixos"
 CLONE_TMP="/etc/nixos-new"
 HW_CONFIG="$NIXOS_DIR/hardware-configuration.nix"
@@ -64,5 +66,35 @@ nixos-rebuild switch \
   --flake "$NIXOS_DIR#goosenest" \
   --option experimental-features "nix-command flakes"
 
+# ── Vim ──────────────────────────────────────────────────────────────────────
+# modules/vim.nix installs the binary and the language servers but leaves the
+# config unmanaged on purpose, so nothing else puts these in place. Runs after
+# the rebuild because that is what creates the user and its home.
+
+echo "==> Setting up vim..."
+
+# 'undodir' and friends fail silently when their directory is missing.
+install -d -o "$USERNAME" -g users \
+  "$USER_HOME"/.vim/{autoload,undo,swap,backup,plugged}
+
+# Never clobber an existing vimrc: past the first install this file is the
+# user's, and the repo copy is only a starting point.
+if [[ -e "$USER_HOME/.vimrc" ]]; then
+  echo "    ~/.vimrc already exists, leaving it alone"
+else
+  install -o "$USERNAME" -g users -m 644 "$NIXOS_DIR/dots/vimrc" "$USER_HOME/.vimrc"
+fi
+
+if [[ -e "$USER_HOME/.vim/autoload/plug.vim" ]]; then
+  echo "    vim-plug already present"
+elif curl -fsSL -o "$USER_HOME/.vim/autoload/plug.vim" \
+  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim; then
+  chown "$USERNAME:users" "$USER_HOME/.vim/autoload/plug.vim"
+  echo "    vim-plug installed — run :PlugInstall in vim"
+else
+  echo "    warning: could not fetch vim-plug; vim will error until you do" >&2
+fi
+
 echo ""
-echo "==> Done! Reboot to start 
+echo "==> Done! Reboot to start niri."
+
