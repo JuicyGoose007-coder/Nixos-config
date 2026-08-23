@@ -22,11 +22,16 @@ Then:
 
 ```sh
 sudo passwd juicygoose007    # unless the installer set one
+```
+
+Reboot into niri, log in, then:
+
+```sh
 vim +PlugInstall +qa         # nixvim comes from the flake; plain vim does not
 ```
 
-Reboot into niri, then commit the `hardware-configuration.nix` that
-`install.sh` restored so the repo matches the machine.
+Commit the `hardware-configuration.nix` that `install.sh` restored so the repo
+matches the machine.
 
 ## Rebuild
 
