@@ -95,13 +95,13 @@
             padding: 0px 6px;
             margin: 0px 3px;
             border-radius: 50px;
-            color: @base04;
+            color: @base09;
             transition: all 0.3s ease-in-out;
             background-color: transparent;
           }
 
           #workspaces button.active {
-            background-color: @base0B;
+            background-color: @base09;
             color: @base00;
             min-width: 50px;
             transition: all 0.3s ease-in-out;

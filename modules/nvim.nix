@@ -12,9 +12,6 @@
         ./nvim/_parts/lua.nix
       ];
 
-      # Deleting this flips the target to true and stylix fights everforest below.
-      stylix.targets.neovim.enable = false;
-
       # Root cause of the headless-nvim orphans: the packaged `nvim.desktop` has
       # `Terminal=true`, but under niri there's no freedesktop "default terminal" to
       # honour it — so xdg-open/gio fall back to running `nvim %F` with no window/TTY.
@@ -95,14 +92,6 @@
           smartcase = true;
           cursorline = true;
           cmdheight = 1;
-        };
-
-        colorschemes.everforest = {
-          enable = true;
-          settings = {
-            background = "soft";
-            enable_italic = 1;
-          };
         };
       };
     };

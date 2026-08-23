@@ -29,7 +29,7 @@
           };
 
           username = {
-            style_user = "bold base0C";
+            style_user = "bold base09";
             style_root = "bold base08";
             format = " [$user]($style)";
             disabled = false;
@@ -38,7 +38,7 @@
 
           hostname = {
             ssh_only = false;
-            format = "@[$hostname](bold base0C)";
+            format = "@[$hostname](bold base09)";
             disabled = false;
           };
 
@@ -60,7 +60,7 @@
 
           git_status = {
             format = "[(\($all_status$ahead_behind\))]($style) ";
-            style = "bold base0B";
+            style = "bold base09";
             conflicted = "🏳";
             up_to_date = " ";
             untracked = " ";

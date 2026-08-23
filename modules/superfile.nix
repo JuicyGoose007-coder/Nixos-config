@@ -97,8 +97,8 @@
 
           # Gradient (two accent colors)
           gradient_color = [
-            (c "base0B")
-            (c "base0C")
+            (c "base09")
+            (c "base0A")
           ];
           directory_icon_color = c "base0C";
 
@@ -121,7 +121,7 @@
           # Sidebar
           sidebar_fg = c "base05";
           sidebar_bg = c "base00";
-          sidebar_title = c "base0B";
+          sidebar_title = c "base09";
           sidebar_border = c "base00";
           sidebar_border_active = c "base0D";
           sidebar_item_selected_fg = c "base09";

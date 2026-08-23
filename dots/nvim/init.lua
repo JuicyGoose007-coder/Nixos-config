@@ -61,7 +61,7 @@ vim.api.nvim_set_hl(0, "MiniStarterHeader",        { fg = c.base0A, bold   = tru
 vim.api.nvim_set_hl(0, "MiniStarterSection",       { fg = c.base0C, bold   = true })
 vim.api.nvim_set_hl(0, "MiniStarterItem",          { fg = c.base05 })
 vim.api.nvim_set_hl(0, "MiniStarterItemBullet",    { fg = c.base02 })
-vim.api.nvim_set_hl(0, "MiniStarterItemPrefix",    { fg = c.base0B, bold   = true })
+vim.api.nvim_set_hl(0, "MiniStarterItemPrefix",    { fg = c.base09, bold   = true })
 vim.api.nvim_set_hl(0, "MiniStarterQuery",         { fg = c.base0B })
 vim.api.nvim_set_hl(0, "MiniStarterInactive",      { fg = c.base02 })
 vim.api.nvim_set_hl(0, "MiniStarterFooter",        { fg = c.base03, italic = true })

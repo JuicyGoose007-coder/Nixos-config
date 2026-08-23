@@ -17,30 +17,16 @@
 
       stylix = {
         enable = true;
-        image = ../wallpapers/forest.jpg;
+        image = ../wallpapers/sushi.jpg;
 
-        # Names are upstream's, from https://github.com/sainnhe/everforest
-        # palette.md. base06/base07 come from Light Soft: the dark palette has
-        # nothing above fg to fill base16's two lightest slots.
-        base16Scheme = {
-          scheme = "Everforest Dark Soft";
-          author = "Sainnhe Park (https://github.com/sainnhe)";
-          base00 = "333c43"; # bg0
-          base01 = "3a464c"; # bg1
-          base02 = "4d5960"; # bg3
-          base03 = "859289"; # grey1
-          base04 = "9da9a0"; # grey2
-          base05 = "d3c6aa"; # fg
-          base06 = "ddd8be"; # light bg3
-          base07 = "f3ead3"; # light bg0
-          base08 = "e67e80"; # red
-          base09 = "e69875"; # orange
-          base0A = "dbbc7f"; # yellow
-          base0B = "a7c080"; # green
-          base0C = "83c092"; # aqua
-          base0D = "7fbbb3"; # blue
-          base0E = "d699b6"; # purple
-          base0F = "9da9a0"; # grey2
+        base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-material-dark-medium.yaml";
+
+        # gruvbox-material mutes both warm accents. These are morhetz's originals,
+        # restoring the orange this system ran before, and leaving base0A the
+        # quieter of the two so the warm balance tips orange rather than yellow.
+        override = {
+          base09 = "fe8019";
+          base0F = "d65d0e";
         };
 
         fonts = {
