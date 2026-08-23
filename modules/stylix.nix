@@ -19,15 +19,11 @@
         enable = true;
         image = ../wallpapers/sushi.jpg;
 
-        base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-material-dark-medium.yaml";
-
-        # gruvbox-material mutes both warm accents. These are morhetz's originals,
-        # restoring the orange this system ran before, and leaving base0A the
-        # quieter of the two so the warm balance tips orange rather than yellow.
-        override = {
-          base09 = "fe8019";
-          base0F = "d65d0e";
-        };
+        # gruvbox-material's palette mutes every accent and shifts the greys.
+        # This is morhetz's original, which is also what gruvbox-material
+        # renders under foreground = "original" (see modules/nvim.nix) — the
+        # two stay in sync.
+        base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
 
         fonts = {
           monospace = {

@@ -2,7 +2,29 @@
 
 {
   flake.modules.homeManager.nvim =
-    { pkgs, ... }:
+    { lib, pkgs, ... }:
+    let
+      # Every type the packaged nvim.desktop claims, plus text/x-nix. A type
+      # left off this list still resolves to nvim.desktop — see below.
+      textTypes = [
+        "application/x-shellscript"
+        "text/english"
+        "text/plain"
+        "text/x-c"
+        "text/x-c++"
+        "text/x-c++hdr"
+        "text/x-c++src"
+        "text/x-chdr"
+        "text/x-csrc"
+        "text/x-java"
+        "text/x-makefile"
+        "text/x-moc"
+        "text/x-nix"
+        "text/x-pascal"
+        "text/x-tcl"
+        "text/x-tex"
+      ];
+    in
     {
       # Home-manager modules, not flake-parts ones — the _ keeps import-tree out.
       imports = [
@@ -31,20 +53,12 @@
           "TextEditor"
           "Development"
         ];
-        mimeType = [
-          "text/plain"
-          "text/x-nix"
-        ];
+        mimeType = textTypes;
       };
 
       xdg.mimeApps = {
         enable = true;
-        # .nix files are detected as text/plain, which is the association that was
-        # spawning the headless nvim orphans.
-        defaultApplications = {
-          "text/plain" = "nvim-ghostty.desktop";
-          "text/x-nix" = "nvim-ghostty.desktop";
-        };
+        defaultApplications = lib.genAttrs textTypes (_: "nvim-ghostty.desktop");
       };
 
       # conform-nvim's formatters. In home.packages rather than extraPackages
@@ -57,9 +71,27 @@
         pkgs.taplo
       ];
 
+      # Stylix themes nixvim through mini.base16, which derives every highlight
+      # from 16 colours. gruvbox-material's own colorscheme defines ~290 groups
+      # directly (treesitter, LSP semantic tokens, diagnostics), so nvim tracks
+      # the upstream palette from here rather than stylix.base16Scheme.
+      stylix.targets.nixvim.enable = false;
+
       programs.nixvim = {
         enable = true;
         nixpkgs.source = pkgs.path;
+
+        colorschemes.gruvbox-material = {
+          enable = true;
+          settings = {
+            background = "medium";
+            foreground = "original";
+            enable_bold = 1;
+            enable_italic = 1;
+          };
+          # No better_performance: it writes generated syntax files into the
+          # runtime path, which needs impureRtp — the store is read-only.
+        };
 
         # Formatter binaries must be on Neovim's PATH — enabling the LSP / naming a
         # conform formatter does NOT install them. nixfmt provides the `nixfmt`
@@ -92,6 +124,7 @@
           smartcase = true;
           cursorline = true;
           cmdheight = 1;
+          background = "dark";
         };
       };
     };
