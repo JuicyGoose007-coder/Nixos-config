@@ -107,6 +107,11 @@
         };
 
         Service = {
+          # awww-daemon restores its own per-output cache on startup, and that
+          # restore lands *after* ExecStartPost. Without clearing it first the
+          # `awww img` below silently loses the race and the wallpaper stays on
+          # whatever the previous generation set, exiting 0 either way.
+          ExecStartPre = "${pkgs.coreutils}/bin/rm -rf %C/awww";
           ExecStart = "${pkgs.awww}/bin/awww-daemon";
           ExecStartPost = "${setWallpaper}";
           Restart = "always";
