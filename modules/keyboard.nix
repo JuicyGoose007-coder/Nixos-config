@@ -13,7 +13,10 @@
   flake.modules.homeManager.keyboard =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.via ];
+      home.packages = [
+        pkgs.via
+        pkgs.vial
+      ];
 
       # wootility.desktop comes from hardware.wooting.enable above, system-side.
       xdg.mimeApps = {
