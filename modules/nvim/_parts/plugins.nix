@@ -11,6 +11,22 @@
       fzf-lua.enable = true;
       flash.enable = true;
 
+      nvim-tree = {
+        enable = true;
+        autoClose = true;
+        settings = {
+          actions.open_file.quit_on_open = true;
+          on_attach.__raw = ''
+            function(bufnr)
+            local api = require("nvim-tree.api")
+            api.map.on_attach.default(bufnr)
+            vim.keymap.set("n", "l", api.node.open.edit,
+            { desc = "nvim-tree: Open", buffer = bufnr, nowait = true })
+            end
+          '';
+        };
+      };
+
       mini = {
         enable = true;
         modules = {
@@ -19,11 +35,6 @@
           sessions = { }; # per-cwd session save/restore (see <leader>S* keymaps)
           pairs = { };
           surround = { };
-          files = {
-            mappings = {
-              go_in_plus = "<CR>";
-            };
-          };
           diff = { };
           bracketed = { };
           trailspace = { };

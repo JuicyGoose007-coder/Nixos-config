@@ -30,20 +30,12 @@
         options.desc = "Source file";
       }
 
-      # File explorer (mini.files — toggle at current file's dir, else cwd)
+      # File explorer
       {
         key = "<leader>e";
         mode = "n";
         options.desc = "File explorer";
-        action.__raw = ''
-          function()
-            local mf = require("mini.files")
-            if not mf.close() then
-              local path = vim.api.nvim_buf_get_name(0)
-              mf.open(path ~= "" and path or vim.fn.getcwd())
-            end
-          end
-        '';
+        action = "<cmd>NvimTreeFindFileToggle<cr>";
       }
 
       # Lazygit (floating terminal)
