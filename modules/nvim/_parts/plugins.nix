@@ -207,6 +207,7 @@
           sha256 = "1z33z5kd4p46bmqpxk71p46gi2g32a2dfnyzadd4yi0q7iyqa083";
         };
       })
+      # Backs `mini.modules.statuscolumn`; not in mini.nvim 0.18.0. Drop at 0.19.
       (pkgs.vimUtils.buildVimPlugin {
         name = "mini.statuscolumn";
         src = pkgs.fetchFromGitHub {
