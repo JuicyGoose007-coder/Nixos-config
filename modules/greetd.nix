@@ -8,6 +8,7 @@
     {
       services.greetd = {
         enable = true;
+        useTextGreeter = true;
         settings = {
           default_session = {
             command = ''${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --cmd "env XDG_SESSION_DESKTOP=niri XDG_CURRENT_DESKTOP=niri XDG_SESSION_CLASS=user niri-session"'';
