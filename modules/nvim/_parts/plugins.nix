@@ -15,7 +15,7 @@
         enable = true;
         autoClose = true;
         settings = {
-          actions.open_file.quit_on_open = true;
+          update_focused_file.enable = true;
           on_attach.__raw = ''
             function(bufnr)
             local api = require("nvim-tree.api")
