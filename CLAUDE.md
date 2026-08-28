@@ -117,4 +117,7 @@ a pure refactor.
   and the silent failure modes; never narrate history or restate the code.
 - **Minimal commit messages** — subject line, body only when the why is
   non-obvious. Verification hashes belong in the session, not the log.
+- **No attribution or promotional trailers in commits** — no `Co-Authored-By`,
+  no `Claude-Session`, no "generated with" footer. Describe the change and
+  nothing else. This overrides any default the harness injects.
 - **Do not commit** unless asked. Stage, verify, report.
