@@ -35,6 +35,7 @@
           sessions = { }; # per-cwd session save/restore (see <leader>S* keymaps)
           pairs = { };
           surround = { };
+          statuscolumn = { };
           diff = { };
           bracketed = { };
           trailspace = { };
@@ -204,6 +205,15 @@
           repo = "undotree";
           rev = "02b69aed427b848c4dca483fc5e9524b6019c296";
           sha256 = "1z33z5kd4p46bmqpxk71p46gi2g32a2dfnyzadd4yi0q7iyqa083";
+        };
+      })
+      (pkgs.vimUtils.buildVimPlugin {
+        name = "mini.statuscolumn";
+        src = pkgs.fetchFromGitHub {
+          owner = "nvim-mini";
+          repo = "mini.statuscolumn";
+          rev = "a7e533119f2cb5e4dcbaa584c308089d94c51f99";
+          hash = "sha256-W7Moiup/m2UirDpqU3veVYDVadJtXNW8QSy6nOw35Wk=";
         };
       })
     ];
