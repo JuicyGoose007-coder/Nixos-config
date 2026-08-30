@@ -9,6 +9,7 @@
       home.packages = with pkgs; [
         htop
         btop
+        nvtopPackages.nvidia
         ripgrep
         jq
         file
@@ -17,6 +18,7 @@
         eza
         bat
         brightnessctl
+        playerctl
       ];
     };
 }
