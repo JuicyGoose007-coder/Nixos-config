@@ -19,10 +19,6 @@
         enable = true;
         image = ../wallpapers/sushi.jpg;
 
-        # gruvbox-material's palette mutes every accent and shifts the greys.
-        # This is morhetz's original, which is also what gruvbox-material
-        # renders under foreground = "original" (see modules/nvim.nix) — the
-        # two stay in sync.
         base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
 
         fonts = {
@@ -45,8 +41,6 @@
         };
       };
 
-      # nerd-fonts.jetbrains-mono is NOT listed here: stylix already contributes
-      # fonts.monospace.package to fonts.packages.
       fonts.packages = with pkgs; [
         fira-code
         jetbrains-mono
@@ -81,18 +75,12 @@
       systemd.user.services.awww = {
         Unit = {
           Description = "awww wallpaper daemon";
-          # Same guards home-manager's own hyprpaper service uses: don't start
-          # without a compositor, and die with the session rather than linger.
           ConditionEnvironment = "WAYLAND_DISPLAY";
           After = [ config.wayland.systemd.target ];
           PartOf = [ config.wayland.systemd.target ];
         };
 
         Service = {
-          # awww-daemon restores its own per-output cache on startup, and that
-          # restore lands *after* ExecStartPost. Without clearing it first the
-          # `awww img` below silently loses the race and the wallpaper stays on
-          # whatever the previous generation set, exiting 0 either way.
           ExecStartPre = "${pkgs.coreutils}/bin/rm -rf %C/awww";
           ExecStart = "${pkgs.awww}/bin/awww-daemon";
           ExecStartPost = "${setWallpaper}";
