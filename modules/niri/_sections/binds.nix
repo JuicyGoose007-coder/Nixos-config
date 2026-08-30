@@ -18,7 +18,7 @@
         MOD+ALT+P                           hotkey-overlay-title="Open Power Menu" { spawn-sh "$HOME/.config/rofi/powermenu/type-2/powermenu.sh"; }
 
         // File manager
-        MOD+E                             hotkey-overlay-title="File Manager: Dolphin" { spawn-sh "dolphin"; }
+        MOD+E                             hotkey-overlay-title="File Manager: Nautilus" { spawn-sh "nautilus"; }
         MOD+S                               hotkey-overlay-title="Open File Manager: superfile" { spawn "ghostty" "-e" "superfile"; }
 
         // ─── Audio Controls ───

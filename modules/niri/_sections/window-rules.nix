@@ -36,7 +36,7 @@
             match app-id=r#"^gnome-calculator$"#
             match app-id=r#"^galculator$"#
             match app-id=r#"^blueman-manager$"#
-            match app-id=r#"^org.kde.dolphin"
+            match app-id=r#"^org\.gnome\.Nautilus$"#
             match app-id=r#"^xdg-desktop-portal$"#
             open-floating true
         }
@@ -63,11 +63,6 @@
         window-rule {
             match app-id=r#"firefox$"# title="^Picture-in-Picture$"
             match app-id="zoom"
-            open-floating true
-        }
-
-        window-rule {
-            match app-id="org.kde.dolphin"
             open-floating true
         }
 
