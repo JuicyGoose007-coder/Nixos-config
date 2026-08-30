@@ -86,6 +86,19 @@ erroring. Grep before adding one:
 grep -rn defaultApplications modules/
 ```
 
+**Unclosed KDL raw strings swallow the next line.** In the niri sections `r#"`
+is closed by `"#`; a bare `"` leaves it open and the parser takes the following
+line's `"#` instead. Two `match` directives fuse into one regex matching
+nothing, and the second silently ceases to exist:
+
+```kdl
+match app-id=r#"^org.kde.dolphin"       // still open
+match app-id=r#"^xdg-desktop-portal$"#  // consumed by the line above
+```
+
+Legal KDL and a legal regex, so `niri validate` still calls the config valid.
+Only diffing the generated string catches it.
+
 ## Verifying a refactor
 
 Structural changes here are proven, not assumed.
