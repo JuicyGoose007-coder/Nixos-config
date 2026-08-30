@@ -105,6 +105,7 @@ alias h='history'
 alias j='jobs'
 alias c='clear'
 alias pd='/etc/nixos/scripts/powerdown.sh'
+alias bios='systemctl reboot --firmware-setup'
 
 # update, rollback, flakeback and gen-delete are now nx up, back, lock
 # and clean (modules/nx.nix). `nx help` lists them.
